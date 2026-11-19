@@ -29,6 +29,9 @@ function checkIcon() {
 function stageTemplate(s) {
   const topics = s.learn.map((item, i) => {
     const topicRes = item.resources.map(r => `<a href="${r[1]}" target="_blank" rel="noopener noreferrer">${r[0]} <i>↗</i></a>`).join("");
+    const mistakes = Array.isArray(item.mistakes) && item.mistakes.length
+      ? `<div class="mini-block mistakes"><h5>Частые ошибки</h5><ul>${item.mistakes.map(m => `<li>${m}</li>`).join("")}</ul></div>`
+      : "";
     return `
     <li class="topic">
       <div class="topic-head">
@@ -41,10 +44,11 @@ function stageTemplate(s) {
           <span class="plus" aria-hidden="true">+</span><span class="tt-label">Практика</span>
         </button>
       </div>
-      <div class="topic-body" id="topic-${s.key}-${i}" hidden>
+      <div class="topic-body${mistakes ? " has-mistakes" : ""}" id="topic-${s.key}-${i}" hidden>
         <div class="mini-block practice"><h5>Практика</h5><p>${item.practice}</p></div>
         <div class="mini-block checkpoint"><h5>Чекпоинт</h5><p>${item.checkpoint}</p></div>
         <div class="mini-block res"><h5>Ресурсы</h5>${topicRes}</div>
+        ${mistakes}
       </div>
     </li>`;
   }).join("");

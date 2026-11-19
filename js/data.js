@@ -1,83 +1,154 @@
 /* ==========================================================================
    RM-FLIB — roadmap content
-   13 stages, 118 topics. Each topic contains:
-   practice, checkpoint and resources.
+   13 stages, 137 topics. Each topic contains:
+   practice, checkpoint and resources; foundation topics also
+   include typical mistakes.
    Loaded before app.js.
    ========================================================================== */
 
 const STAGES = [
 {
     n: 0, key: "s0", group: "Фундамент",
-    title: "Старт: как устроен веб и инструменты",
-    lead: "Прежде чем писать код, разберись, где он живёт: как браузер общается с сервером, как работает терминал и как не потерять изменения в Git. Этот этап экономит месяцы боли в будущем.",
-    hours: 25,
-    tech: ["Терминал", "Git", "GitHub", "VS Code", "HTTP", "DevTools"],
+    title: "Старт: веб, терминал и Git",
+    lead: "Самый первый этап — не про код, а про среду. Разберись, как браузер общается с сервером, как работает терминал, как не потерять изменения в Git и как искать ответы, когда что-то сломалось. Это фундамент, на котором держатся все остальные этапы.",
+    hours: 30,
+    tech: ["Терминал", "Git", "GitHub", "HTTP", "DevTools", "VS Code", "Markdown", "Security"],
     learn: [
       {
         title: "Как работает интернет",
         desc: "Клиент и сервер, DNS, IP, порты, HTTP/HTTPS, методы, статус-коды, заголовки, cookies. Цель — понимать, что происходит после ввода адреса.",
-        practice: "Нарисуй схему пути запроса к /novels/42: DNS → TCP → HTTP → ответ сервера → рендер. Подпиши, что происходит на каждом шаге.",
+        practice: "Нарисуй схему пути запроса к /novels/42: DNS → TCP → HTTP → ответ сервера → рендер. Подпиши каждый шаг и объясни, где может возникнуть ошибка.",
         checkpoint: "Объясняешь без подсказок, что происходит между вводом URL и появлением страницы, и чем 404 отличается от 500.",
+        mistakes: [
+          "Путать DNS с HTTP и думать, что браузер «просто открывает файл на сервере».",
+          "Считать 404 ошибкой сервера — это ответ клиенту о том, что ресурс не найден."
+        ],
         resources: [
           ["MDN: How the web works", "https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Web_standards/How_the_web_works"],
           ["MDN: HTTP overview", "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview"]
         ]
       },
       {
-        title: "Браузер и DevTools",
-        desc: "Вкладки Elements, Console, Network, Application, Sources. Учись читать ошибки, смотреть запросы и находить, почему страница выглядит не так.",
-        practice: "Открой любой сайт, найди в Network HTML-документ, посмотри статус, заголовки и время. В Console выполни 3 выражения и найди один 404-запрос.",
-        checkpoint: "Можешь по Network и Console объяснить, почему запрос упал или страница выглядит сломанной.",
+        title: "Браузер, DevTools и кэш",
+        desc: "Вкладки Elements, Console, Network, Application, Sources. Как браузер кэширует файлы, хранит cookies и localStorage и почему изменения не видны.",
+        practice: "Открой сайт, найди HTML-документ в Network, посмотри статус, заголовки и время. Найди закэшированный ресурс и проверь cookies/localStorage в Application.",
+        checkpoint: "По Network и Application объясняешь, почему запрос упал, откуда взялся старый файл и где хранится состояние.",
+        mistakes: [
+          "Искать ошибку в CSS, когда в Network видно, что запрос вообще не выполнился.",
+          "Забывать про кэш и смотреть старую версию файла после изменений."
+        ],
         resources: [
           ["Chrome DevTools", "https://developer.chrome.com/docs/devtools/"],
-          ["MDN: Browser developer tools", "https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Tools_and_setup/What_are_browser_developer_tools"]
+          ["MDN: HTTP caching", "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching"]
         ]
       },
       {
-        title: "Терминал",
-        desc: "Навигация по папкам, создание и удаление файлов, переменные окружения, пути. PowerShell на Windows и базовый bash пригодятся в Docker и на сервере.",
+        title: "Терминал и файловая система",
+        desc: "Навигация по папкам, создание и удаление файлов, пути, переменные окружения, процессы. PowerShell на Windows и базовый bash пригодятся в Docker и на сервере.",
         practice: "Создай папку проекта, три файла, переименуй и перемести их, выведи содержимое. Задай переменную окружения и прочитай её в новом процессе.",
-        checkpoint: "Свободно ходишь по файловой системе и не боишься путей с пробелами и кириллицей.",
+        checkpoint: "Свободно ходишь по файловой системе, понимаешь абсолютные и относительные пути и не боишься пробелов в путях.",
+        mistakes: [
+          "Не экранировать пробелы и кириллицу в путях.",
+          "Запускать команды не в той папке и удивляться, что файл не найден."
+        ],
         resources: [
           ["MDN: Command line crash course", "https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Environment_setup/Command_line"],
           ["PowerShell docs", "https://learn.microsoft.com/en-us/powershell/"]
         ]
       },
       {
-        title: "Git и GitHub",
-        desc: "init/clone/status/add/commit/push/pull, ветки, merge, конфликты, .gitignore, SSH-ключи, pull request. Коммить часто и осмысленно.",
-        practice: "Инициализируй репозиторий, сделай 5 коммитов в двух ветках, слей их и специально вызови конфликт, чтобы разрешить его вручную.",
-        checkpoint: "Понимаешь, что делает каждая команда, и можешь откатить файл или коммит без страха потерять работу.",
+        title: "Git: основы и история",
+        desc: "Репозиторий, рабочая директория, staging, commit, log, status, diff, .gitignore. Как сохранять изменения и читать историю проекта.",
+        practice: "Инициализируй репозиторий, сделай пять коммитов, посмотри историю и diff, добавь .gitignore и проверь, что лишние файлы не попадают в статус.",
+        checkpoint: "Понимаешь разницу между рабочей директорией, индексом и коммитом и можешь объяснить, что делает каждая команда.",
+        mistakes: [
+          "Коммитить .env, node_modules и файлы IDE.",
+          "Писать коммиты вида «fix» без объяснения, что изменилось."
+        ],
         resources: [
           ["Git Book (рус.)", "https://git-scm.com/book/ru/v2"],
-          ["Learn Git Branching", "https://learngitbranching.js.org/?locale=ru_RU"]
+          ["Git: gitignore", "https://git-scm.com/docs/gitignore"]
         ]
       },
       {
-        title: "VS Code",
+        title: "Git: ветки, конфликты и откат",
+        desc: "Ветки, merge, rebase, конфликты, restore, reset, revert. Как экспериментировать безопасно и не бояться потерять работу.",
+        practice: "Сделай две ветки с разными изменениями, слей их и специально вызови конфликт. Откати файл через restore и один коммит через revert.",
+        checkpoint: "Разрешаешь конфликт вручную, понимаешь, чем reset отличается от revert, и можешь безопасно откатить изменение.",
+        mistakes: [
+          "Паниковать при конфликте и удалять репозиторий вместо разрешения.",
+          "Делать rebase в общей ветке без согласования с командой."
+        ],
+        resources: [
+          ["Learn Git Branching", "https://learngitbranching.js.org/?locale=ru_RU"],
+          ["Git: restore", "https://git-scm.com/docs/git-restore"]
+        ]
+      },
+      {
+        title: "GitHub и командная работа",
+        desc: "Remote, push/pull, SSH-ключи, pull request, issues, review, защищённые ветки. Как работать так, чтобы не ломать main.",
+        practice: "Запушь репозиторий на GitHub, создай отдельную ветку, открой pull request и опиши изменения так, чтобы ревьюер понял их без вопросов.",
+        checkpoint: "Делаешь fork/branch/PR без подсказок, понимаешь, что такое remote и как подтянуть изменения из main.",
+        mistakes: [
+          "Работать напрямую в main без ветки и PR.",
+          "Забывать подтянуть main перед созданием pull request."
+        ],
+        resources: [
+          ["GitHub Skills", "https://skills.github.com"],
+          ["GitHub Flow", "https://docs.github.com/en/get-started/using-github/github-flow"]
+        ]
+      },
+      {
+        title: "VS Code и рабочее окружение",
         desc: "Рабочая область, расширения, форматирование, встроенный терминал, отладчик, поиск по проекту, сниппеты.",
-        practice: "Настрой 5 расширений, форматирование при сохранении, пользовательский сниппет и отладку простого JS-файла с breakpoint.",
+        practice: "Настрой пять расширений, форматирование при сохранении, пользовательский сниппет и отладку простого JS-файла с breakpoint.",
         checkpoint: "Рабочее место настроено, отладчик останавливается на breakpoint и показывает значения переменных.",
+        mistakes: [
+          "Ставить десятки расширений, но не настроить форматирование и отладку.",
+          "Игнорировать встроенный отладчик и отлаживать только console.log."
+        ],
         resources: [
           ["VS Code docs", "https://code.visualstudio.com/docs"],
           ["VS Code tips", "https://code.visualstudio.com/docs/getstarted/tips-and-tricks"]
         ]
       },
       {
-        title: "Markdown и документация",
+        title: "Markdown, README и документация",
         desc: "README, issues, комментарии, конспекты. Умение объяснить решение — часть инженерной работы.",
         practice: "Напиши README для будущего проекта: описание, стек, установка, структура папок и один скриншот.",
         checkpoint: "README понятен человеку, который видит проект впервые и ничего о нём не знает.",
+        mistakes: [
+          "README без команды запуска и переменных окружения.",
+          "Скриншоты без подписей и контекста."
+        ],
         resources: [
           ["Markdown Guide", "https://www.markdownguide.org"],
           ["GitHub: About READMEs", "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes"]
         ]
       },
       {
-        title: "Гигиена безопасности",
+        title: "Как искать ответы и читать ошибки",
+        desc: "Чтение stack trace, формулировка проблемы, поиск по документации, Stack Overflow и issue-трекерам. Учись задавать вопрос так, чтобы на него можно было ответить.",
+        practice: "Возьми реальную ошибку из консоли, сформулируй проблему в трёх предложениях и найди ответ в документации или обсуждении. Запиши ход мысли.",
+        checkpoint: "Не копируешь первое решение, а понимаешь причину ошибки и можешь объяснить, почему выбранный фикс работает.",
+        mistakes: [
+          "Копировать решение со Stack Overflow без понимания и проверки версии.",
+          "Игнорировать первые строки stack trace и читать только последнюю."
+        ],
+        resources: [
+          ["Stack Overflow: How to ask", "https://stackoverflow.com/help/how-to-ask"],
+          ["MDN: Debugging HTML", "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Debugging_HTML"]
+        ]
+      },
+      {
+        title: "Безопасность аккаунта и секретов",
         desc: "Менеджер паролей, 2FA, секреты не попадают в Git, .env в .gitignore, принцип минимальных прав.",
         practice: "Включи 2FA на GitHub, настрой менеджер паролей, проверь .gitignore и историю репозитория на случайные секреты.",
         checkpoint: "Секреты не попадают в git, доступы защищены, а при утечке понятно, что делать.",
+        mistakes: [
+          "Хранить токены и пароли прямо в коде или коммите.",
+          "Использовать один пароль для GitHub, почты и хостинга."
+        ],
         resources: [
           ["GitHub: 2FA", "https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa"],
           ["GitHub: Secret scanning", "https://docs.github.com/en/code-security/secret-scanning"]
@@ -86,112 +157,206 @@ const STAGES = [
     ],
     practice: [
       "Собери личную страницу-визитку на HTML/CSS и выложи на GitHub Pages.",
-      "Заведи репозиторий с README, сделай 10 осмысленных коммитов, отдельную ветку и pull request."
+      "Заведи репозиторий с README, сделай 10 осмысленных коммитов, отдельную ветку и pull request.",
+      "Нарисуй схему запроса URL → сервер и заведи конспект с командами терминала и Git."
     ],
     checkpoint: [
       "Объясняешь путь запроса от URL до ответа сервера.",
-      "Делаешь commit/push и решаешь конфликт без подсказок.",
+      "Делаешь commit/push, создаёшь ветку и решаешь конфликт без подсказок.",
       "Понимаешь, зачем нужен .env и почему секреты не коммитят."
     ],
     resources: [
       ["MDN: How the web works", "https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Web_standards/How_the_web_works"],
       ["Git Book (рус.)", "https://git-scm.com/book/ru/v2"],
       ["GitHub Skills", "https://skills.github.com"],
-      ["Learn Git Branching", "https://learngitbranching.js.org/?locale=ru_RU"]
+      ["Learn Git Branching", "https://learngitbranching.js.org/?locale=ru_RU"],
+      ["Stack Overflow: How to ask", "https://stackoverflow.com/help/how-to-ask"]
     ]
   },
   {
     n: 1, key: "s1", group: "Фундамент",
-    title: "HTML и CSS: фундамент интерфейса",
-    lead: "HTML отвечает за смысл и структуру, CSS — за внешний вид. Здесь ты научишься превращать макет в адаптивную страницу, которая нормально выглядит на телефоне и не стыдит на десктопе.",
-    hours: 60,
-    tech: ["HTML", "CSS", "Flexbox", "Grid", "Tailwind CSS", "Адаптив", "A11y"],
+    title: "HTML и CSS: от структуры до адаптивного интерфейса",
+    lead: "HTML отвечает за смысл и структуру, CSS — за внешний вид. Здесь ты не просто выучишь теги и свойства, а научишься собирать интерфейс, который понятен браузеру, скринридеру и человеку на телефоне.",
+    hours: 70,
+    tech: ["HTML", "CSS", "Flexbox", "Grid", "Tailwind CSS", "Адаптив", "A11y", "Figma"],
     learn: [
       {
-        title: "Семантический HTML",
-        desc: "header/nav/main/section/article/footer, заголовки, списки, ссылки, изображения, таблицы. Семантика помогает SEO, доступности и тебе самому.",
-        practice: "Разметь страницу новеллы: header, main, article, aside, footer. Проверь документ через W3C-валидатор.",
-        checkpoint: "Валидатор не находит ошибок, а структуру страницы можно понять с отключённым CSS.",
+        title: "Документ и структура HTML",
+        desc: "doctype, html, head, meta, title, body, заголовки, списки, ссылки. Как из отдельных тегов получается логичный документ.",
+        practice: "Сверстай скелет страницы новеллы: head с meta, header, main, article, aside, footer. Проверь через W3C-валидатор.",
+        checkpoint: "Документ проходит валидатор, а его структуру можно понять с отключёнными стилями.",
+        mistakes: [
+          "Забывать viewport meta и потом удивляться мобильной вёрстке.",
+          "Использовать div вместо заголовков и списков там, где они очевидны."
+        ],
         resources: [
-          ["MDN: HTML elements", "https://developer.mozilla.org/ru/docs/Web/HTML/Element"],
+          ["MDN: HTML basics", "https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Structuring_content"],
           ["web.dev: Semantic HTML", "https://web.dev/learn/html/semantic-html"]
         ]
       },
       {
-        title: "Формы",
-        desc: "input всех типов, label, fieldset, встроенная валидация, autocomplete. Формы — основа регистрации, публикации глав и админки.",
-        practice: "Сверстай форму регистрации с label, required, autocomplete, fieldset и блоком сообщений об ошибках.",
-        checkpoint: "Форма заполняется с клавиатуры, браузер валидирует поля, а ошибки понятны без цвета.",
-        resources: [
-          ["MDN: Forms guide", "https://developer.mozilla.org/ru/docs/Learn_web_development/Extensions/Forms"],
-          ["web.dev: Forms", "https://web.dev/learn/forms"]
-        ]
-      },
-      {
-        title: "Доступность (a11y)",
-        desc: "alt, контраст, клавиатурная навигация, focus-visible, aria только там, где без неё нельзя.",
-        practice: "Прогони страницу через Lighthouse Accessibility, исправь три проблемы и пройди весь интерфейс клавишей Tab.",
-        checkpoint: "Фокус всегда видим, контраст не ниже 4.5:1, у изображений есть alt, а порядок Tab логичен.",
+        title: "Семантика и доступность",
+        desc: "header/nav/main/section/article/footer, landmarks, alt, порядок заголовков, keyboard focus. Семантика помогает SEO, доступности и тебе самому.",
+        practice: "Перепиши страницу так, чтобы по ней можно было пройти клавишей Tab, а скринридер читал заголовки и ссылки осмысленно.",
+        checkpoint: "У страницы есть один h1, логичный порядок заголовков, alt у изображений и видимый focus.",
+        mistakes: [
+          "Делать кликабельные div вместо button и ссылок.",
+          "Писать alt вида «картинка» или «изображение»."
+        ],
         resources: [
           ["web.dev: Learn Accessibility", "https://web.dev/learn/accessibility"],
           ["MDN: Accessibility", "https://developer.mozilla.org/ru/docs/Web/Accessibility"]
         ]
       },
       {
-        title: "Ядро CSS",
-        desc: "Каскад, специфичность, наследование, блочная модель, единицы, типографика, псевдоклассы и псевдоэлементы.",
-        practice: "Сверстай карточку новеллы и объясни, почему конкретное свойство победило в каскаде. Сделай то же без !important.",
-        checkpoint: "Понимаешь специфичность и можешь предсказать, какое правило применится.",
+        title: "Изображения, медиа и таблицы",
+        desc: "img, figure, figcaption, srcset, video/audio, table, caption, th. Когда таблица уместна, а когда это уже layout.",
+        practice: "Добавь на страницу обложку с srcset, figure с подписью и таблицу характеристик с caption и th.",
+        checkpoint: "Картинки не растягиваются, таблица читается на мобильном, а медиа не ломает layout.",
+        mistakes: [
+          "Растягивать изображение без aspect-ratio и получать скачки layout.",
+          "Использовать table для вёрстки колонок."
+        ],
         resources: [
-          ["MDN: CSS first steps", "https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Styling_basics"],
-          ["web.dev: Learn CSS", "https://web.dev/learn/css"]
+          ["MDN: Images", "https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Structuring_content/HTML_images"],
+          ["MDN: Tables", "https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Structuring_content/HTML_table_basics"]
         ]
       },
       {
-        title: "Flexbox и Grid",
-        desc: "Когда что использовать, выравнивание, переносы, minmax/fr, вложенные сетки. Это 80% всей вёрстки.",
-        practice: "Сделай шапку на Flex, каталог карточек на Grid и перестрой оба блока под три ширины экрана.",
-        checkpoint: "Выбираешь layout без гугла и объясняешь, почему здесь Flex, а там Grid.",
+        title: "Формы и валидация",
+        desc: "input всех типов, label, fieldset, required, pattern, autocomplete. Формы — основа регистрации, публикации глав и админки.",
+        practice: "Сверстай форму регистрации с label, required, autocomplete, fieldset и блоком сообщений об ошибках.",
+        checkpoint: "Форма заполняется с клавиатуры, браузер валидирует поля, а ошибки понятны без цвета.",
+        mistakes: [
+          "Использовать placeholder вместо label.",
+          "Полагаться только на клиентскую валидацию и не проверять данные на сервере."
+        ],
+        resources: [
+          ["MDN: Forms guide", "https://developer.mozilla.org/ru/docs/Learn_web_development/Extensions/Forms"],
+          ["web.dev: Forms", "https://web.dev/learn/forms"]
+        ]
+      },
+      {
+        title: "Каскад, специфичность и наследование",
+        desc: "Селекторы, каскад, специфичность, наследование, слои, порядок правил. Почему одно правило побеждает другое.",
+        practice: "Сверстай карточку новеллы и объясни, почему конкретное свойство победило. Перепиши конфликт без !important.",
+        checkpoint: "Понимаешь специфичность и можешь предсказать, какое правило применится, не открывая DevTools.",
+        mistakes: [
+          "Воевать с CSS через !important и делать стили непредсказуемыми.",
+          "Не понимать, почему правило не применилось, и добавлять ещё десять селекторов."
+        ],
+        resources: [
+          ["MDN: Cascade and inheritance", "https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Styling_basics/Handling_conflicts"],
+          ["web.dev: The cascade", "https://web.dev/learn/css/the-cascade"]
+        ]
+      },
+      {
+        title: "Блочная модель, единицы и типографика",
+        desc: "box-sizing, margin/padding/border, px/rem/em/%, line-height, font-size, контраст, читаемость. Основа аккуратного интерфейса.",
+        practice: "Собери типографическую шкалу и карточку с box-sizing: border-box, проверь контраст и читаемость на мобильном.",
+        checkpoint: "Отступы не «схлопываются» неожиданно, текст читается, а размеры не зависят от случайного родителя.",
+        mistakes: [
+          "Забывать box-sizing: border-box и считать ширину вручную.",
+          "Делать слишком мелкий текст и низкий контраст."
+        ],
+        resources: [
+          ["MDN: Box model", "https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Styling_basics/Box_model"],
+          ["web.dev: Typography", "https://web.dev/learn/css/typography"]
+        ]
+      },
+      {
+        title: "Flexbox",
+        desc: "Главная и поперечная оси, justify-content, align-items, flex-wrap, flex-grow/shrink, gap. Одномерные раскладки: шапки, тулбары, карточки.",
+        practice: "Сделай шапку сайта, панель фильтров и карточку с действиями на Flexbox, проверь перенос на узком экране.",
+        checkpoint: "Можешь объяснить, где main axis, а где cross axis, и выбрать Flexbox осознанно.",
+        mistakes: [
+          "Путать главную и поперечную оси.",
+          "Ставить flex: 1 всем элементам без понимания, что должно расти."
+        ],
         resources: [
           ["CSS-Tricks: Flexbox", "https://css-tricks.com/snippets/css/a-guide-to-flexbox/"],
-          ["CSS-Tricks: Grid", "https://css-tricks.com/snippets/css/complete-guide-grid/"]
+          ["Flexbox Froggy", "https://flexboxfroggy.com/#ru"]
         ]
       },
       {
-        title: "Адаптивность",
-        desc: "Mobile-first, media queries, clamp(), min/max, responsive images, container queries. Проверяй 360/768/1440 px.",
+        title: "Grid",
+        desc: "grid-template-columns/rows, fr, minmax, repeat, auto-fit, grid-area, выравнивание. Двумерные раскладки: каталоги, дашборды, страницы.",
+        practice: "Сделай каталог карточек на Grid с auto-fit/minmax и перестрой его под три ширины экрана.",
+        checkpoint: "Выбираешь Grid для двумерной раскладки и объясняешь, почему не Flexbox.",
+        mistakes: [
+          "Использовать Grid для простого одномерного списка.",
+          "Фиксировать все колонки в px и ломать адаптивность."
+        ],
+        resources: [
+          ["CSS-Tricks: Grid", "https://css-tricks.com/snippets/css/complete-guide-grid/"],
+          ["Grid Garden", "https://cssgridgarden.com/#ru"]
+        ]
+      },
+      {
+        title: "Позиционирование, z-index и overflow",
+        desc: "static/relative/absolute/fixed/sticky, stacking context, z-index, overflow, обрезка и скролл. Как делать модалки, тултипы и липкие панели.",
+        practice: "Сделай липкую шапку, карточку с бейджем absolute и модальное окно без z-index 9999.",
+        checkpoint: "Понимаешь, почему z-index не сработал, и не используешь абсолютное позиционирование для всей страницы.",
+        mistakes: [
+          "Строить весь layout на position: absolute.",
+          "Создавать z-index: 9999 вместо понимания stacking context."
+        ],
+        resources: [
+          ["MDN: Positioning", "https://developer.mozilla.org/ru/docs/Learn_web_development/Core/CSS_layout/Positioning"],
+          ["MDN: Stacking context", "https://developer.mozilla.org/ru/docs/Web/CSS/CSS_positioned_layout/Understanding_z-index/Stacking_context"]
+        ]
+      },
+      {
+        title: "Адаптивность и mobile-first",
+        desc: "Mobile-first, media queries, clamp(), min/max, responsive images, container queries. Как один интерфейс работает на 360 и 1440 px.",
         practice: "Сделай mobile-first страницу с тремя брейкпоинтами, clamp-типографикой и responsive-изображениями.",
         checkpoint: "На 360px нет горизонтального скролла, текст читается, а картинки не растягиваются.",
+        mistakes: [
+          "Делать desktop-first и потом чинить мобильную версию костылями.",
+          "Проверять вёрстку только на своём мониторе."
+        ],
         resources: [
           ["web.dev: Responsive design", "https://web.dev/learn/design"],
           ["MDN: Media queries", "https://developer.mozilla.org/ru/docs/Web/CSS/CSS_media_queries/Using_media_queries"]
         ]
       },
       {
-        title: "Визуальные эффекты",
-        desc: "transition, transform, @keyframes, CSS-переменные, тёмная тема. Анимации должны помогать, а не мешать.",
-        practice: "Добавь hover-состояния, переход темы и анимацию появления карточек. Проверь prefers-reduced-motion.",
-        checkpoint: "Анимации не ломают layout и отключаются для пользователей с reduced motion.",
+        title: "Псевдоклассы, эффекты и тёмная тема",
+        desc: "hover/focus/active/disabled, ::before/::after, transition, transform, @keyframes, CSS-переменные, prefers-reduced-motion, тёмная тема.",
+        practice: "Добавь состояния кнопок, переход темы на CSS-переменных, анимацию появления карточек и проверь prefers-reduced-motion.",
+        checkpoint: "Фокус всегда видим, анимации не ломают layout и отключаются для reduced motion.",
+        mistakes: [
+          "Убирать outline у фокуса без замены.",
+          "Делать анимации, которые вызывают layout shift или мешают чтению."
+        ],
         resources: [
-          ["MDN: CSS transitions", "https://developer.mozilla.org/ru/docs/Web/CSS/CSS_transitions/Using_CSS_transitions"],
-          ["web.dev: Animations", "https://web.dev/learn/css/animations"]
+          ["MDN: Pseudo-classes", "https://developer.mozilla.org/ru/docs/Web/CSS/Pseudo-classes"],
+          ["MDN: Using CSS custom properties", "https://developer.mozilla.org/ru/docs/Web/CSS/Using_CSS_custom_properties"]
         ]
       },
       {
         title: "Tailwind CSS",
-        desc: "Utility-first подход, шкала отступов, варианты состояний и брейкпоинтов, @theme-токены, сборка через Vite. Именно Tailwind используется в FLIB.",
+        desc: "Utility-first подход, шкала отступов, варианты состояний и брейкпоинтов, @theme-токены, dark variant, сборка через Vite. Именно Tailwind используется в FLIB.",
         practice: "Перепиши одну секцию на Tailwind, настрой тему через @theme и добавь dark variant.",
         checkpoint: "Нет хаоса классов, сборка проходит, а стили выглядят консистентно на всех страницах.",
+        mistakes: [
+          "Сваливать десятки классов в одну строку без компонентов и повторного использования.",
+          "Использовать arbitrary values вместо токенов темы."
+        ],
         resources: [
           ["Tailwind docs", "https://tailwindcss.com/docs"],
           ["Tailwind: Theme variables", "https://tailwindcss.com/docs/theme"]
         ]
       },
       {
-        title: "Основы дизайна",
-        desc: "Ритм, сетка, иерархия, типографика, цвет, состояния компонентов. Учись читать Figma и повторять макет.",
+        title: "Дизайн-основы и Figma",
+        desc: "Ритм, сетка, иерархия, типографика, цвет, состояния компонентов. Как читать макет и не угадывать отступы.",
         practice: "Повтори экран каталога из Figma или хорошего референса и сравни свой результат со скриншотом.",
         checkpoint: "Иерархия, отступы и типографика выглядят цельно, а не как набор случайных блоков.",
+        mistakes: [
+          "Делать все элементы одного размера и веса.",
+          "Копировать референс без понимания сетки и отступов."
+        ],
         resources: [
           ["Refactoring UI", "https://www.refactoringui.com"],
           ["Figma: Learn", "https://help.figma.com/hc/en-us/categories/360002051613-Learn-Figma"]
@@ -200,7 +365,8 @@ const STAGES = [
     ],
     practice: [
       "Сверстай лендинг книжной платформы: шапка, hero, каталог карточек, преимущества, футер.",
-      "Добавь тёмную тему, форму подписки и адаптив под 360/768/1440 px. Прогони Lighthouse до 90+."
+      "Добавь семантическую форму, тёмную тему, адаптив под 360/768/1440 px и прогони Lighthouse.",
+      "Проверь страницу клавиатурой и исправь три проблемы доступности."
     ],
     checkpoint: [
       "Свёрстать простой макет за 1–2 дня без подсказок.",
@@ -217,96 +383,230 @@ const STAGES = [
   },
   {
     n: 2, key: "s2", group: "Фундамент",
-    title: "JavaScript: язык и браузер",
-    lead: "JavaScript оживляет интерфейс: реагирует на клики, грузит данные, хранит настройки. Здесь важно не заучить синтаксис, а научиться думать состояниями и событиями.",
-    hours: 80,
-    tech: ["JavaScript", "DOM", "Fetch", "Async/await", "LocalStorage", "DevTools"],
+    title: "JavaScript: от синтаксиса до интерфейса",
+    lead: "JavaScript оживляет интерфейс: реагирует на клики, грузит данные, хранит настройки. Здесь важно не заучить синтаксис, а понять, как выполняется код, как устроены события и почему асинхронность ломает мозг.",
+    hours: 90,
+    tech: ["JavaScript", "DOM", "Events", "Fetch", "Async", "Modules", "Storage", "DevTools"],
     learn: [
       {
-        title: "Синтаксис и типы",
-        desc: "Переменные, примитивы, операторы, условия, циклы, функции, области видимости, hoisting, строгое равенство.",
-        practice: "Реши 15 задач на массивы, строки и условия без подсказок. Сделай шпаргалку по типам и приведению.",
-        checkpoint: "Объясняешь разницу null/undefined, ==/===, let/const и что такое hoisting.",
+        title: "Как выполняется JavaScript",
+        desc: "Движок, стек вызовов, куча, single-thread, Web APIs, очередь задач. Почему JS не выполняется параллельно, но кажется асинхронным.",
+        practice: "Нарисуй схему выполнения короткого скрипта: синхронный код → Promise → setTimeout. Объясни порядок вывода.",
+        checkpoint: "Объясняешь, что такое call stack и почему тяжёлый цикл блокирует интерфейс.",
+        mistakes: [
+          "Думать, что JavaScript выполняет несколько функций одновременно.",
+          "Путать стек вызовов и кучу."
+        ],
+        resources: [
+          ["javascript.info: Introduction", "https://learn.javascript.ru/intro"],
+          ["MDN: Execution model", "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Execution_model"]
+        ]
+      },
+      {
+        title: "Переменные, типы и приведение",
+        desc: "let/const, примитивы, объекты, null/undefined, NaN, приведение типов, == и ===. Как не ловить баги на ровном месте.",
+        practice: "Реши 15 задач на типы и приведение, выпиши пять неочевидных примеров и объясни каждый.",
+        checkpoint: "Объясняешь разницу null/undefined, ==/===, let/const и почему объекты сравниваются по ссылке.",
+        mistakes: [
+          "Сравнивать через == и надеяться на магию приведения.",
+          "Считать null и undefined одним и тем же."
+        ],
         resources: [
           ["javascript.info: Types", "https://learn.javascript.ru/types"],
-          ["MDN: JavaScript guide", "https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide"]
+          ["MDN: Data structures", "https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Data_structures"]
+        ]
+      },
+      {
+        title: "Операторы, условия и циклы",
+        desc: "Арифметика, логические операторы, тернарник, switch, for/while, break/continue. Управление потоком выполнения.",
+        practice: "Напиши функцию расчёта скидки с ветвлениями и циклом, покрой граничные случаи и проверь в консоли.",
+        checkpoint: "Читаешь чужой код с вложенными условиями и можешь упростить его без изменения поведения.",
+        mistakes: [
+          "Забывать break в switch и проваливаться в следующий case.",
+          "Использовать присваивание = вместо сравнения ==="
+        ],
+        resources: [
+          ["javascript.info: Operators", "https://learn.javascript.ru/operators"],
+          ["javascript.info: Conditions", "https://learn.javascript.ru/ifelse"]
+        ]
+      },
+      {
+        title: "Функции, области видимости и hoisting",
+        desc: "Объявления функций, выражения, стрелочные функции, параметры, return, область видимости, hoisting, TDZ.",
+        practice: "Напиши пять функций с разными способами объявления и объясни, какие из них доступны до объявления.",
+        checkpoint: "Понимаешь, где живёт переменная, почему let падает до инициализации и как работает return.",
+        mistakes: [
+          "Полагаться на hoisting и вызывать функцию до объявления.",
+          "Создавать функции внутри циклов без необходимости."
+        ],
+        resources: [
+          ["javascript.info: Functions", "https://learn.javascript.ru/function-basics"],
+          ["javascript.info: Variable scope", "https://learn.javascript.ru/let-const"]
+        ]
+      },
+      {
+        title: "Замыкания, this и контекст",
+        desc: "Замыкания, лексическое окружение, this, call/apply/bind, потеря контекста в колбэках.",
+        practice: "Напиши counter, once и debounce на замыканиях. Объясни this в трёх разных контекстах вызова.",
+        checkpoint: "Объясняешь, где живёт переменная после возврата функции и почему this потерялся в колбэке.",
+        mistakes: [
+          "Терять this при передаче метода как колбэка.",
+          "Замыкать изменяемую переменную цикла и получать одинаковые значения."
+        ],
+        resources: [
+          ["javascript.info: Closures", "https://learn.javascript.ru/closure"],
+          ["javascript.info: Object methods and this", "https://learn.javascript.ru/object-methods"]
         ]
       },
       {
         title: "Массивы и объекты",
-        desc: "map/filter/reduce/find/sort, деструктуризация, spread/rest, JSON, копирование и мутация.",
+        desc: "Методы массивов, объекты, деструктуризация, spread/rest, JSON, поверхностное и глубокое копирование, мутация.",
         practice: "Преобразуй массив глав: отфильтруй опубликованные, отсортируй по дате и собери объект по id.",
         checkpoint: "Используешь map/filter/reduce осознанно и не мутируешь входные данные без причины.",
+        mistakes: [
+          "Мутировать входной массив и удивляться побочным эффектам.",
+          "Делать поверхностную копию и думать, что она глубокая."
+        ],
         resources: [
           ["javascript.info: Arrays", "https://learn.javascript.ru/array"],
-          ["MDN: Array", "https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array"]
+          ["javascript.info: Objects", "https://learn.javascript.ru/object"]
         ]
       },
       {
-        title: "Функции и замыкания",
-        desc: "Стрелочные функции, колбэки, замыкания, this, bind/call/apply. Это база для Vue-хуков и серверного JS.",
-        practice: "Напиши counter, once и debounce на замыканиях. Объясни this в трёх разных контекстах вызова.",
-        checkpoint: "Можешь объяснить, где живёт переменная после того, как функция вернула результат.",
+        title: "ES6+ и функциональные методы",
+        desc: "map/filter/reduce/find/some/every, optional chaining, nullish coalescing, шаблонные строки, деструктуризация.",
+        practice: "Перепиши пять циклов на map/filter/reduce и добавь безопасную обработку null через optional chaining.",
+        checkpoint: "Выбираешь подходящий метод массива и не пишешь reduce там, где достаточно map.",
+        mistakes: [
+          "Использовать reduce для всего, включая простой поиск.",
+          "Забывать про optional chaining и падать на null."
+        ],
         resources: [
-          ["javascript.info: Closures", "https://learn.javascript.ru/closure"],
-          ["MDN: Functions", "https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Functions"]
+          ["javascript.info: Array methods", "https://learn.javascript.ru/array-methods"],
+          ["javascript.info: Optional chaining", "https://learn.javascript.ru/optional-chaining"]
         ]
       },
       {
-        title: "DOM и события",
-        desc: "querySelector, создание элементов, классы и стили, всплытие, делегирование, формы, валидация.",
-        practice: "Сделай список глав с добавлением, удалением, поиском и делегированием событий.",
-        checkpoint: "События не дублируются после перерисовки, а элементы не теряют обработчики.",
+        title: "DOM: выбор и изменение",
+        desc: "querySelector, createElement, append/remove, classList, textContent, dataset, шаблоны. Как безопасно менять страницу.",
+        practice: "Сделай список глав с добавлением, удалением, поиском и обновлением счётчика.",
+        checkpoint: "Не используешь innerHTML для пользовательских данных и не теряешь ссылки на элементы.",
+        mistakes: [
+          "Вставлять пользовательский HTML через innerHTML и получать XSS.",
+          "Менять DOM в цикле по одному элементу вместо фрагмента."
+        ],
         resources: [
           ["javascript.info: DOM", "https://learn.javascript.ru/document"],
-          ["MDN: Events", "https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Scripting/Events"]
+          ["javascript.info: Searching elements", "https://learn.javascript.ru/searching-elements-dom"]
         ]
       },
       {
-        title: "Асинхронность",
-        desc: "Event loop, Promises, async/await, fetch, обработка ошибок, AbortController, параллельные запросы. Обязательно понять, а не скопировать.",
-        practice: "Загрузи данные с публичного API, обработай loading/error/empty и отмени запрос через AbortController.",
-        checkpoint: "Объясняешь event loop и порядок microtask/macrotask на примере своего кода.",
+        title: "События и делегирование",
+        desc: "addEventListener, bubbling, capture, preventDefault, stopPropagation, делегирование, удаление обработчиков.",
+        practice: "Сделай список с делегированием: клик по кнопке внутри карточки не должен срабатывать как клик по карточке.",
+        checkpoint: "Понимаешь всплытие, умеешь остановить нежелательное поведение и не плодишь обработчики.",
+        mistakes: [
+          "Вешать отдельный обработчик на каждый элемент списка.",
+          "Забывать preventDefault у формы и получать перезагрузку."
+        ],
         resources: [
-          ["javascript.info: Async", "https://learn.javascript.ru/async"],
-          ["MDN: Promises", "https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise"]
+          ["javascript.info: Events", "https://learn.javascript.ru/events"],
+          ["javascript.info: Bubbling and capturing", "https://learn.javascript.ru/event-bubbling"]
         ]
       },
       {
-        title: "Модули и сборка",
-        desc: "import/export, npm, package.json, скрипты, семантическое версионирование.",
+        title: "Формы и пользовательский ввод",
+        desc: "submit, input/change, FormData, валидация, блокировка кнопки, состояния ошибок и загрузки.",
+        practice: "Сделай форму поиска с debounce, проверкой пустого значения и состоянием загрузки.",
+        checkpoint: "Форма не перезагружает страницу, ошибки показываются у полей, а ввод не спамит запросами.",
+        mistakes: [
+          "Читать значение поля только при submit и терять реакцию на ввод.",
+          "Доверять клиентской валидации и не проверять данные на сервере."
+        ],
+        resources: [
+          ["javascript.info: Form elements", "https://learn.javascript.ru/form-elements"],
+          ["MDN: Form validation", "https://developer.mozilla.org/ru/docs/Learn_web_development/Extensions/Forms/Form_validation"]
+        ]
+      },
+      {
+        title: "Асинхронность: event loop, Promises, async/await",
+        desc: "Микрозадачи и макрозадачи, Promise, then/catch/finally, async/await, параллельные и последовательные запросы.",
+        practice: "Напиши три функции: последовательные запросы, параллельные через Promise.all и обработку ошибки через try/catch.",
+        checkpoint: "Объясняешь порядок microtask/macrotask и не путаешь await с блокировкой потока.",
+        mistakes: [
+          "Думать, что setTimeout(0) выполнится раньше Promise.",
+          "Не обрабатывать reject и получать unhandled rejection."
+        ],
+        resources: [
+          ["javascript.info: Event loop", "https://learn.javascript.ru/event-loop"],
+          ["javascript.info: Promises", "https://learn.javascript.ru/promise-basics"]
+        ]
+      },
+      {
+        title: "Fetch, HTTP и обработка ошибок",
+        desc: "fetch, headers, JSON, статус-коды, response.ok, ошибки сети, AbortController, таймауты, повторные запросы.",
+        practice: "Загрузи данные с публичного API, обработай loading/error/empty и отмени запрос через AbortController при уходе со страницы.",
+        checkpoint: "Проверяешь response.ok, читаешь JSON-ошибки и не оставляешь висящие запросы.",
+        mistakes: [
+          "Проверять только response.ok и забывать, что тело ошибки тоже JSON.",
+          "Не отменять запрос при уходе со страницы."
+        ],
+        resources: [
+          ["javascript.info: Fetch", "https://learn.javascript.ru/fetch"],
+          ["javascript.info: Error handling", "https://learn.javascript.ru/error-handling"]
+        ]
+      },
+      {
+        title: "Модули, npm и сборка",
+        desc: "import/export, package.json, scripts, зависимости, lockfile, npx, сборка через Vite.",
         practice: "Разбей прототип на пять ES-модулей, настрой package.json и запусти сборку одной командой.",
         checkpoint: "Нет глобальных переменных, а модули можно переиспользовать в другом проекте.",
+        mistakes: [
+          "Импортировать весь пакет ради одной функции.",
+          "Коммитить node_modules и ломать воспроизводимость."
+        ],
         resources: [
           ["javascript.info: Modules", "https://learn.javascript.ru/modules"],
-          ["MDN: Modules", "https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Modules"]
+          ["npm docs", "https://docs.npmjs.com"]
         ]
       },
       {
         title: "Хранение на клиенте",
-        desc: "localStorage, sessionStorage, cookies, лимиты и безопасность. Пригодится для настроек ридера.",
-        practice: "Сохрани настройки ридера и прогресс чтения в localStorage, восстанови их после перезагрузки.",
-        checkpoint: "Данные не ломаются при пустом, старом или битом JSON.",
+        desc: "localStorage, sessionStorage, cookies, IndexedDB, лимиты, сериализация JSON, безопасность.",
+        practice: "Сохрани настройки ридера и прогресс чтения в localStorage, восстанови их после перезагрузки и обработай битый JSON.",
+        checkpoint: "Данные не ломаются при пустом, старом или битом JSON, а лимиты storage обрабатываются.",
+        mistakes: [
+          "Хранить токены в localStorage без понимания рисков.",
+          "Превышать лимит и не обрабатывать ошибку записи."
+        ],
         resources: [
-          ["MDN: localStorage", "https://developer.mozilla.org/ru/docs/Web/API/Window/localStorage"],
-          ["javascript.info: Storage", "https://learn.javascript.ru/localstorage"]
+          ["javascript.info: localStorage", "https://learn.javascript.ru/localstorage"],
+          ["MDN: IndexedDB", "https://developer.mozilla.org/ru/docs/Web/API/IndexedDB_API"]
         ]
       },
       {
-        title: "Отладка",
-        desc: "Точки останова, стек вызовов, Network, логирование. Умение найти баг важнее, чем знание ещё одного фреймворка.",
+        title: "Отладка и DevTools",
+        desc: "Breakpoints, call stack, scope, watch, Network, console, source maps. Как найти причину, а не симптом.",
         practice: "Поставь breakpoint, поймай ошибку в асинхронном коде, прочитай stack trace и исправь причину.",
         checkpoint: "Находишь баг через DevTools за 10–15 минут, а не перебором изменений.",
+        mistakes: [
+          "Ставить console.log вместо breakpoint и терять контекст.",
+          "Исправлять симптом, не понимая причину."
+        ],
         resources: [
-          ["Chrome DevTools: Debug JS", "https://developer.chrome.com/docs/devtools/javascript/"],
-          ["javascript.info: Debugging", "https://learn.javascript.ru/debugging-chrome"]
+          ["javascript.info: Debugging", "https://learn.javascript.ru/debugging-chrome"],
+          ["Chrome DevTools: Debug JS", "https://developer.chrome.com/docs/devtools/javascript/"]
         ]
       },
       {
         title: "Паттерны UI",
-        desc: "Debounce/throttle, пагинация, бесконечный скролл, состояния загрузки, ошибки и пустоты.",
+        desc: "Debounce/throttle, пагинация, бесконечный скролл, скелетоны, состояния загрузки, ошибки и пустоты.",
         practice: "Добавь debounce поиска, пагинацию и скелетоны загрузки в прототип каталога.",
         checkpoint: "Нет лишних запросов, а состояния загрузки, ошибки и пустоты понятны пользователю.",
+        mistakes: [
+          "Отправлять запрос на каждое нажатие клавиши.",
+          "Забывать состояния пустоты и ошибки, оставляя пустой экран."
+        ],
         resources: [
           ["CSS-Tricks: Debounce", "https://css-tricks.com/debouncing-throttling-explained-examples/"],
           ["MDN: IntersectionObserver", "https://developer.mozilla.org/ru/docs/Web/API/IntersectionObserver"]
@@ -315,12 +615,14 @@ const STAGES = [
     ],
     practice: [
       "Сделай прототип ридера: каталог новелл из JSON, страница главы, настройки шрифта/интервала/темы.",
-      "Сохраняй прогресс скролла и закладки в localStorage, добавь поиск и фильтры. Без фреймворков."
+      "Добавь fetch к публичному API, поиск, фильтры и сохранение прогресса в localStorage.",
+      "Найди и исправь три бага через DevTools, один из них — в асинхронном коде."
     ],
     checkpoint: [
       "Написать SPA на чистом JS с fetch к внешнему API.",
       "Объяснить event loop и разницу между синхронным и асинхронным кодом.",
-      "Найти баг через DevTools, а не гадать."
+      "Найти баг через DevTools, а не гадать.",
+      "Данные в localStorage не ломаются после перезагрузки."
     ],
     resources: [
       ["javascript.info (рус.)", "https://learn.javascript.ru"],
@@ -331,113 +633,221 @@ const STAGES = [
   },
   {
     n: 3, key: "s3", group: "Фундамент",
-    title: "TypeScript и современный тулинг",
-    lead: "TypeScript ловит ошибки до запуска, а Vite собирает фронтенд за секунды. Вместе с линтерами это делает код предсказуемым — как в реальных проектах, а не в учебных примерах.",
-    hours: 40,
-    tech: ["TypeScript", "Vite", "npm", "ESLint", "Prettier", "strict"],
+    title: "TypeScript и инструменты качества",
+    lead: "TypeScript ловит ошибки до запуска, Vite собирает фронтенд за секунды, а линтеры и тесты не дают проекту разваливаться. Здесь ты учишься не «писать типы», а проектировать предсказуемый код.",
+    hours: 50,
+    tech: ["TypeScript", "Vite", "npm", "ESLint", "Prettier", "Vitest", "Zod"],
     learn: [
       {
-        title: "Базовые типы",
-        desc: "primitives, object, array, tuple, enum, any/unknown/never, strict-режим.",
-        practice: "Типизируй 10 функций и структур, включи strict и исправь все ошибки без any.",
-        checkpoint: "В проекте нет any, а ошибки типов исправлены по существу, а не заглушены as.",
+        title: "Зачем TypeScript и как работает компилятор",
+        desc: "Типы существуют только на этапе компиляции, tsc проверяет код, strict-режим, source maps.",
+        practice: "Скомпилируй небольшой TS-файл, посмотри JS-выход и source map. Включи strict и объясни, что изменилось.",
+        checkpoint: "Понимаешь, что типы исчезают в runtime, и не ждёшь от них защиты данных.",
+        mistakes: [
+          "Думать, что TypeScript проверяет данные в runtime.",
+          "Отключать strict, чтобы ошибки «прошли»."
+        ],
+        resources: [
+          ["TS: TypeScript from scratch", "https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html"],
+          ["TS: strict", "https://www.typescriptlang.org/tsconfig/strict.html"]
+        ]
+      },
+      {
+        title: "Примитивы, массивы, кортежи и enum",
+        desc: "Базовые типы, вывод типов, массивы, tuple, enum, any/unknown/never.",
+        practice: "Типизируй 10 функций и структур, убери все any и замени их на unknown с проверкой.",
+        checkpoint: "В проекте нет any, а unknown используется с явной проверкой.",
+        mistakes: [
+          "Использовать any при первой ошибке.",
+          "Путать unknown и any и считать их одинаково безопасными."
+        ],
         resources: [
           ["TS: Everyday types", "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"],
           ["TS Playground", "https://www.typescriptlang.org/play"]
         ]
       },
       {
-        title: "Структуры",
-        desc: "interface и type, optional/readonly, union/intersection, literal types, вложенные типы.",
+        title: "Объекты, interface и type",
+        desc: "interface vs type, optional/readonly, вложенные объекты, index signatures, расширение типов.",
         practice: "Опиши модели Novel, Chapter и User через interface/type и переиспользуй общие поля.",
         checkpoint: "Модели не дублируются, а изменения структуры ловятся компилятором.",
+        mistakes: [
+          "Дублировать типы вместо переиспользования.",
+          "Делать все поля optional и терять гарантии."
+        ],
         resources: [
-          ["TS: Object types", "https://www.typescriptlang.org/docs/handbook/2/objects.html"]
+          ["TS: Object types", "https://www.typescriptlang.org/docs/handbook/2/objects.html"],
+          ["TS: Interfaces", "https://www.typescriptlang.org/docs/handbook/2/objects.html#interfaces"]
         ]
       },
       {
-        title: "Функции и generics",
-        desc: "Типизация аргументов и возврата, generics с constraints, вывод типов, перегрузки.",
-        practice: "Напиши типизированный API-клиент и функцию groupBy с generics.",
-        checkpoint: "Generics выводятся без ручных подсказок, а вызовы не требуют any.",
+        title: "Union, intersection и литеральные типы",
+        desc: "Объединения, пересечения, literal types, дискриминированные union-ы для состояний.",
+        practice: "Смоделируй состояние загрузки через union idle/loading/success/error вместо набора boolean-флагов.",
+        checkpoint: "Состояние невозможно представить в недопустимой комбинации.",
+        mistakes: [
+          "Моделировать состояние набором boolean-флагов.",
+          "Забывать обработать все варианты union."
+        ],
         resources: [
-          ["TS: Generics", "https://www.typescriptlang.org/docs/handbook/2/generics.html"],
-          ["TS: More on functions", "https://www.typescriptlang.org/docs/handbook/2/functions.html"]
+          ["TS: Union types", "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#union-types"],
+          ["TS: Literal types", "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#literal-types"]
         ]
       },
       {
-        title: "Сужение типов",
-        desc: "typeof/instanceof, type guards, discriminated unions, assertion. Учись не использовать as без нужды.",
+        title: "Сужение типов и type guards",
+        desc: "typeof/instanceof, in, type guards, discriminated unions, assertion functions, exhaustive checks.",
         practice: "Обработай discriminated union статусов загрузки через type guard и switch без приведения типов.",
         checkpoint: "Компилятор сам сужает тип в каждой ветке, а as остаётся только в крайнем случае.",
+        mistakes: [
+          "Верить as вместо реальной проверки.",
+          "Забывать, что typeof null === object."
+        ],
         resources: [
           ["TS: Narrowing", "https://www.typescriptlang.org/docs/handbook/2/narrowing.html"]
         ]
       },
       {
+        title: "Функции, перегрузки и this",
+        desc: "Параметры, optional/default/rest, возвращаемые типы, overloads, this-типизация.",
+        practice: "Напиши типизированную функцию с перегрузкой и объясни, почему она лучше union-аргумента.",
+        checkpoint: "Функции типизированы без any, а overloads используются только там, где действительно нужны.",
+        mistakes: [
+          "Типизировать всё any и называть это типизацией.",
+          "Игнорировать this и получать ошибки в методах."
+        ],
+        resources: [
+          ["TS: More on functions", "https://www.typescriptlang.org/docs/handbook/2/functions.html"]
+        ]
+      },
+      {
+        title: "Generics",
+        desc: "Обобщения, constraints, вывод типов, generic-компоненты и API-клиенты.",
+        practice: "Напиши типизированный API-клиент и функцию groupBy с generics.",
+        checkpoint: "Generics выводятся без ручных подсказок, а вызовы не требуют any.",
+        mistakes: [
+          "Писать generic ради generic.",
+          "Забывать constraints и терять свойства аргумента."
+        ],
+        resources: [
+          ["TS: Generics", "https://www.typescriptlang.org/docs/handbook/2/generics.html"]
+        ]
+      },
+      {
         title: "Utility types",
-        desc: "Partial, Pick, Omit, Record, ReturnType, keyof/typeof — повседневные инструменты.",
+        desc: "Partial, Pick, Omit, Record, ReturnType, Parameters, keyof/typeof.",
         practice: "Сделай DTO для создания и обновления новеллы через Pick, Omit и Partial.",
         checkpoint: "Не копируешь поля вручную и не теряешь связь DTO с доменной моделью.",
+        mistakes: [
+          "Копировать DTO вручную.",
+          "Делать Partial на доменной модели без причины."
+        ],
         resources: [
           ["TS: Utility types", "https://www.typescriptlang.org/docs/handbook/utility-types.html"]
         ]
       },
       {
-        title: "tsconfig",
-        desc: "strict, target, moduleResolution, paths, include/exclude. Понимай, что включает каждая опция.",
+        title: "Модули и tsconfig",
+        desc: "import/export, strict, target, moduleResolution, paths, include/exclude, declaration.",
         practice: "Включи strict, path aliases и noUncheckedIndexedAccess, затем объясни каждую опцию в конфиге.",
         checkpoint: "Конфиг понятен, сборка не ломается, а алиасы работают в IDE и Vite.",
+        mistakes: [
+          "Копировать tsconfig из чужого проекта без понимания.",
+          "Включать skipLibCheck и не понимать, какие ошибки скрываются."
+        ],
         resources: [
-          ["TS: tsconfig reference", "https://www.typescriptlang.org/tsconfig/"]
+          ["TS: tsconfig reference", "https://www.typescriptlang.org/tsconfig/"],
+          ["TS: Modules", "https://www.typescriptlang.org/docs/handbook/2/modules.html"]
         ]
       },
       {
         title: "Vite",
-        desc: "Dev server, HMR, build, preview, env-переменные, алиасы, плагины.",
+        desc: "Dev server, HMR, build, preview, env-переменные, алиасы, плагины, production-сборка.",
         practice: "Настрой dev/build/preview, env-переменные и alias, проверь HMR и production-сборку.",
         checkpoint: "Production build открывается локально и работает без dev-сервера.",
+        mistakes: [
+          "Коммитить dist и путать его с исходниками.",
+          "Хардкодить API URL вместо env-переменной."
+        ],
         resources: [
           ["Vite: Getting started", "https://vite.dev/guide/"],
           ["Vite: Env variables", "https://vite.dev/guide/env-and-mode"]
         ]
       },
       {
-        title: "npm и качество кода",
-        desc: "package.json, lockfile, scripts; ESLint flat config, Prettier, vue-tsc. Единый стиль экономит ревью.",
-        practice: "Настрой ESLint flat config, Prettier и скрипты lint/format/typecheck для проекта.",
-        checkpoint: "Одна команда проверяет весь фронтенд, а CI запускает её без отличий.",
+        title: "npm и управление зависимостями",
+        desc: "package.json, scripts, semver, lockfile, npx, аудит зависимостей.",
+        practice: "Настрой скрипты dev/build/lint/test и объясни, чем dependencies отличаются от devDependencies.",
+        checkpoint: "Проект ставится с нуля по lockfile, а версии зависимостей не «плывут».",
+        mistakes: [
+          "Использовать latest без lockfile.",
+          "Игнорировать npm audit и предупреждения безопасности."
+        ],
         resources: [
           ["npm docs", "https://docs.npmjs.com"],
-          ["ESLint: Getting started", "https://eslint.org/docs/latest/use/getting-started"],
+          ["npm: package.json", "https://docs.npmjs.com/cli/v11/configuring-npm/package-json"]
+        ]
+      },
+      {
+        title: "ESLint, Prettier и vue-tsc",
+        desc: "Единый стиль, правила, flat config, форматирование, проверка типов, интеграция с IDE.",
+        practice: "Настрой ESLint, Prettier и vue-tsc, добавь скрипты lint/format/typecheck и исправь все ошибки.",
+        checkpoint: "Одна команда проверяет стиль и типы, а CI запускает её без отличий.",
+        mistakes: [
+          "Спорить о стиле вместо автоформата.",
+          "Отключать правила пачкой, чтобы проверка прошла."
+        ],
+        resources: [
+          ["ESLint", "https://eslint.org/docs/latest/"],
           ["Prettier", "https://prettier.io/docs/"]
         ]
       },
       {
-        title: "Типизация API",
-        desc: "DTO, ответы-обёртки, дженерик-запросы, валидация через zod (по желанию).",
+        title: "Типизация API и DTO",
+        desc: "DTO, ответы-обёртки, unknown, runtime-валидация через zod, обработка неожиданных данных.",
         practice: "Типизируй ответы публичного API и провалидируй их zod-схемой перед использованием.",
         checkpoint: "Неизвестный или битый ответ API не роняет приложение, а даёт понятную ошибку.",
+        mistakes: [
+          "Верить, что API всегда вернёт ожидаемое.",
+          "Типизировать ответ без runtime-проверки."
+        ],
         resources: [
           ["zod docs", "https://zod.dev"],
-          ["TS: TypeScript from JS", "https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html"]
+          ["TS: TypeScript from scratch", "https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html"]
+        ]
+      },
+      {
+        title: "Vitest: первые тесты",
+        desc: "describe/it, expect, matchers, тестирование функций и composables, моки, watch-режим.",
+        practice: "Напиши пять тестов на функции форматирования и фильтрации, один тест с моком и запусти coverage.",
+        checkpoint: "Тесты проверяют поведение, а не реализацию, и падают при реальной регрессии.",
+        mistakes: [
+          "Тестировать реализацию вместо поведения.",
+          "Писать тесты, которые проходят всегда."
+        ],
+        resources: [
+          ["Vitest", "https://vitest.dev/guide/"],
+          ["Vitest: Mocking", "https://vitest.dev/guide/mocking"]
         ]
       }
     ],
     practice: [
       "Перенеси ридер на Vite + TypeScript в strict-режиме.",
-      "Опиши модели Novel/Chapter/User, типизируй ответы API, настрой ESLint/Prettier и добейся сборки без ошибок."
+      "Опиши модели Novel/Chapter/User, типизируй API и добавь runtime-валидацию.",
+      "Настрой ESLint/Prettier/vue-tsc и напиши первые тесты на Vitest."
     ],
     checkpoint: [
       "В проекте нет any, ошибки типов понятны и исправляются.",
-      "Сборка и линтеры запускаются одной командой.",
-      "Объяснить, зачем нужен strict и как работает вывод типов."
+      "Сборка, линтеры и тесты запускаются одной командой.",
+      "Объяснить, зачем нужен strict и как работает вывод типов.",
+      "Один тест действительно ловит регрессию."
     ],
     resources: [
       ["TypeScript Handbook", "https://www.typescriptlang.org/docs/handbook/intro.html"],
       ["Vite docs", "https://vite.dev/guide/"],
       ["ESLint docs", "https://eslint.org/docs/latest/"],
-      ["Prettier docs", "https://prettier.io/docs/"]
+      ["Prettier docs", "https://prettier.io/docs/"],
+      ["Vitest docs", "https://vitest.dev/guide/"]
     ]
   },
 {
