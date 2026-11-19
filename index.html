@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Интерактивный roadmap: от нуля до full-stack платформы уровня FogrestRead (FLIB) на Laravel, Vue, Inertia и Docker. 13 этапов, 118 тем, практика и чекпоинты.">
+<meta name="theme-color" content="#07070d">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Roadmap: от нуля до платформы как FLIB">
+<meta property="og:description" content="13 этапов, 118 тем с практикой, чекпоинтами и ресурсами. Laravel, Vue, Inertia, MySQL, Redis, Docker.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<title>Roadmap: от нуля до платформы как FLIB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true">
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+  <div class="grid"></div>
+</div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#top" aria-label="Наверх">
+      <span class="brand-mark">F</span>
+      <span class="brand-text">FLIB<em>learning path</em></span>
+    </a>
+    <div class="top-progress" aria-live="polite">
+      <div class="tp-row"><span id="tp-label">0 / 0 тем</span><span id="tp-pct">0%</span></div>
+      <div class="track"><i id="tp-bar"></i></div>
+    </div>
+    <div class="top-actions">
+      <div class="pace" role="group" aria-label="Темп обучения, часов в неделю">
+        <span class="pace-label">ч/нед</span>
+        <button type="button" data-pace="10" aria-pressed="false">10</button>
+        <button type="button" data-pace="15" aria-pressed="true" class="active">15</button>
+        <button type="button" data-pace="20" aria-pressed="false">20</button>
+        <button type="button" data-pace="25" aria-pressed="false">25</button>
+      </div>
+      <button class="icon-btn" id="reset" type="button" title="Сбросить прогресс" aria-label="Сбросить прогресс">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="top-mini" aria-hidden="true"><i id="tp-mini"></i></div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <div class="badge"><span class="pulse"></span>Roadmap · Laravel + Vue + Inertia</div>
+        <h1>От нуля до платформы,<br><span class="grad">как FLIB</span></h1>
+        <p class="hero-sub">Пошаговый путь от «не знаю, что такое терминал» до работающего продукта: <b>Laravel, Vue 3, Inertia, MySQL, Redis, Docker, тесты и деплой</b>. Каждый этап — теория, практика и чекпоинт, без которого нельзя идти дальше.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#stage-0">Начать с этапа 0 <span class="arr">→</span></a>
+          <a class="btn ghost" href="#finish">Посмотреть финиш</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><strong id="stat-stages">13</strong><span>этапов</span></div>
+          <div class="stat"><strong id="stat-hours">≈ 920</strong><span>часов практики</span></div>
+          <div class="stat"><strong id="stat-months">≈ 14</strong><span>мес при <b id="stat-pace">15</b> ч/нед</span></div>
+          <div class="stat"><strong id="stat-topics">0 / 0</strong><span>тем отмечено</span></div>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="terminal">
+          <div class="term-bar"><span></span><span></span><span></span><em>~/flib</em></div>
+          <pre><span class="c">$</span> git clone git@github.com:krade88/FLIB.git
+<span class="c">$</span> composer install
+<span class="c">$</span> npm install <span class="dim">&amp;&amp;</span> npm run build
+<span class="c">$</span> php artisan migrate --seed
+<span class="c">$</span> docker compose up -d
+
+<span class="ok">✓</span> FogrestRead <span class="dim">running on</span> <span class="link">localhost:8080</span></pre>
+        </div>
+        <span class="float-chip chip-vue">Vue 3</span>
+        <span class="float-chip chip-laravel">Laravel 13</span>
+        <span class="float-chip chip-docker">Docker</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="route">
+    <div class="sec-head">
+      <div><span class="eyebrow">Обзор</span><h2>Карта маршрута</h2></div>
+      <p>Шесть смысловых блоков и 13 этапов. Сначала фундамент, затем сервер, связка, качество и только потом большой продукт.</p>
+    </div>
+    <div class="route-card">
+      <div class="route-bar" id="route-bar" aria-hidden="true"></div>
+      <div class="route-legend" id="route-legend"></div>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="sec-head">
+      <div><span class="eyebrow">Принципы</span><h2>Как пройти путь</h2></div>
+      <p>Дело не в количестве просмотренных курсов, а в количестве написанного и отлаженного кода.</p>
+    </div>
+    <div class="how-grid">
+      <div class="principle"><span class="num">01</span><h3>70% практики</h3><p>Читай и смотри не больше 30% времени. Остальное — руками: сверстай, сломай, почини, объясни.</p></div>
+      <div class="principle"><span class="num">02</span><h3>Проект на этапе</h3><p>Каждый блок заканчивается маленьким продуктом. Это и проверка знаний, и будущее портфолио.</p></div>
+      <div class="principle"><span class="num">03</span><h3>Чекпоинт — ворота</h3><p>Не иди дальше, пока не можешь сделать без подсказок и объяснить своими словами. Лучше задержаться.</p></div>
+      <div class="principle"><span class="num">04</span><h3>Повторение</h3><p>Возвращайся к старым темам раз в 1–2 недели. Веди конспект, git-дневник и список вопросов.</p></div>
+    </div>
+    <div class="notes">
+      <div class="note">
+        <h4>Комфортный ритм</h4>
+        <p>2–3 будних вечера по 1,5–2 часа плюс один блок 4–6 часов в выходные — это 10–20 часов в неделю. Обязательно оставляй один день без учёбы. Темп можно менять переключателем сверху: сроки на карточках пересчитаются.</p>
+      </div>
+      <div class="note avoid">
+        <h4>Что не учить сейчас</h4>
+        <div class="avoid-chips">
+          <span>Kubernetes</span><span>микросервисы</span><span>GraphQL</span><span>React и Angular сразу</span><span>LeetCode до одури</span><span>«ещё один курс» вместо проекта</span>
+        </div>
+        <p>Всё это отвлекает от главного. Сначала — один законченный стек и один задеплоенный продукт. Остальное добавишь потом, когда будет база.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="path">
+    <div class="timeline-head">
+      <div><span class="eyebrow">Этапы</span><h2>Маршрут по шагам</h2></div>
+      <p>Кликни по этапу, чтобы раскрыть план. У каждой темы — своя практика, чекпоинт и ресурсы: нажми «Практика» рядом с темой. Отмечай темы — прогресс сохраняется в браузере.</p>
+    </div>
+    <div class="timeline" id="timeline"></div>
+  </section>
+
+  <section class="wrap finish" id="finish">
+    <div class="finish-card">
+      <div class="finish-top">
+        <div class="finish-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4"/><path d="M4 4h12l-2 4 2 4H4"/></svg>
+        </div>
+        <div>
+          <span class="eyebrow">Финишная точка</span>
+          <h2>Платформа, как FLIB — своими руками</h2>
+        </div>
+        <div class="finish-badge">100%</div>
+      </div>
+      <div class="finish-grid">
+        <div>
+          <h3>Что ты умеешь на финише</h3>
+          <ul class="finish-list">
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Проектируешь БД и пишешь SQL без страха</li>
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Строишь Laravel-бэкенд с ролями, очередями и тестами</li>
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Собираешь SPA на Vue + Inertia + Tailwind</li>
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Настраиваешь CI, Docker и деплой на VPS</li>
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Закрываешь базовые риски безопасности</li>
+            <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Доводишь продукт до состояния, которое не стыдно показать</li>
+          </ul>
+        </div>
+        <div class="level-card">
+          <span class="eyebrow">Уровень на выходе</span>
+          <strong>Junior → ранний Middle</strong>
+          <p>Не потому что «прошёл курс», а потому что самостоятельно построил, протестировал и задеплоил полноценный продукт. Это сильнее любого сертификата — при условии, что ты понимаешь каждое решение.</p>
+        </div>
+      </div>
+      <div class="finish-note">
+        <b>Про время.</b> 920 часов — ориентир, а не дедлайн. При 15 ч/нед это ≈ 14 месяцев, при 20 ч/нед — ≈ 11, при 25 ч/нед — ≈ 8–9. Если делаешь перерывы или возвращаешься назад — это нормально. Быстрее не значит лучше; важнее дойти до работающего продукта.
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>Собрано по стеку <b>FLIB / FogrestRead</b> · Laravel 13 · Vue 3 · Inertia 2 · Tailwind 4 · Docker</span>
+    <span><a href="https://github.com/krade88/RM-FLIB" target="_blank" rel="noopener noreferrer">Исходники на GitHub ↗</a> · прогресс хранится локально · 2026</span>
+  </div>
+</footer>
+
+<nav class="dotnav" id="dotnav" aria-label="Навигация по этапам"></nav>
+
+<script src="js/data.js" defer></script>
+<script src="js/app.js" defer></script>
+</body>
+</html>
