@@ -2,27 +2,35 @@
    RM-FLIB — roadmap content
    13 stages, 137 topics. Each topic contains:
    practice, checkpoint and resources; foundation topics also
-   include typical mistakes.
-   Loaded before app.js.
+   include typical mistakes. Practice platforms and Russian
+   alternatives are included in stage resources.
    ========================================================================== */
 
 const STAGES = [
-{
-    n: 0, key: "s0", group: "Фундамент",
+  {
+    n: 0,
+    key: "s0",
+    group: "Фундамент",
     title: "Старт: веб, терминал и Git",
     lead: "Самый первый этап — не про код, а про среду. Разберись, как браузер общается с сервером, как работает терминал, как не потерять изменения в Git и как искать ответы, когда что-то сломалось. Это фундамент, на котором держатся все остальные этапы.",
     hours: 30,
-    tech: ["Терминал", "Git", "GitHub", "HTTP", "DevTools", "VS Code", "Markdown", "Security"],
+    tech: [
+      "Терминал",
+      "Git",
+      "GitHub",
+      "HTTP",
+      "DevTools",
+      "VS Code",
+      "Markdown",
+      "Security"
+    ],
     learn: [
       {
         title: "Как работает интернет",
         desc: "Клиент и сервер, DNS, IP, порты, HTTP/HTTPS, методы, статус-коды, заголовки, cookies. Цель — понимать, что происходит после ввода адреса.",
         practice: "Нарисуй схему пути запроса к /novels/42: DNS → TCP → HTTP → ответ сервера → рендер. Подпиши каждый шаг и объясни, где может возникнуть ошибка.",
         checkpoint: "Объясняешь без подсказок, что происходит между вводом URL и появлением страницы, и чем 404 отличается от 500.",
-        mistakes: [
-          "Путать DNS с HTTP и думать, что браузер «просто открывает файл на сервере».",
-          "Считать 404 ошибкой сервера — это ответ клиенту о том, что ресурс не найден."
-        ],
+        mistakes: ["Путать DNS с HTTP и думать, что браузер «просто открывает файл на сервере».", "Считать 404 ошибкой сервера — это ответ клиенту о том, что ресурс не найден."],
         resources: [
           ["MDN: How the web works", "https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Web_standards/How_the_web_works"],
           ["MDN: HTTP overview", "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview"]
@@ -33,10 +41,7 @@ const STAGES = [
         desc: "Вкладки Elements, Console, Network, Application, Sources. Как браузер кэширует файлы, хранит cookies и localStorage и почему изменения не видны.",
         practice: "Открой сайт, найди HTML-документ в Network, посмотри статус, заголовки и время. Найди закэшированный ресурс и проверь cookies/localStorage в Application.",
         checkpoint: "По Network и Application объясняешь, почему запрос упал, откуда взялся старый файл и где хранится состояние.",
-        mistakes: [
-          "Искать ошибку в CSS, когда в Network видно, что запрос вообще не выполнился.",
-          "Забывать про кэш и смотреть старую версию файла после изменений."
-        ],
+        mistakes: ["Искать ошибку в CSS, когда в Network видно, что запрос вообще не выполнился.", "Забывать про кэш и смотреть старую версию файла после изменений."],
         resources: [
           ["Chrome DevTools", "https://developer.chrome.com/docs/devtools/"],
           ["MDN: HTTP caching", "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching"]
@@ -47,10 +52,7 @@ const STAGES = [
         desc: "Навигация по папкам, создание и удаление файлов, пути, переменные окружения, процессы. PowerShell на Windows и базовый bash пригодятся в Docker и на сервере.",
         practice: "Создай папку проекта, три файла, переименуй и перемести их, выведи содержимое. Задай переменную окружения и прочитай её в новом процессе.",
         checkpoint: "Свободно ходишь по файловой системе, понимаешь абсолютные и относительные пути и не боишься пробелов в путях.",
-        mistakes: [
-          "Не экранировать пробелы и кириллицу в путях.",
-          "Запускать команды не в той папке и удивляться, что файл не найден."
-        ],
+        mistakes: ["Не экранировать пробелы и кириллицу в путях.", "Запускать команды не в той папке и удивляться, что файл не найден."],
         resources: [
           ["MDN: Command line crash course", "https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Environment_setup/Command_line"],
           ["PowerShell docs", "https://learn.microsoft.com/en-us/powershell/"]
@@ -61,10 +63,7 @@ const STAGES = [
         desc: "Репозиторий, рабочая директория, staging, commit, log, status, diff, .gitignore. Как сохранять изменения и читать историю проекта.",
         practice: "Инициализируй репозиторий, сделай пять коммитов, посмотри историю и diff, добавь .gitignore и проверь, что лишние файлы не попадают в статус.",
         checkpoint: "Понимаешь разницу между рабочей директорией, индексом и коммитом и можешь объяснить, что делает каждая команда.",
-        mistakes: [
-          "Коммитить .env, node_modules и файлы IDE.",
-          "Писать коммиты вида «fix» без объяснения, что изменилось."
-        ],
+        mistakes: ["Коммитить .env, node_modules и файлы IDE.", "Писать коммиты вида «fix» без объяснения, что изменилось."],
         resources: [
           ["Git Book (рус.)", "https://git-scm.com/book/ru/v2"],
           ["Git: gitignore", "https://git-scm.com/docs/gitignore"]
@@ -75,10 +74,7 @@ const STAGES = [
         desc: "Ветки, merge, rebase, конфликты, restore, reset, revert. Как экспериментировать безопасно и не бояться потерять работу.",
         practice: "Сделай две ветки с разными изменениями, слей их и специально вызови конфликт. Откати файл через restore и один коммит через revert.",
         checkpoint: "Разрешаешь конфликт вручную, понимаешь, чем reset отличается от revert, и можешь безопасно откатить изменение.",
-        mistakes: [
-          "Паниковать при конфликте и удалять репозиторий вместо разрешения.",
-          "Делать rebase в общей ветке без согласования с командой."
-        ],
+        mistakes: ["Паниковать при конфликте и удалять репозиторий вместо разрешения.", "Делать rebase в общей ветке без согласования с командой."],
         resources: [
           ["Learn Git Branching", "https://learngitbranching.js.org/?locale=ru_RU"],
           ["Git: restore", "https://git-scm.com/docs/git-restore"]
@@ -89,10 +85,7 @@ const STAGES = [
         desc: "Remote, push/pull, SSH-ключи, pull request, issues, review, защищённые ветки. Как работать так, чтобы не ломать main.",
         practice: "Запушь репозиторий на GitHub, создай отдельную ветку, открой pull request и опиши изменения так, чтобы ревьюер понял их без вопросов.",
         checkpoint: "Делаешь fork/branch/PR без подсказок, понимаешь, что такое remote и как подтянуть изменения из main.",
-        mistakes: [
-          "Работать напрямую в main без ветки и PR.",
-          "Забывать подтянуть main перед созданием pull request."
-        ],
+        mistakes: ["Работать напрямую в main без ветки и PR.", "Забывать подтянуть main перед созданием pull request."],
         resources: [
           ["GitHub Skills", "https://skills.github.com"],
           ["GitHub Flow", "https://docs.github.com/en/get-started/using-github/github-flow"]
@@ -103,10 +96,7 @@ const STAGES = [
         desc: "Рабочая область, расширения, форматирование, встроенный терминал, отладчик, поиск по проекту, сниппеты.",
         practice: "Настрой пять расширений, форматирование при сохранении, пользовательский сниппет и отладку простого JS-файла с breakpoint.",
         checkpoint: "Рабочее место настроено, отладчик останавливается на breakpoint и показывает значения переменных.",
-        mistakes: [
-          "Ставить десятки расширений, но не настроить форматирование и отладку.",
-          "Игнорировать встроенный отладчик и отлаживать только console.log."
-        ],
+        mistakes: ["Ставить десятки расширений, но не настроить форматирование и отладку.", "Игнорировать встроенный отладчик и отлаживать только console.log."],
         resources: [
           ["VS Code docs", "https://code.visualstudio.com/docs"],
           ["VS Code tips", "https://code.visualstudio.com/docs/getstarted/tips-and-tricks"]
@@ -117,10 +107,7 @@ const STAGES = [
         desc: "README, issues, комментарии, конспекты. Умение объяснить решение — часть инженерной работы.",
         practice: "Напиши README для будущего проекта: описание, стек, установка, структура папок и один скриншот.",
         checkpoint: "README понятен человеку, который видит проект впервые и ничего о нём не знает.",
-        mistakes: [
-          "README без команды запуска и переменных окружения.",
-          "Скриншоты без подписей и контекста."
-        ],
+        mistakes: ["README без команды запуска и переменных окружения.", "Скриншоты без подписей и контекста."],
         resources: [
           ["Markdown Guide", "https://www.markdownguide.org"],
           ["GitHub: About READMEs", "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes"]
@@ -131,13 +118,11 @@ const STAGES = [
         desc: "Чтение stack trace, формулировка проблемы, поиск по документации, Stack Overflow и issue-трекерам. Учись задавать вопрос так, чтобы на него можно было ответить.",
         practice: "Возьми реальную ошибку из консоли, сформулируй проблему в трёх предложениях и найди ответ в документации или обсуждении. Запиши ход мысли.",
         checkpoint: "Не копируешь первое решение, а понимаешь причину ошибки и можешь объяснить, почему выбранный фикс работает.",
-        mistakes: [
-          "Копировать решение со Stack Overflow без понимания и проверки версии.",
-          "Игнорировать первые строки stack trace и читать только последнюю."
-        ],
+        mistakes: ["Копировать решение со Stack Overflow без понимания и проверки версии.", "Игнорировать первые строки stack trace и читать только последнюю."],
         resources: [
           ["Stack Overflow: How to ask", "https://stackoverflow.com/help/how-to-ask"],
-          ["MDN: Debugging HTML", "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Debugging_HTML"]
+          ["MDN: Debugging HTML", "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Debugging_HTML"],
+          ["freeCodeCamp: How to Google", "https://www.freecodecamp.org/news/how-to-google-like-a-pro/"]
         ]
       },
       {
@@ -145,10 +130,7 @@ const STAGES = [
         desc: "Менеджер паролей, 2FA, секреты не попадают в Git, .env в .gitignore, принцип минимальных прав.",
         practice: "Включи 2FA на GitHub, настрой менеджер паролей, проверь .gitignore и историю репозитория на случайные секреты.",
         checkpoint: "Секреты не попадают в git, доступы защищены, а при утечке понятно, что делать.",
-        mistakes: [
-          "Хранить токены и пароли прямо в коде или коммите.",
-          "Использовать один пароль для GitHub, почты и хостинга."
-        ],
+        mistakes: ["Хранить токены и пароли прямо в коде или коммите.", "Использовать один пароль для GitHub, почты и хостинга."],
         resources: [
           ["GitHub: 2FA", "https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa"],
           ["GitHub: Secret scanning", "https://docs.github.com/en/code-security/secret-scanning"]
@@ -170,25 +152,35 @@ const STAGES = [
       ["Git Book (рус.)", "https://git-scm.com/book/ru/v2"],
       ["GitHub Skills", "https://skills.github.com"],
       ["Learn Git Branching", "https://learngitbranching.js.org/?locale=ru_RU"],
-      ["Stack Overflow: How to ask", "https://stackoverflow.com/help/how-to-ask"]
+      ["Stack Overflow: How to ask", "https://stackoverflow.com/help/how-to-ask"],
+      ["Oh My Git!", "https://ohmygit.org/"],
+      ["Command Line Challenge", "https://cmdchallenge.com/"]
     ]
   },
   {
-    n: 1, key: "s1", group: "Фундамент",
+    n: 1,
+    key: "s1",
+    group: "Фундамент",
     title: "HTML и CSS: от структуры до адаптивного интерфейса",
     lead: "HTML отвечает за смысл и структуру, CSS — за внешний вид. Здесь ты не просто выучишь теги и свойства, а научишься собирать интерфейс, который понятен браузеру, скринридеру и человеку на телефоне.",
     hours: 70,
-    tech: ["HTML", "CSS", "Flexbox", "Grid", "Tailwind CSS", "Адаптив", "A11y", "Figma"],
+    tech: [
+      "HTML",
+      "CSS",
+      "Flexbox",
+      "Grid",
+      "Tailwind CSS",
+      "Адаптив",
+      "A11y",
+      "Figma"
+    ],
     learn: [
       {
         title: "Документ и структура HTML",
         desc: "doctype, html, head, meta, title, body, заголовки, списки, ссылки. Как из отдельных тегов получается логичный документ.",
         practice: "Сверстай скелет страницы новеллы: head с meta, header, main, article, aside, footer. Проверь через W3C-валидатор.",
         checkpoint: "Документ проходит валидатор, а его структуру можно понять с отключёнными стилями.",
-        mistakes: [
-          "Забывать viewport meta и потом удивляться мобильной вёрстке.",
-          "Использовать div вместо заголовков и списков там, где они очевидны."
-        ],
+        mistakes: ["Забывать viewport meta и потом удивляться мобильной вёрстке.", "Использовать div вместо заголовков и списков там, где они очевидны."],
         resources: [
           ["MDN: HTML basics", "https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Structuring_content"],
           ["web.dev: Semantic HTML", "https://web.dev/learn/html/semantic-html"]
@@ -199,10 +191,7 @@ const STAGES = [
         desc: "header/nav/main/section/article/footer, landmarks, alt, порядок заголовков, keyboard focus. Семантика помогает SEO, доступности и тебе самому.",
         practice: "Перепиши страницу так, чтобы по ней можно было пройти клавишей Tab, а скринридер читал заголовки и ссылки осмысленно.",
         checkpoint: "У страницы есть один h1, логичный порядок заголовков, alt у изображений и видимый focus.",
-        mistakes: [
-          "Делать кликабельные div вместо button и ссылок.",
-          "Писать alt вида «картинка» или «изображение»."
-        ],
+        mistakes: ["Делать кликабельные div вместо button и ссылок.", "Писать alt вида «картинка» или «изображение»."],
         resources: [
           ["web.dev: Learn Accessibility", "https://web.dev/learn/accessibility"],
           ["MDN: Accessibility", "https://developer.mozilla.org/ru/docs/Web/Accessibility"]
@@ -213,10 +202,7 @@ const STAGES = [
         desc: "img, figure, figcaption, srcset, video/audio, table, caption, th. Когда таблица уместна, а когда это уже layout.",
         practice: "Добавь на страницу обложку с srcset, figure с подписью и таблицу характеристик с caption и th.",
         checkpoint: "Картинки не растягиваются, таблица читается на мобильном, а медиа не ломает layout.",
-        mistakes: [
-          "Растягивать изображение без aspect-ratio и получать скачки layout.",
-          "Использовать table для вёрстки колонок."
-        ],
+        mistakes: ["Растягивать изображение без aspect-ratio и получать скачки layout.", "Использовать table для вёрстки колонок."],
         resources: [
           ["MDN: Images", "https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Structuring_content/HTML_images"],
           ["MDN: Tables", "https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Structuring_content/HTML_table_basics"]
@@ -227,10 +213,7 @@ const STAGES = [
         desc: "input всех типов, label, fieldset, required, pattern, autocomplete. Формы — основа регистрации, публикации глав и админки.",
         practice: "Сверстай форму регистрации с label, required, autocomplete, fieldset и блоком сообщений об ошибках.",
         checkpoint: "Форма заполняется с клавиатуры, браузер валидирует поля, а ошибки понятны без цвета.",
-        mistakes: [
-          "Использовать placeholder вместо label.",
-          "Полагаться только на клиентскую валидацию и не проверять данные на сервере."
-        ],
+        mistakes: ["Использовать placeholder вместо label.", "Полагаться только на клиентскую валидацию и не проверять данные на сервере."],
         resources: [
           ["MDN: Forms guide", "https://developer.mozilla.org/ru/docs/Learn_web_development/Extensions/Forms"],
           ["web.dev: Forms", "https://web.dev/learn/forms"]
@@ -241,10 +224,7 @@ const STAGES = [
         desc: "Селекторы, каскад, специфичность, наследование, слои, порядок правил. Почему одно правило побеждает другое.",
         practice: "Сверстай карточку новеллы и объясни, почему конкретное свойство победило. Перепиши конфликт без !important.",
         checkpoint: "Понимаешь специфичность и можешь предсказать, какое правило применится, не открывая DevTools.",
-        mistakes: [
-          "Воевать с CSS через !important и делать стили непредсказуемыми.",
-          "Не понимать, почему правило не применилось, и добавлять ещё десять селекторов."
-        ],
+        mistakes: ["Воевать с CSS через !important и делать стили непредсказуемыми.", "Не понимать, почему правило не применилось, и добавлять ещё десять селекторов."],
         resources: [
           ["MDN: Cascade and inheritance", "https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Styling_basics/Handling_conflicts"],
           ["web.dev: The cascade", "https://web.dev/learn/css/the-cascade"]
@@ -255,10 +235,7 @@ const STAGES = [
         desc: "box-sizing, margin/padding/border, px/rem/em/%, line-height, font-size, контраст, читаемость. Основа аккуратного интерфейса.",
         practice: "Собери типографическую шкалу и карточку с box-sizing: border-box, проверь контраст и читаемость на мобильном.",
         checkpoint: "Отступы не «схлопываются» неожиданно, текст читается, а размеры не зависят от случайного родителя.",
-        mistakes: [
-          "Забывать box-sizing: border-box и считать ширину вручную.",
-          "Делать слишком мелкий текст и низкий контраст."
-        ],
+        mistakes: ["Забывать box-sizing: border-box и считать ширину вручную.", "Делать слишком мелкий текст и низкий контраст."],
         resources: [
           ["MDN: Box model", "https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Styling_basics/Box_model"],
           ["web.dev: Typography", "https://web.dev/learn/css/typography"]
@@ -269,10 +246,7 @@ const STAGES = [
         desc: "Главная и поперечная оси, justify-content, align-items, flex-wrap, flex-grow/shrink, gap. Одномерные раскладки: шапки, тулбары, карточки.",
         practice: "Сделай шапку сайта, панель фильтров и карточку с действиями на Flexbox, проверь перенос на узком экране.",
         checkpoint: "Можешь объяснить, где main axis, а где cross axis, и выбрать Flexbox осознанно.",
-        mistakes: [
-          "Путать главную и поперечную оси.",
-          "Ставить flex: 1 всем элементам без понимания, что должно расти."
-        ],
+        mistakes: ["Путать главную и поперечную оси.", "Ставить flex: 1 всем элементам без понимания, что должно расти."],
         resources: [
           ["CSS-Tricks: Flexbox", "https://css-tricks.com/snippets/css/a-guide-to-flexbox/"],
           ["Flexbox Froggy", "https://flexboxfroggy.com/#ru"]
@@ -283,10 +257,7 @@ const STAGES = [
         desc: "grid-template-columns/rows, fr, minmax, repeat, auto-fit, grid-area, выравнивание. Двумерные раскладки: каталоги, дашборды, страницы.",
         practice: "Сделай каталог карточек на Grid с auto-fit/minmax и перестрой его под три ширины экрана.",
         checkpoint: "Выбираешь Grid для двумерной раскладки и объясняешь, почему не Flexbox.",
-        mistakes: [
-          "Использовать Grid для простого одномерного списка.",
-          "Фиксировать все колонки в px и ломать адаптивность."
-        ],
+        mistakes: ["Использовать Grid для простого одномерного списка.", "Фиксировать все колонки в px и ломать адаптивность."],
         resources: [
           ["CSS-Tricks: Grid", "https://css-tricks.com/snippets/css/complete-guide-grid/"],
           ["Grid Garden", "https://cssgridgarden.com/#ru"]
@@ -297,10 +268,7 @@ const STAGES = [
         desc: "static/relative/absolute/fixed/sticky, stacking context, z-index, overflow, обрезка и скролл. Как делать модалки, тултипы и липкие панели.",
         practice: "Сделай липкую шапку, карточку с бейджем absolute и модальное окно без z-index 9999.",
         checkpoint: "Понимаешь, почему z-index не сработал, и не используешь абсолютное позиционирование для всей страницы.",
-        mistakes: [
-          "Строить весь layout на position: absolute.",
-          "Создавать z-index: 9999 вместо понимания stacking context."
-        ],
+        mistakes: ["Строить весь layout на position: absolute.", "Создавать z-index: 9999 вместо понимания stacking context."],
         resources: [
           ["MDN: Positioning", "https://developer.mozilla.org/ru/docs/Learn_web_development/Core/CSS_layout/Positioning"],
           ["MDN: Stacking context", "https://developer.mozilla.org/ru/docs/Web/CSS/CSS_positioned_layout/Understanding_z-index/Stacking_context"]
@@ -311,10 +279,7 @@ const STAGES = [
         desc: "Mobile-first, media queries, clamp(), min/max, responsive images, container queries. Как один интерфейс работает на 360 и 1440 px.",
         practice: "Сделай mobile-first страницу с тремя брейкпоинтами, clamp-типографикой и responsive-изображениями.",
         checkpoint: "На 360px нет горизонтального скролла, текст читается, а картинки не растягиваются.",
-        mistakes: [
-          "Делать desktop-first и потом чинить мобильную версию костылями.",
-          "Проверять вёрстку только на своём мониторе."
-        ],
+        mistakes: ["Делать desktop-first и потом чинить мобильную версию костылями.", "Проверять вёрстку только на своём мониторе."],
         resources: [
           ["web.dev: Responsive design", "https://web.dev/learn/design"],
           ["MDN: Media queries", "https://developer.mozilla.org/ru/docs/Web/CSS/CSS_media_queries/Using_media_queries"]
@@ -325,13 +290,12 @@ const STAGES = [
         desc: "hover/focus/active/disabled, ::before/::after, transition, transform, @keyframes, CSS-переменные, prefers-reduced-motion, тёмная тема.",
         practice: "Добавь состояния кнопок, переход темы на CSS-переменных, анимацию появления карточек и проверь prefers-reduced-motion.",
         checkpoint: "Фокус всегда видим, анимации не ломают layout и отключаются для reduced motion.",
-        mistakes: [
-          "Убирать outline у фокуса без замены.",
-          "Делать анимации, которые вызывают layout shift или мешают чтению."
-        ],
+        mistakes: ["Убирать outline у фокуса без замены.", "Делать анимации, которые вызывают layout shift или мешают чтению."],
         resources: [
           ["MDN: Pseudo-classes", "https://developer.mozilla.org/ru/docs/Web/CSS/Pseudo-classes"],
-          ["MDN: Using CSS custom properties", "https://developer.mozilla.org/ru/docs/Web/CSS/Using_CSS_custom_properties"]
+          ["MDN: Using CSS custom properties", "https://developer.mozilla.org/ru/docs/Web/CSS/Using_CSS_custom_properties"],
+          ["MDN: CSS animations", "https://developer.mozilla.org/ru/docs/Web/CSS/CSS_animations/Using_CSS_animations"],
+          ["MDN: prefers-reduced-motion", "https://developer.mozilla.org/ru/docs/Web/CSS/@media/prefers-reduced-motion"]
         ]
       },
       {
@@ -339,10 +303,7 @@ const STAGES = [
         desc: "Utility-first подход, шкала отступов, варианты состояний и брейкпоинтов, @theme-токены, dark variant, сборка через Vite. Именно Tailwind используется в FLIB.",
         practice: "Перепиши одну секцию на Tailwind, настрой тему через @theme и добавь dark variant.",
         checkpoint: "Нет хаоса классов, сборка проходит, а стили выглядят консистентно на всех страницах.",
-        mistakes: [
-          "Сваливать десятки классов в одну строку без компонентов и повторного использования.",
-          "Использовать arbitrary values вместо токенов темы."
-        ],
+        mistakes: ["Сваливать десятки классов в одну строку без компонентов и повторного использования.", "Использовать arbitrary values вместо токенов темы."],
         resources: [
           ["Tailwind docs", "https://tailwindcss.com/docs"],
           ["Tailwind: Theme variables", "https://tailwindcss.com/docs/theme"]
@@ -353,13 +314,11 @@ const STAGES = [
         desc: "Ритм, сетка, иерархия, типографика, цвет, состояния компонентов. Как читать макет и не угадывать отступы.",
         practice: "Повтори экран каталога из Figma или хорошего референса и сравни свой результат со скриншотом.",
         checkpoint: "Иерархия, отступы и типографика выглядят цельно, а не как набор случайных блоков.",
-        mistakes: [
-          "Делать все элементы одного размера и веса.",
-          "Копировать референс без понимания сетки и отступов."
-        ],
+        mistakes: ["Делать все элементы одного размера и веса.", "Копировать референс без понимания сетки и отступов."],
         resources: [
           ["Refactoring UI", "https://www.refactoringui.com"],
-          ["Figma: Learn", "https://help.figma.com/hc/en-us/categories/360002051613-Learn-Figma"]
+          ["Figma: Learn", "https://help.figma.com/hc/en-us/categories/360002051613-Learn-Figma"],
+          ["web.dev: Learn Design", "https://web.dev/learn/design"]
         ]
       }
     ],
@@ -378,25 +337,36 @@ const STAGES = [
       ["web.dev: Learn CSS", "https://web.dev/learn/css"],
       ["Tailwind CSS docs", "https://tailwindcss.com/docs"],
       ["Flexbox Froggy", "https://flexboxfroggy.com/#ru"],
-      ["Grid Garden", "https://cssgridgarden.com/#ru"]
+      ["Grid Garden", "https://cssgridgarden.com/#ru"],
+      ["Frontend Mentor", "https://www.frontendmentor.io/challenges"],
+      ["freeCodeCamp: Responsive Web Design", "https://www.freecodecamp.org/learn/2022/responsive-web-design/"],
+      ["Tailwind CSS на русском", "https://tailwindcss.ru/"]
     ]
   },
   {
-    n: 2, key: "s2", group: "Фундамент",
+    n: 2,
+    key: "s2",
+    group: "Фундамент",
     title: "JavaScript: от синтаксиса до интерфейса",
     lead: "JavaScript оживляет интерфейс: реагирует на клики, грузит данные, хранит настройки. Здесь важно не заучить синтаксис, а понять, как выполняется код, как устроены события и почему асинхронность ломает мозг.",
     hours: 90,
-    tech: ["JavaScript", "DOM", "Events", "Fetch", "Async", "Modules", "Storage", "DevTools"],
+    tech: [
+      "JavaScript",
+      "DOM",
+      "Events",
+      "Fetch",
+      "Async",
+      "Modules",
+      "Storage",
+      "DevTools"
+    ],
     learn: [
       {
         title: "Как выполняется JavaScript",
         desc: "Движок, стек вызовов, куча, single-thread, Web APIs, очередь задач. Почему JS не выполняется параллельно, но кажется асинхронным.",
         practice: "Нарисуй схему выполнения короткого скрипта: синхронный код → Promise → setTimeout. Объясни порядок вывода.",
         checkpoint: "Объясняешь, что такое call stack и почему тяжёлый цикл блокирует интерфейс.",
-        mistakes: [
-          "Думать, что JavaScript выполняет несколько функций одновременно.",
-          "Путать стек вызовов и кучу."
-        ],
+        mistakes: ["Думать, что JavaScript выполняет несколько функций одновременно.", "Путать стек вызовов и кучу."],
         resources: [
           ["javascript.info: Introduction", "https://learn.javascript.ru/intro"],
           ["MDN: Execution model", "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Execution_model"]
@@ -407,10 +377,7 @@ const STAGES = [
         desc: "let/const, примитивы, объекты, null/undefined, NaN, приведение типов, == и ===. Как не ловить баги на ровном месте.",
         practice: "Реши 15 задач на типы и приведение, выпиши пять неочевидных примеров и объясни каждый.",
         checkpoint: "Объясняешь разницу null/undefined, ==/===, let/const и почему объекты сравниваются по ссылке.",
-        mistakes: [
-          "Сравнивать через == и надеяться на магию приведения.",
-          "Считать null и undefined одним и тем же."
-        ],
+        mistakes: ["Сравнивать через == и надеяться на магию приведения.", "Считать null и undefined одним и тем же."],
         resources: [
           ["javascript.info: Types", "https://learn.javascript.ru/types"],
           ["MDN: Data structures", "https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Data_structures"]
@@ -421,10 +388,7 @@ const STAGES = [
         desc: "Арифметика, логические операторы, тернарник, switch, for/while, break/continue. Управление потоком выполнения.",
         practice: "Напиши функцию расчёта скидки с ветвлениями и циклом, покрой граничные случаи и проверь в консоли.",
         checkpoint: "Читаешь чужой код с вложенными условиями и можешь упростить его без изменения поведения.",
-        mistakes: [
-          "Забывать break в switch и проваливаться в следующий case.",
-          "Использовать присваивание = вместо сравнения ==="
-        ],
+        mistakes: ["Забывать break в switch и проваливаться в следующий case.", "Использовать присваивание = вместо сравнения ==="],
         resources: [
           ["javascript.info: Operators", "https://learn.javascript.ru/operators"],
           ["javascript.info: Conditions", "https://learn.javascript.ru/ifelse"]
@@ -435,10 +399,7 @@ const STAGES = [
         desc: "Объявления функций, выражения, стрелочные функции, параметры, return, область видимости, hoisting, TDZ.",
         practice: "Напиши пять функций с разными способами объявления и объясни, какие из них доступны до объявления.",
         checkpoint: "Понимаешь, где живёт переменная, почему let падает до инициализации и как работает return.",
-        mistakes: [
-          "Полагаться на hoisting и вызывать функцию до объявления.",
-          "Создавать функции внутри циклов без необходимости."
-        ],
+        mistakes: ["Полагаться на hoisting и вызывать функцию до объявления.", "Создавать функции внутри циклов без необходимости."],
         resources: [
           ["javascript.info: Functions", "https://learn.javascript.ru/function-basics"],
           ["javascript.info: Variable scope", "https://learn.javascript.ru/let-const"]
@@ -449,10 +410,7 @@ const STAGES = [
         desc: "Замыкания, лексическое окружение, this, call/apply/bind, потеря контекста в колбэках.",
         practice: "Напиши counter, once и debounce на замыканиях. Объясни this в трёх разных контекстах вызова.",
         checkpoint: "Объясняешь, где живёт переменная после возврата функции и почему this потерялся в колбэке.",
-        mistakes: [
-          "Терять this при передаче метода как колбэка.",
-          "Замыкать изменяемую переменную цикла и получать одинаковые значения."
-        ],
+        mistakes: ["Терять this при передаче метода как колбэка.", "Замыкать изменяемую переменную цикла и получать одинаковые значения."],
         resources: [
           ["javascript.info: Closures", "https://learn.javascript.ru/closure"],
           ["javascript.info: Object methods and this", "https://learn.javascript.ru/object-methods"]
@@ -463,10 +421,7 @@ const STAGES = [
         desc: "Методы массивов, объекты, деструктуризация, spread/rest, JSON, поверхностное и глубокое копирование, мутация.",
         practice: "Преобразуй массив глав: отфильтруй опубликованные, отсортируй по дате и собери объект по id.",
         checkpoint: "Используешь map/filter/reduce осознанно и не мутируешь входные данные без причины.",
-        mistakes: [
-          "Мутировать входной массив и удивляться побочным эффектам.",
-          "Делать поверхностную копию и думать, что она глубокая."
-        ],
+        mistakes: ["Мутировать входной массив и удивляться побочным эффектам.", "Делать поверхностную копию и думать, что она глубокая."],
         resources: [
           ["javascript.info: Arrays", "https://learn.javascript.ru/array"],
           ["javascript.info: Objects", "https://learn.javascript.ru/object"]
@@ -477,10 +432,7 @@ const STAGES = [
         desc: "map/filter/reduce/find/some/every, optional chaining, nullish coalescing, шаблонные строки, деструктуризация.",
         practice: "Перепиши пять циклов на map/filter/reduce и добавь безопасную обработку null через optional chaining.",
         checkpoint: "Выбираешь подходящий метод массива и не пишешь reduce там, где достаточно map.",
-        mistakes: [
-          "Использовать reduce для всего, включая простой поиск.",
-          "Забывать про optional chaining и падать на null."
-        ],
+        mistakes: ["Использовать reduce для всего, включая простой поиск.", "Забывать про optional chaining и падать на null."],
         resources: [
           ["javascript.info: Array methods", "https://learn.javascript.ru/array-methods"],
           ["javascript.info: Optional chaining", "https://learn.javascript.ru/optional-chaining"]
@@ -491,10 +443,7 @@ const STAGES = [
         desc: "querySelector, createElement, append/remove, classList, textContent, dataset, шаблоны. Как безопасно менять страницу.",
         practice: "Сделай список глав с добавлением, удалением, поиском и обновлением счётчика.",
         checkpoint: "Не используешь innerHTML для пользовательских данных и не теряешь ссылки на элементы.",
-        mistakes: [
-          "Вставлять пользовательский HTML через innerHTML и получать XSS.",
-          "Менять DOM в цикле по одному элементу вместо фрагмента."
-        ],
+        mistakes: ["Вставлять пользовательский HTML через innerHTML и получать XSS.", "Менять DOM в цикле по одному элементу вместо фрагмента."],
         resources: [
           ["javascript.info: DOM", "https://learn.javascript.ru/document"],
           ["javascript.info: Searching elements", "https://learn.javascript.ru/searching-elements-dom"]
@@ -505,10 +454,7 @@ const STAGES = [
         desc: "addEventListener, bubbling, capture, preventDefault, stopPropagation, делегирование, удаление обработчиков.",
         practice: "Сделай список с делегированием: клик по кнопке внутри карточки не должен срабатывать как клик по карточке.",
         checkpoint: "Понимаешь всплытие, умеешь остановить нежелательное поведение и не плодишь обработчики.",
-        mistakes: [
-          "Вешать отдельный обработчик на каждый элемент списка.",
-          "Забывать preventDefault у формы и получать перезагрузку."
-        ],
+        mistakes: ["Вешать отдельный обработчик на каждый элемент списка.", "Забывать preventDefault у формы и получать перезагрузку."],
         resources: [
           ["javascript.info: Events", "https://learn.javascript.ru/events"],
           ["javascript.info: Bubbling and capturing", "https://learn.javascript.ru/event-bubbling"]
@@ -519,10 +465,7 @@ const STAGES = [
         desc: "submit, input/change, FormData, валидация, блокировка кнопки, состояния ошибок и загрузки.",
         practice: "Сделай форму поиска с debounce, проверкой пустого значения и состоянием загрузки.",
         checkpoint: "Форма не перезагружает страницу, ошибки показываются у полей, а ввод не спамит запросами.",
-        mistakes: [
-          "Читать значение поля только при submit и терять реакцию на ввод.",
-          "Доверять клиентской валидации и не проверять данные на сервере."
-        ],
+        mistakes: ["Читать значение поля только при submit и терять реакцию на ввод.", "Доверять клиентской валидации и не проверять данные на сервере."],
         resources: [
           ["javascript.info: Form elements", "https://learn.javascript.ru/form-elements"],
           ["MDN: Form validation", "https://developer.mozilla.org/ru/docs/Learn_web_development/Extensions/Forms/Form_validation"]
@@ -533,13 +476,11 @@ const STAGES = [
         desc: "Микрозадачи и макрозадачи, Promise, then/catch/finally, async/await, параллельные и последовательные запросы.",
         practice: "Напиши три функции: последовательные запросы, параллельные через Promise.all и обработку ошибки через try/catch.",
         checkpoint: "Объясняешь порядок microtask/macrotask и не путаешь await с блокировкой потока.",
-        mistakes: [
-          "Думать, что setTimeout(0) выполнится раньше Promise.",
-          "Не обрабатывать reject и получать unhandled rejection."
-        ],
+        mistakes: ["Думать, что setTimeout(0) выполнится раньше Promise.", "Не обрабатывать reject и получать unhandled rejection."],
         resources: [
           ["javascript.info: Event loop", "https://learn.javascript.ru/event-loop"],
-          ["javascript.info: Promises", "https://learn.javascript.ru/promise-basics"]
+          ["javascript.info: Promises", "https://learn.javascript.ru/promise-basics"],
+          ["Loupe: Event loop visualizer", "http://latentflip.com/loupe/"]
         ]
       },
       {
@@ -547,10 +488,7 @@ const STAGES = [
         desc: "fetch, headers, JSON, статус-коды, response.ok, ошибки сети, AbortController, таймауты, повторные запросы.",
         practice: "Загрузи данные с публичного API, обработай loading/error/empty и отмени запрос через AbortController при уходе со страницы.",
         checkpoint: "Проверяешь response.ok, читаешь JSON-ошибки и не оставляешь висящие запросы.",
-        mistakes: [
-          "Проверять только response.ok и забывать, что тело ошибки тоже JSON.",
-          "Не отменять запрос при уходе со страницы."
-        ],
+        mistakes: ["Проверять только response.ok и забывать, что тело ошибки тоже JSON.", "Не отменять запрос при уходе со страницы."],
         resources: [
           ["javascript.info: Fetch", "https://learn.javascript.ru/fetch"],
           ["javascript.info: Error handling", "https://learn.javascript.ru/error-handling"]
@@ -561,10 +499,7 @@ const STAGES = [
         desc: "import/export, package.json, scripts, зависимости, lockfile, npx, сборка через Vite.",
         practice: "Разбей прототип на пять ES-модулей, настрой package.json и запусти сборку одной командой.",
         checkpoint: "Нет глобальных переменных, а модули можно переиспользовать в другом проекте.",
-        mistakes: [
-          "Импортировать весь пакет ради одной функции.",
-          "Коммитить node_modules и ломать воспроизводимость."
-        ],
+        mistakes: ["Импортировать весь пакет ради одной функции.", "Коммитить node_modules и ломать воспроизводимость."],
         resources: [
           ["javascript.info: Modules", "https://learn.javascript.ru/modules"],
           ["npm docs", "https://docs.npmjs.com"]
@@ -575,10 +510,7 @@ const STAGES = [
         desc: "localStorage, sessionStorage, cookies, IndexedDB, лимиты, сериализация JSON, безопасность.",
         practice: "Сохрани настройки ридера и прогресс чтения в localStorage, восстанови их после перезагрузки и обработай битый JSON.",
         checkpoint: "Данные не ломаются при пустом, старом или битом JSON, а лимиты storage обрабатываются.",
-        mistakes: [
-          "Хранить токены в localStorage без понимания рисков.",
-          "Превышать лимит и не обрабатывать ошибку записи."
-        ],
+        mistakes: ["Хранить токены в localStorage без понимания рисков.", "Превышать лимит и не обрабатывать ошибку записи."],
         resources: [
           ["javascript.info: localStorage", "https://learn.javascript.ru/localstorage"],
           ["MDN: IndexedDB", "https://developer.mozilla.org/ru/docs/Web/API/IndexedDB_API"]
@@ -589,10 +521,7 @@ const STAGES = [
         desc: "Breakpoints, call stack, scope, watch, Network, console, source maps. Как найти причину, а не симптом.",
         practice: "Поставь breakpoint, поймай ошибку в асинхронном коде, прочитай stack trace и исправь причину.",
         checkpoint: "Находишь баг через DevTools за 10–15 минут, а не перебором изменений.",
-        mistakes: [
-          "Ставить console.log вместо breakpoint и терять контекст.",
-          "Исправлять симптом, не понимая причину."
-        ],
+        mistakes: ["Ставить console.log вместо breakpoint и терять контекст.", "Исправлять симптом, не понимая причину."],
         resources: [
           ["javascript.info: Debugging", "https://learn.javascript.ru/debugging-chrome"],
           ["Chrome DevTools: Debug JS", "https://developer.chrome.com/docs/devtools/javascript/"]
@@ -603,10 +532,7 @@ const STAGES = [
         desc: "Debounce/throttle, пагинация, бесконечный скролл, скелетоны, состояния загрузки, ошибки и пустоты.",
         practice: "Добавь debounce поиска, пагинацию и скелетоны загрузки в прототип каталога.",
         checkpoint: "Нет лишних запросов, а состояния загрузки, ошибки и пустоты понятны пользователю.",
-        mistakes: [
-          "Отправлять запрос на каждое нажатие клавиши.",
-          "Забывать состояния пустоты и ошибки, оставляя пустой экран."
-        ],
+        mistakes: ["Отправлять запрос на каждое нажатие клавиши.", "Забывать состояния пустоты и ошибки, оставляя пустой экран."],
         resources: [
           ["CSS-Tricks: Debounce", "https://css-tricks.com/debouncing-throttling-explained-examples/"],
           ["MDN: IntersectionObserver", "https://developer.mozilla.org/ru/docs/Web/API/IntersectionObserver"]
@@ -628,25 +554,34 @@ const STAGES = [
       ["javascript.info (рус.)", "https://learn.javascript.ru"],
       ["MDN: JavaScript", "https://developer.mozilla.org/ru/docs/Web/JavaScript"],
       ["You Don't Know JS Yet", "https://github.com/getify/You-Dont-Know-JS"],
-      ["Frontend Mentor", "https://www.frontendmentor.io/challenges"]
+      ["Frontend Mentor", "https://www.frontendmentor.io/challenges"],
+      ["Exercism: JavaScript", "https://exercism.org/tracks/javascript"],
+      ["JavaScript30", "https://javascript30.com/"]
     ]
   },
   {
-    n: 3, key: "s3", group: "Фундамент",
+    n: 3,
+    key: "s3",
+    group: "Фундамент",
     title: "TypeScript и инструменты качества",
     lead: "TypeScript ловит ошибки до запуска, Vite собирает фронтенд за секунды, а линтеры и тесты не дают проекту разваливаться. Здесь ты учишься не «писать типы», а проектировать предсказуемый код.",
     hours: 50,
-    tech: ["TypeScript", "Vite", "npm", "ESLint", "Prettier", "Vitest", "Zod"],
+    tech: [
+      "TypeScript",
+      "Vite",
+      "npm",
+      "ESLint",
+      "Prettier",
+      "Vitest",
+      "Zod"
+    ],
     learn: [
       {
         title: "Зачем TypeScript и как работает компилятор",
         desc: "Типы существуют только на этапе компиляции, tsc проверяет код, strict-режим, source maps.",
         practice: "Скомпилируй небольшой TS-файл, посмотри JS-выход и source map. Включи strict и объясни, что изменилось.",
         checkpoint: "Понимаешь, что типы исчезают в runtime, и не ждёшь от них защиты данных.",
-        mistakes: [
-          "Думать, что TypeScript проверяет данные в runtime.",
-          "Отключать strict, чтобы ошибки «прошли»."
-        ],
+        mistakes: ["Думать, что TypeScript проверяет данные в runtime.", "Отключать strict, чтобы ошибки «прошли»."],
         resources: [
           ["TS: TypeScript from scratch", "https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html"],
           ["TS: strict", "https://www.typescriptlang.org/tsconfig/strict.html"]
@@ -657,10 +592,7 @@ const STAGES = [
         desc: "Базовые типы, вывод типов, массивы, tuple, enum, any/unknown/never.",
         practice: "Типизируй 10 функций и структур, убери все any и замени их на unknown с проверкой.",
         checkpoint: "В проекте нет any, а unknown используется с явной проверкой.",
-        mistakes: [
-          "Использовать any при первой ошибке.",
-          "Путать unknown и any и считать их одинаково безопасными."
-        ],
+        mistakes: ["Использовать any при первой ошибке.", "Путать unknown и any и считать их одинаково безопасными."],
         resources: [
           ["TS: Everyday types", "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"],
           ["TS Playground", "https://www.typescriptlang.org/play"]
@@ -671,10 +603,7 @@ const STAGES = [
         desc: "interface vs type, optional/readonly, вложенные объекты, index signatures, расширение типов.",
         practice: "Опиши модели Novel, Chapter и User через interface/type и переиспользуй общие поля.",
         checkpoint: "Модели не дублируются, а изменения структуры ловятся компилятором.",
-        mistakes: [
-          "Дублировать типы вместо переиспользования.",
-          "Делать все поля optional и терять гарантии."
-        ],
+        mistakes: ["Дублировать типы вместо переиспользования.", "Делать все поля optional и терять гарантии."],
         resources: [
           ["TS: Object types", "https://www.typescriptlang.org/docs/handbook/2/objects.html"],
           ["TS: Interfaces", "https://www.typescriptlang.org/docs/handbook/2/objects.html#interfaces"]
@@ -685,10 +614,7 @@ const STAGES = [
         desc: "Объединения, пересечения, literal types, дискриминированные union-ы для состояний.",
         practice: "Смоделируй состояние загрузки через union idle/loading/success/error вместо набора boolean-флагов.",
         checkpoint: "Состояние невозможно представить в недопустимой комбинации.",
-        mistakes: [
-          "Моделировать состояние набором boolean-флагов.",
-          "Забывать обработать все варианты union."
-        ],
+        mistakes: ["Моделировать состояние набором boolean-флагов.", "Забывать обработать все варианты union."],
         resources: [
           ["TS: Union types", "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#union-types"],
           ["TS: Literal types", "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#literal-types"]
@@ -699,12 +625,10 @@ const STAGES = [
         desc: "typeof/instanceof, in, type guards, discriminated unions, assertion functions, exhaustive checks.",
         practice: "Обработай discriminated union статусов загрузки через type guard и switch без приведения типов.",
         checkpoint: "Компилятор сам сужает тип в каждой ветке, а as остаётся только в крайнем случае.",
-        mistakes: [
-          "Верить as вместо реальной проверки.",
-          "Забывать, что typeof null === object."
-        ],
+        mistakes: ["Верить as вместо реальной проверки.", "Забывать, что typeof null === object."],
         resources: [
-          ["TS: Narrowing", "https://www.typescriptlang.org/docs/handbook/2/narrowing.html"]
+          ["TS: Narrowing", "https://www.typescriptlang.org/docs/handbook/2/narrowing.html"],
+          ["TypeScript Exercises", "https://typescript-exercises.github.io/"]
         ]
       },
       {
@@ -712,12 +636,10 @@ const STAGES = [
         desc: "Параметры, optional/default/rest, возвращаемые типы, overloads, this-типизация.",
         practice: "Напиши типизированную функцию с перегрузкой и объясни, почему она лучше union-аргумента.",
         checkpoint: "Функции типизированы без any, а overloads используются только там, где действительно нужны.",
-        mistakes: [
-          "Типизировать всё any и называть это типизацией.",
-          "Игнорировать this и получать ошибки в методах."
-        ],
+        mistakes: ["Типизировать всё any и называть это типизацией.", "Игнорировать this и получать ошибки в методах."],
         resources: [
-          ["TS: More on functions", "https://www.typescriptlang.org/docs/handbook/2/functions.html"]
+          ["TS: More on functions", "https://www.typescriptlang.org/docs/handbook/2/functions.html"],
+          ["TypeScript Playground", "https://www.typescriptlang.org/play"]
         ]
       },
       {
@@ -725,12 +647,10 @@ const STAGES = [
         desc: "Обобщения, constraints, вывод типов, generic-компоненты и API-клиенты.",
         practice: "Напиши типизированный API-клиент и функцию groupBy с generics.",
         checkpoint: "Generics выводятся без ручных подсказок, а вызовы не требуют any.",
-        mistakes: [
-          "Писать generic ради generic.",
-          "Забывать constraints и терять свойства аргумента."
-        ],
+        mistakes: ["Писать generic ради generic.", "Забывать constraints и терять свойства аргумента."],
         resources: [
-          ["TS: Generics", "https://www.typescriptlang.org/docs/handbook/2/generics.html"]
+          ["TS: Generics", "https://www.typescriptlang.org/docs/handbook/2/generics.html"],
+          ["TypeScript Exercises", "https://typescript-exercises.github.io/"]
         ]
       },
       {
@@ -738,12 +658,10 @@ const STAGES = [
         desc: "Partial, Pick, Omit, Record, ReturnType, Parameters, keyof/typeof.",
         practice: "Сделай DTO для создания и обновления новеллы через Pick, Omit и Partial.",
         checkpoint: "Не копируешь поля вручную и не теряешь связь DTO с доменной моделью.",
-        mistakes: [
-          "Копировать DTO вручную.",
-          "Делать Partial на доменной модели без причины."
-        ],
+        mistakes: ["Копировать DTO вручную.", "Делать Partial на доменной модели без причины."],
         resources: [
-          ["TS: Utility types", "https://www.typescriptlang.org/docs/handbook/utility-types.html"]
+          ["TS: Utility types", "https://www.typescriptlang.org/docs/handbook/utility-types.html"],
+          ["TypeScript Playground", "https://www.typescriptlang.org/play"]
         ]
       },
       {
@@ -751,10 +669,7 @@ const STAGES = [
         desc: "import/export, strict, target, moduleResolution, paths, include/exclude, declaration.",
         practice: "Включи strict, path aliases и noUncheckedIndexedAccess, затем объясни каждую опцию в конфиге.",
         checkpoint: "Конфиг понятен, сборка не ломается, а алиасы работают в IDE и Vite.",
-        mistakes: [
-          "Копировать tsconfig из чужого проекта без понимания.",
-          "Включать skipLibCheck и не понимать, какие ошибки скрываются."
-        ],
+        mistakes: ["Копировать tsconfig из чужого проекта без понимания.", "Включать skipLibCheck и не понимать, какие ошибки скрываются."],
         resources: [
           ["TS: tsconfig reference", "https://www.typescriptlang.org/tsconfig/"],
           ["TS: Modules", "https://www.typescriptlang.org/docs/handbook/2/modules.html"]
@@ -765,10 +680,7 @@ const STAGES = [
         desc: "Dev server, HMR, build, preview, env-переменные, алиасы, плагины, production-сборка.",
         practice: "Настрой dev/build/preview, env-переменные и alias, проверь HMR и production-сборку.",
         checkpoint: "Production build открывается локально и работает без dev-сервера.",
-        mistakes: [
-          "Коммитить dist и путать его с исходниками.",
-          "Хардкодить API URL вместо env-переменной."
-        ],
+        mistakes: ["Коммитить dist и путать его с исходниками.", "Хардкодить API URL вместо env-переменной."],
         resources: [
           ["Vite: Getting started", "https://vite.dev/guide/"],
           ["Vite: Env variables", "https://vite.dev/guide/env-and-mode"]
@@ -779,10 +691,7 @@ const STAGES = [
         desc: "package.json, scripts, semver, lockfile, npx, аудит зависимостей.",
         practice: "Настрой скрипты dev/build/lint/test и объясни, чем dependencies отличаются от devDependencies.",
         checkpoint: "Проект ставится с нуля по lockfile, а версии зависимостей не «плывут».",
-        mistakes: [
-          "Использовать latest без lockfile.",
-          "Игнорировать npm audit и предупреждения безопасности."
-        ],
+        mistakes: ["Использовать latest без lockfile.", "Игнорировать npm audit и предупреждения безопасности."],
         resources: [
           ["npm docs", "https://docs.npmjs.com"],
           ["npm: package.json", "https://docs.npmjs.com/cli/v11/configuring-npm/package-json"]
@@ -793,13 +702,11 @@ const STAGES = [
         desc: "Единый стиль, правила, flat config, форматирование, проверка типов, интеграция с IDE.",
         practice: "Настрой ESLint, Prettier и vue-tsc, добавь скрипты lint/format/typecheck и исправь все ошибки.",
         checkpoint: "Одна команда проверяет стиль и типы, а CI запускает её без отличий.",
-        mistakes: [
-          "Спорить о стиле вместо автоформата.",
-          "Отключать правила пачкой, чтобы проверка прошла."
-        ],
+        mistakes: ["Спорить о стиле вместо автоформата.", "Отключать правила пачкой, чтобы проверка прошла."],
         resources: [
           ["ESLint", "https://eslint.org/docs/latest/"],
-          ["Prettier", "https://prettier.io/docs/"]
+          ["Prettier", "https://prettier.io/docs/"],
+          ["Vue Language Tools", "https://github.com/vuejs/language-tools"]
         ]
       },
       {
@@ -807,10 +714,7 @@ const STAGES = [
         desc: "DTO, ответы-обёртки, unknown, runtime-валидация через zod, обработка неожиданных данных.",
         practice: "Типизируй ответы публичного API и провалидируй их zod-схемой перед использованием.",
         checkpoint: "Неизвестный или битый ответ API не роняет приложение, а даёт понятную ошибку.",
-        mistakes: [
-          "Верить, что API всегда вернёт ожидаемое.",
-          "Типизировать ответ без runtime-проверки."
-        ],
+        mistakes: ["Верить, что API всегда вернёт ожидаемое.", "Типизировать ответ без runtime-проверки."],
         resources: [
           ["zod docs", "https://zod.dev"],
           ["TS: TypeScript from scratch", "https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html"]
@@ -821,10 +725,7 @@ const STAGES = [
         desc: "describe/it, expect, matchers, тестирование функций и composables, моки, watch-режим.",
         practice: "Напиши пять тестов на функции форматирования и фильтрации, один тест с моком и запусти coverage.",
         checkpoint: "Тесты проверяют поведение, а не реализацию, и падают при реальной регрессии.",
-        mistakes: [
-          "Тестировать реализацию вместо поведения.",
-          "Писать тесты, которые проходят всегда."
-        ],
+        mistakes: ["Тестировать реализацию вместо поведения.", "Писать тесты, которые проходят всегда."],
         resources: [
           ["Vitest", "https://vitest.dev/guide/"],
           ["Vitest: Mocking", "https://vitest.dev/guide/mocking"]
@@ -847,15 +748,27 @@ const STAGES = [
       ["Vite docs", "https://vite.dev/guide/"],
       ["ESLint docs", "https://eslint.org/docs/latest/"],
       ["Prettier docs", "https://prettier.io/docs/"],
-      ["Vitest docs", "https://vitest.dev/guide/"]
+      ["Vitest docs", "https://vitest.dev/guide/"],
+      ["Exercism: TypeScript", "https://exercism.org/tracks/typescript"],
+      ["TypeScript Exercises", "https://typescript-exercises.github.io/"],
+      ["Metanit: TypeScript (рус.)", "https://metanit.com/web/typescript/"]
     ]
   },
-{
-    n: 4, key: "s4", group: "Фронтенд",
+  {
+    n: 4,
+    key: "s4",
+    group: "Фронтенд",
     title: "Vue 3: компонентный интерфейс",
     lead: "Vue — слой, из которого состоит весь интерфейс FLIB. Освой компонентное мышление, реактивность и управление состоянием, прежде чем лезть в Laravel.",
     hours: 80,
-    tech: ["Vue 3", "Composition API", "Pinia", "Vue Router", "Composables", "Tailwind"],
+    tech: [
+      "Vue 3",
+      "Composition API",
+      "Pinia",
+      "Vue Router",
+      "Composables",
+      "Tailwind"
+    ],
     learn: [
       {
         title: "Основы Vue",
@@ -893,7 +806,8 @@ const STAGES = [
         practice: "Вынеси настройки ридера в composable useReaderSettings с сохранением в localStorage.",
         checkpoint: "Логика используется в двух компонентах без копипасты и без глобального состояния.",
         resources: [
-          ["Vue: Composables", "https://vuejs.org/guide/reusability/composables.html"]
+          ["Vue: Composables", "https://vuejs.org/guide/reusability/composables.html"],
+          ["Vue Examples", "https://vuejs.org/examples/"]
         ]
       },
       {
@@ -902,7 +816,8 @@ const STAGES = [
         practice: "Сделай форму главы с валидацией, ошибками у полей и блокировкой кнопки во время отправки.",
         checkpoint: "Ошибки показываются рядом с полями, а повторная отправка не создаёт дубликаты.",
         resources: [
-          ["Vue: Form input bindings", "https://vuejs.org/guide/essentials/forms.html"]
+          ["Vue: Form input bindings", "https://vuejs.org/guide/essentials/forms.html"],
+          ["Vue Examples", "https://vuejs.org/examples/"]
         ]
       },
       {
@@ -911,7 +826,8 @@ const STAGES = [
         practice: "Добавь маршруты каталог → новелла → глава, 404 и ленивую загрузку страниц.",
         checkpoint: "Прямой переход по глубокому URL работает, а 404 не ломает layout.",
         resources: [
-          ["Vue Router", "https://router.vuejs.org/guide/"]
+          ["Vue Router", "https://router.vuejs.org/guide/"],
+          ["Vue Router: Navigation guards", "https://router.vuejs.org/guide/advanced/navigation-guards.html"]
         ]
       },
       {
@@ -920,7 +836,8 @@ const STAGES = [
         practice: "Создай store библиотеки с фильтрами и сохранением списка чтения.",
         checkpoint: "Состояние не дублируется в компонентах, а actions описывают бизнес-операции.",
         resources: [
-          ["Pinia: Getting started", "https://pinia.vuejs.org/getting-started.html"]
+          ["Pinia: Getting started", "https://pinia.vuejs.org/getting-started.html"],
+          ["Pinia: Cookbook", "https://pinia.vuejs.org/cookbook/"]
         ]
       },
       {
@@ -944,10 +861,7 @@ const STAGES = [
         ]
       }
     ],
-    practice: [
-      "Сделай трекер чтения: каталог с фильтрами, карточка новеллы, избранное, формы добавления, роутинг и Pinia.",
-      "Разбей интерфейс на переиспользуемые компоненты и сохраняй настройки пользователя."
-    ],
+    practice: ["Сделай трекер чтения: каталог с фильтрами, карточка новеллы, избранное, формы добавления, роутинг и Pinia.", "Разбей интерфейс на переиспользуемые компоненты и сохраняй настройки пользователя."],
     checkpoint: [
       "Сделать переиспользуемый компонент и composable без копипасты.",
       "Объяснить, как работает реактивность и когда computed, а когда watch.",
@@ -957,15 +871,25 @@ const STAGES = [
       ["Vue 3 docs (рус.)", "https://ru.vuejs.org/guide/introduction.html"],
       ["Pinia docs", "https://pinia.vuejs.org"],
       ["Vue Router docs", "https://router.vuejs.org"],
-      ["Vue Mastery: free course", "https://www.vuemastery.com/courses/intro-to-vue-3/"]
+      ["Vue Mastery: free course", "https://www.vuemastery.com/courses/intro-to-vue-3/"],
+      ["Vue Examples", "https://vuejs.org/examples/"]
     ]
   },
   {
-    n: 5, key: "s5", group: "Бэкенд",
+    n: 5,
+    key: "s5",
+    group: "Бэкенд",
     title: "PHP: серверный язык",
     lead: "PHP — язык бэкенда FLIB. После JS он кажется простым, но именно здесь важно освоить ООП, пространства имён и Composer: на них стоит Laravel.",
     hours: 60,
-    tech: ["PHP 8.3", "OOP", "Composer", "PSR", "Exceptions", "Sessions"],
+    tech: [
+      "PHP 8.3",
+      "OOP",
+      "Composer",
+      "PSR",
+      "Exceptions",
+      "Sessions"
+    ],
     learn: [
       {
         title: "Синтаксис PHP",
@@ -1059,10 +983,7 @@ const STAGES = [
         ]
       }
     ],
-    practice: [
-      "Консольная библиотека: классы Book, Author, Library, интерфейс Storage, JSON-хранилище, Composer-автозагрузка.",
-      "Добавь обработку ошибок и простые unit-тесты, если уже знаком с PHPUnit."
-    ],
+    practice: ["Консольная библиотека: классы Book, Author, Library, интерфейс Storage, JSON-хранилище, Composer-автозагрузка.", "Добавь обработку ошибок и простые unit-тесты, если уже знаком с PHPUnit."],
     checkpoint: [
       "Написать классы с интерфейсами и автозагрузкой через Composer.",
       "Объяснить, зачем нужны namespace и PSR-4.",
@@ -1072,15 +993,25 @@ const STAGES = [
       ["PHP manual (рус.)", "https://www.php.net/manual/ru/"],
       ["PHP: The Right Way", "https://phptherightway.com"],
       ["Composer docs", "https://getcomposer.org/doc/"],
-      ["PHPStan docs", "https://phpstan.org/user-guide/getting-started"]
+      ["PHPStan docs", "https://phpstan.org/user-guide/getting-started"],
+      ["Exercism: PHP", "https://exercism.org/tracks/php"]
     ]
   },
   {
-    n: 6, key: "s6", group: "Бэкенд",
+    n: 6,
+    key: "s6",
+    group: "Бэкенд",
     title: "SQL и проектирование данных",
     lead: "Данные — основа платформы. Плохая схема превращает любую фичу в боль: дубли, медленные запросы, невозможность миграций. Научись проектировать таблицы до того, как писать модели.",
     hours: 35,
-    tech: ["SQL", "MySQL", "SQLite", "Индексы", "Транзакции", "Redis"],
+    tech: [
+      "SQL",
+      "MySQL",
+      "SQLite",
+      "Индексы",
+      "Транзакции",
+      "Redis"
+    ],
     learn: [
       {
         title: "Реляционная модель",
@@ -1173,10 +1104,7 @@ const STAGES = [
         ]
       }
     ],
-    practice: [
-      "Спроектируй схему FLIB: users, novels, chapters, genres, tags, comments, reviews, likes, bookmarks, follows, teams.",
-      "Напиши 20 SQL-запросов, заполни данными и проверь планы через EXPLAIN."
-    ],
+    practice: ["Спроектируй схему FLIB: users, novels, chapters, genres, tags, comments, reviews, likes, bookmarks, follows, teams.", "Напиши 20 SQL-запросов, заполни данными и проверь планы через EXPLAIN."],
     checkpoint: [
       "Схема без дублирования и с адекватными индексами.",
       "Объяснить, где будет N+1 и как его избежать.",
@@ -1186,15 +1114,26 @@ const STAGES = [
       ["SQLBolt", "https://sqlbolt.com"],
       ["Use The Index, Luke", "https://use-the-index-luke.com"],
       ["MySQL docs", "https://dev.mysql.com/doc/"],
-      ["Redis docs", "https://redis.io/docs/latest/"]
+      ["Redis docs", "https://redis.io/docs/latest/"],
+      ["SQL Academy (рус.)", "https://sql-academy.org/ru"]
     ]
   },
-{
-    n: 7, key: "s7", group: "Бэкенд",
+  {
+    n: 7,
+    key: "s7",
+    group: "Бэкенд",
     title: "Laravel: сердце платформы",
     lead: "Самый большой этап. Laravel даёт маршруты, ORM, авторизацию, очереди и десятки инструментов. Учись не «магии», а слоям: HTTP → контроллер → сервис → модель → БД.",
     hours: 130,
-    tech: ["Laravel 13", "Eloquent", "Breeze", "Sanctum", "Policies", "Queues", "Blade"],
+    tech: [
+      "Laravel 13",
+      "Eloquent",
+      "Breeze",
+      "Sanctum",
+      "Policies",
+      "Queues",
+      "Blade"
+    ],
     learn: [
       {
         title: "Основы Laravel",
@@ -1232,7 +1171,8 @@ const STAGES = [
         practice: "Сверстай layout и страницу новеллы на Blade-компонентах со слотами.",
         checkpoint: "Нет дублирования HTML, а layout и компоненты переиспользуются.",
         resources: [
-          ["Laravel: Blade", "https://laravel.com/docs/blade"]
+          ["Laravel: Blade", "https://laravel.com/docs/blade"],
+          ["Laravel: Blade components", "https://laravel.com/docs/blade#components"]
         ]
       },
       {
@@ -1262,7 +1202,8 @@ const STAGES = [
         checkpoint: "Контроллер тонкий, логика тестируется отдельно, зависимости внедряются.",
         resources: [
           ["Laravel: Service container", "https://laravel.com/docs/container"],
-          ["Laravel: Service providers", "https://laravel.com/docs/providers"]
+          ["Laravel: Service providers", "https://laravel.com/docs/providers"],
+          ["Martin Fowler: Service Layer", "https://martinfowler.com/eaaCatalog/serviceLayer.html"]
         ]
       },
       {
@@ -1329,10 +1270,7 @@ const STAGES = [
         ]
       }
     ],
-    practice: [
-      "Собери MVP платформы: регистрация/вход, роли, каталог новелл, карточка, главы, публикация, закладки, минимальная админка.",
-      "Бизнес-логику вынеси в сервисы, доступ — через policies."
-    ],
+    practice: ["Собери MVP платформы: регистрация/вход, роли, каталог новелл, карточка, главы, публикация, закладки, минимальная админка.", "Бизнес-логику вынеси в сервисы, доступ — через policies."],
     checkpoint: [
       "Полный CRUD с авторизацией и валидацией.",
       "Работающая очередь и scheduled-задача.",
@@ -1343,15 +1281,25 @@ const STAGES = [
       ["Laravel docs", "https://laravel.com/docs"],
       ["Laravel Bootcamp", "https://bootcamp.laravel.com"],
       ["Laracasts: курсы по Laravel", "https://laracasts.com/topics/laravel"],
-      ["30 Days to Learn Laravel", "https://laracasts.com/series/30-days-to-learn-laravel-11"]
+      ["30 Days to Learn Laravel", "https://laracasts.com/series/30-days-to-learn-laravel-11"],
+      ["Laravel.su (рус.)", "https://laravel.su/docs/"]
     ]
   },
   {
-    n: 8, key: "s8", group: "Связка",
+    n: 8,
+    key: "s8",
+    group: "Связка",
     title: "Inertia.js: Laravel + Vue без API-боли",
     lead: "FLIB — это Inertia-приложение: серверный роутинг Laravel и SPA-интерфейс Vue без ручного API. Этап учит связывать два мира так, чтобы не писать fetch на каждый чих.",
     hours: 60,
-    tech: ["Inertia 2", "Vue", "Ziggy", "useForm", "Breeze", "Vite"],
+    tech: [
+      "Inertia 2",
+      "Vue",
+      "Ziggy",
+      "useForm",
+      "Breeze",
+      "Vite"
+    ],
     learn: [
       {
         title: "Как работает Inertia",
@@ -1399,7 +1347,8 @@ const STAGES = [
         practice: "Сделай форму главы через useForm с ошибками Laravel и индикатором отправки.",
         checkpoint: "Ошибки отображаются у полей, кнопка блокируется, данные не дублируются.",
         resources: [
-          ["Inertia: Forms", "https://inertiajs.com/forms"]
+          ["Inertia: Forms", "https://inertiajs.com/forms"],
+          ["Inertia: Validation", "https://inertiajs.com/validation"]
         ]
       },
       {
@@ -1428,7 +1377,8 @@ const STAGES = [
         practice: "Используй route() в Vue для трёх именованных маршрутов.",
         checkpoint: "URL не хардкодятся в компонентах, а параметры передаются явно.",
         resources: [
-          ["Ziggy docs", "https://github.com/tighten/ziggy"]
+          ["Ziggy docs", "https://github.com/tighten/ziggy"],
+          ["Laravel: Named routes", "https://laravel.com/docs/routing#named-routes"]
         ]
       },
       {
@@ -1437,7 +1387,8 @@ const STAGES = [
         practice: "Загрузи обложку через Inertia-форму с превью и серверной валидацией.",
         checkpoint: "Файл сохраняется, ошибки размера и типа показываются, имя не ломает URL.",
         resources: [
-          ["Inertia: File uploads", "https://inertiajs.com/file-uploads"]
+          ["Inertia: File uploads", "https://inertiajs.com/file-uploads"],
+          ["Laravel: File storage", "https://laravel.com/docs/filesystem"]
         ]
       },
       {
@@ -1451,10 +1402,7 @@ const STAGES = [
         ]
       }
     ],
-    practice: [
-      "Переведи MVP на Inertia: кабинет автора с формами создания и редактирования, ридер, админ-таблицы с фильтрами.",
-      "Все переходы — через Inertia, без ручных API-контроллеров."
-    ],
+    practice: ["Переведи MVP на Inertia: кабинет автора с формами создания и редактирования, ридер, админ-таблицы с фильтрами.", "Все переходы — через Inertia, без ручных API-контроллеров."],
     checkpoint: [
       "Полный CRUD-цикл через Inertia с валидацией.",
       "Понимаешь, когда partial reload реально нужен.",
@@ -1464,15 +1412,26 @@ const STAGES = [
       ["Inertia.js docs", "https://inertiajs.com"],
       ["Laravel Breeze docs", "https://laravel.com/docs/starter-kits"],
       ["Ziggy docs", "https://github.com/tighten/ziggy"],
-      ["Inertia: формы", "https://inertiajs.com/forms"]
+      ["Inertia: формы", "https://inertiajs.com/forms"],
+      ["Laravel.su: Inertia (рус.)", "https://laravel.su/docs/12.x/inertia"]
     ]
   },
   {
-    n: 9, key: "s9", group: "Качество",
+    n: 9,
+    key: "s9",
+    group: "Качество",
     title: "Тесты, качество кода и безопасность",
     lead: "Код, который никто не проверяет, гниёт. Тесты, статический анализ, CI и базовая безопасность — то, что отличает учебный проект от продукта.",
     hours: 60,
-    tech: ["Pest", "PHPStan", "Pint", "ESLint", "GitHub Actions", "OWASP", "CSP"],
+    tech: [
+      "Pest",
+      "PHPStan",
+      "Pint",
+      "ESLint",
+      "GitHub Actions",
+      "OWASP",
+      "CSP"
+    ],
     learn: [
       {
         title: "Пирамида тестов",
@@ -1532,7 +1491,8 @@ const STAGES = [
         checkpoint: "PR с красным CI нельзя смержить, а пайплайн воспроизводится локально.",
         resources: [
           ["GitHub Actions: Quickstart", "https://docs.github.com/en/actions/quickstart"],
-          ["Laravel: CI example", "https://github.com/laravel/.github"]
+          ["Laravel: CI example", "https://github.com/laravel/.github"],
+          ["GitHub Actions: Workflow syntax", "https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions"]
         ]
       },
       {
@@ -1541,7 +1501,8 @@ const STAGES = [
         practice: "Пройди чеклист OWASP по своему проекту и заведи issue на каждую найденную дыру.",
         checkpoint: "Нет критичных пунктов без плана исправления, а риск каждого понятен.",
         resources: [
-          ["OWASP Top 10", "https://owasp.org/www-project-top-ten/"]
+          ["OWASP Top 10", "https://owasp.org/www-project-top-ten/"],
+          ["OWASP Cheat Sheet Series", "https://cheatsheetseries.owasp.org/"]
         ]
       },
       {
@@ -1576,10 +1537,7 @@ const STAGES = [
         ]
       }
     ],
-    practice: [
-      "Покрой тестами регистрацию, публикацию главы и права доступа. Настрой GitHub Actions.",
-      "Пройди чеклист OWASP и исправь найденное. Добавь Purifier и CSP."
-    ],
+    practice: ["Покрой тестами регистрацию, публикацию главы и права доступа. Настрой GitHub Actions.", "Пройди чеклист OWASP и исправь найденное. Добавь Purifier и CSP."],
     checkpoint: [
       "CI зелёный на каждом PR.",
       "Ключевые сценарии покрыты feature-тестами.",
@@ -1590,15 +1548,27 @@ const STAGES = [
       ["PHPStan docs", "https://phpstan.org/user-guide/getting-started"],
       ["OWASP Top 10", "https://owasp.org/www-project-top-ten/"],
       ["Laravel security docs", "https://laravel.com/docs/security"],
-      ["GitHub Actions docs", "https://docs.github.com/actions"]
+      ["GitHub Actions docs", "https://docs.github.com/actions"],
+      ["Pest: Mutation testing", "https://pestphp.com/docs/mutation-testing"],
+      ["Playwright: CI", "https://playwright.dev/docs/ci"]
     ]
   },
-{
-    n: 10, key: "s10", group: "Качество",
+  {
+    n: 10,
+    key: "s10",
+    group: "Качество",
     title: "Docker, сервер и деплой",
     lead: "Локально работает — не значит готово. Docker делает окружение воспроизводимым, а деплой на VPS учит видеть проект целиком: nginx, PHP-FPM, БД, Redis, очереди, HTTPS и бэкапы.",
     hours: 45,
-    tech: ["Docker", "Compose", "nginx", "PHP-FPM", "VPS", "HTTPS", "Supervisord"],
+    tech: [
+      "Docker",
+      "Compose",
+      "nginx",
+      "PHP-FPM",
+      "VPS",
+      "HTTPS",
+      "Supervisord"
+    ],
     learn: [
       {
         title: "Docker",
@@ -1616,7 +1586,8 @@ const STAGES = [
         practice: "Опиши app, db и redis в compose с healthcheck и переменными окружения.",
         checkpoint: "docker compose up поднимает всё одной командой без ручных шагов.",
         resources: [
-          ["Docker Compose", "https://docs.docker.com/compose/"]
+          ["Docker Compose", "https://docs.docker.com/compose/"],
+          ["Docker: Awesome Compose", "https://github.com/docker/awesome-compose"]
         ]
       },
       {
@@ -1635,7 +1606,8 @@ const STAGES = [
         practice: "Запусти queue worker и scheduler под supervisord и убей процесс, чтобы проверить перезапуск.",
         checkpoint: "Процессы поднимаются сами, логируются и не плодят дубликаты.",
         resources: [
-          ["Supervisord", "http://supervisord.org/"]
+          ["Supervisord", "http://supervisord.org/"],
+          ["Laravel: Supervisor configuration", "https://laravel.com/docs/queues#supervisor-configuration"]
         ]
       },
       {
@@ -1699,10 +1671,7 @@ const STAGES = [
         ]
       }
     ],
-    practice: [
-      "Собери docker-compose для проекта и подними его на VPS с доменом и HTTPS.",
-      "Настрой очередь и cron, сделай бэкап и восстанови его на чистой машине."
-    ],
+    practice: ["Собери docker-compose для проекта и подними его на VPS с доменом и HTTPS.", "Настрой очередь и cron, сделай бэкап и восстанови его на чистой машине."],
     checkpoint: [
       "Одна команда поднимает проект с нуля.",
       "Сайт доступен по HTTPS, очередь обрабатывает задачи.",
@@ -1718,11 +1687,21 @@ const STAGES = [
     ]
   },
   {
-    n: 11, key: "s11", group: "Продукт",
+    n: 11,
+    key: "s11",
+    group: "Продукт",
     title: "Сборка FogrestRead: большой продукт",
     lead: "Теперь не учишь технологии, а строишь продукт. Разбей работу на спринты по 1–2 недели, после каждого — рабочая версия, тесты и деплой. Сверяйся с FLIB, но не копируй слепо: принимай решения сам.",
     hours: 220,
-    tech: ["Laravel", "Vue", "Inertia", "MySQL", "Redis", "Docker", "Sprints"],
+    tech: [
+      "Laravel",
+      "Vue",
+      "Inertia",
+      "MySQL",
+      "Redis",
+      "Docker",
+      "Sprints"
+    ],
     learn: [
       {
         title: "Спринт 1 — MVP чтения",
@@ -1782,7 +1761,8 @@ const STAGES = [
         resources: [
           ["Shape Up", "https://basecamp.com/shapeup"],
           ["Conventional Commits", "https://www.conventionalcommits.org/ru/"],
-          ["Keep a Changelog", "https://keepachangelog.com/ru/"]
+          ["Keep a Changelog", "https://keepachangelog.com/ru/"],
+          ["ADR", "https://adr.github.io/"]
         ]
       },
       {
@@ -1807,10 +1787,7 @@ const STAGES = [
         ]
       }
     ],
-    practice: [
-      "Веди проект как продукт: бэклог, спринты, демо в конце каждого, деплой.",
-      "На финале пройди по сценариям FLIB и закрой пробелы."
-    ],
+    practice: ["Веди проект как продукт: бэклог, спринты, демо в конце каждого, деплой.", "На финале пройди по сценариям FLIB и закрой пробелы."],
     checkpoint: [
       "Все ключевые сценарии FLIB работают.",
       "Есть тесты, CI, деплой и документация.",
@@ -1826,11 +1803,19 @@ const STAGES = [
     ]
   },
   {
-    n: 12, key: "s12", group: "Продукт",
+    n: 12,
+    key: "s12",
+    group: "Продукт",
     title: "Финиш: портфолио и выход на рынок",
     lead: "Финальный этап — упаковать результат. Код без истории и демо никто не увидит. Сделай так, чтобы проект можно было открыть, запустить и понять за 10 минут.",
     hours: 25,
-    tech: ["README", "Демо", "Видео", "Интервью", "Портфолио"],
+    tech: [
+      "README",
+      "Демо",
+      "Видео",
+      "Интервью",
+      "Портфолио"
+    ],
     learn: [
       {
         title: "README и документация",
@@ -1849,7 +1834,8 @@ const STAGES = [
         checkpoint: "Демо работает без твоего участия, а видео показывает продукт, а не код.",
         resources: [
           ["OBS Studio", "https://obsproject.com/"],
-          ["Loom", "https://www.loom.com"]
+          ["Loom", "https://www.loom.com"],
+          ["YC: How to demo", "https://www.ycombinator.com/library/6q-how-to-demo"]
         ]
       },
       {
@@ -1893,10 +1879,7 @@ const STAGES = [
         ]
       }
     ],
-    practice: [
-      "Оформи портфолио-кейс: README, скриншоты, схема БД, демо, видео, список технологий и решений.",
-      "Проведи 3 mock-интервью и собери фидбэк."
-    ],
+    practice: ["Оформи портфолио-кейс: README, скриншоты, схема БД, демо, видео, список технологий и решений.", "Проведи 3 mock-интервью и собери фидбэк."],
     checkpoint: [
       "Проект запускается по инструкции с чистой машины.",
       "Есть демо и видео.",
@@ -1910,11 +1893,30 @@ const STAGES = [
     ]
   }
 ];
+
 const GROUPS = [
-  { name: "Фундамент", color: "#8b5cf6" },
-  { name: "Фронтенд", color: "#22d3ee" },
-  { name: "Бэкенд", color: "#34d399" },
-  { name: "Связка", color: "#fbbf24" },
-  { name: "Качество", color: "#fb7185" },
-  { name: "Продукт", color: "#60a5fa" }
+  {
+    name: "Фундамент",
+    color: "#8b5cf6"
+  },
+  {
+    name: "Фронтенд",
+    color: "#22d3ee"
+  },
+  {
+    name: "Бэкенд",
+    color: "#34d399"
+  },
+  {
+    name: "Связка",
+    color: "#fbbf24"
+  },
+  {
+    name: "Качество",
+    color: "#fb7185"
+  },
+  {
+    name: "Продукт",
+    color: "#60a5fa"
+  }
 ];
