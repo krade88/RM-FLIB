@@ -4,7 +4,7 @@
    Expects STAGES and GROUPS from js/data.js.
    ========================================================================== */
 
-const STORAGE_KEY = "flib-roadmap-v2";
+const STORAGE_KEY = "flib-roadmap-v3";
 const TOTAL_HOURS = STAGES.reduce((sum, s) => sum + s.hours, 0);
 const TOTAL_STAGES = STAGES.length;
 const TOTAL_TOPICS = STAGES.reduce((sum, s) => sum + s.learn.length, 0);

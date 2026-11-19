@@ -1293,84 +1293,6 @@ const STAGES = [
     n: 7,
     key: "s7",
     group: "Бэкенд",
-    title: "Redis и кэширование",
-    lead: "Redis — не «ещё одна база», а инструмент для кэша, сессий, очередей и быстрых счётчиков. Здесь ты научишься выбирать структуры данных, TTL, инвалидацию и защиту от cache stampede.",
-    hours: 20,
-    tech: [
-      "Redis",
-      "Кэш",
-      "TTL",
-      "Сессии",
-      "Очереди",
-      "Инвалидация"
-    ],
-    learn: [
-      {
-        title: "Redis: структуры данных и TTL",
-        desc: "Строки, хеши, списки, множества, sorted sets, TTL, ключи и память. Какую структуру выбрать под задачу и когда данные должны исчезнуть.",
-        practice: "В redis-cli сохрани новеллу в hash, список глав в list и рейтинг в sorted set; выставь TTL и проверь память.",
-        checkpoint: "Выбираешь структуру под задачу и понимаешь, что произойдёт при истечении TTL или eviction.",
-        resources: [
-          ["Redis: Data types", "https://redis.io/docs/latest/develop/data-types/"],
-          ["Redis: EXPIRE", "https://redis.io/docs/latest/commands/expire/"]
-        ],
-        mistakes: ["Использовать KEYS в production.", "Кэшировать всё без TTL и политики вытеснения."]
-      },
-      {
-        title: "Кэш-паттерны и ключи",
-        desc: "Cache-aside, write-through, TTL jitter, версионирование ключей, hit/miss и выбор того, что вообще стоит кэшировать.",
-        practice: "Закэшируй каталог через cache-aside: стабильные ключи, TTL с джиттером и метрики hit/miss.",
-        checkpoint: "Объясняешь, что кэшируется, на сколько и как ключ инвалидируется при изменении.",
-        mistakes: ["Кэшировать без инвалидации.", "Строить ключи из нестабильных данных и плодить дубли."],
-        resources: [
-          ["Redis: Caching patterns", "https://redis.io/docs/latest/develop/use/patterns/"],
-          ["Laravel: Cache", "https://laravel.com/docs/cache"]
-        ]
-      },
-      {
-        title: "Сессии, очереди и счётчики",
-        desc: "Redis для сессий, очередей, rate limiting, счётчиков и рейтингов. Атомарность, TTL и поведение при недоступности Redis.",
-        practice: "Переведи сессии и очередь на Redis, сделай атомарный счётчик rate limit и sorted set для рейтинга.",
-        checkpoint: "Понимаешь, какие операции должны быть атомарными и что произойдёт при потере Redis.",
-        mistakes: ["Использовать Redis как основную БД без персистентности.", "Делать неатомарный read-modify-write для счётчика."],
-        resources: [
-          ["Laravel: Queues", "https://laravel.com/docs/queues"],
-          ["Laravel: Rate limiting", "https://laravel.com/docs/routing#rate-limiting"]
-        ]
-      },
-      {
-        title: "Инвалидация и cache stampede",
-        desc: "Инвалидация по событию, TTL, версии ключей, cache stampede, hot keys, single-flight и fallback при падении кэша.",
-        practice: "Смоделируй одновременные запросы после истечения TTL и добавь lock/single-flight, чтобы не убить БД.",
-        checkpoint: "Кэш не создаёт шторм запросов, устаревание ограничено, а при недоступности Redis есть fallback.",
-        mistakes: ["Сбрасывать весь кэш при каждом изменении.", "Не иметь fallback при недоступности Redis."],
-        resources: [
-          ["Laravel: Atomic locks", "https://laravel.com/docs/cache#atomic-locks"],
-          ["Redis: Caching patterns", "https://redis.io/docs/latest/develop/use/patterns/"]
-        ]
-      }
-    ],
-    practice: [
-      "Закэшируй каталог новелл через cache-aside, настрой TTL и инвалидацию при изменении.",
-      "Переведи сессии/очереди на Redis и добавь атомарный счётчик для rate limiting.",
-      "Смоделируй cache stampede и защити БД блокировкой или single-flight."
-    ],
-    checkpoint: [
-      "Кэш не отдаёт устаревшие данные дольше TTL.",
-      "Понимаешь, когда Redis — кэш, а не источник истины.",
-      "При падении Redis приложение деградирует, а не падает."
-    ],
-    resources: [
-      ["Redis: Data types", "https://redis.io/docs/latest/develop/data-types/"],
-      ["Redis: Caching patterns", "https://redis.io/docs/latest/develop/use/patterns/"],
-      ["Laravel: Cache", "https://laravel.com/docs/cache"],
-      ["Laravel: Atomic locks", "https://laravel.com/docs/cache#atomic-locks"]
-    ]
-  },
-  {
-    n: 8,
-    key: "s8",
-    group: "Бэкенд",
     title: "Laravel Core: основа приложения",
     lead: "Первая половина Laravel: маршруты, валидация, Blade, Eloquent, сервисы и авторизация. Здесь появляется ядро платформы, на котором держатся все продуктовые фичи.",
     hours: 80,
@@ -1498,6 +1420,84 @@ const STAGES = [
       ["Laravel Bootcamp", "https://bootcamp.laravel.com"],
       ["Laracasts: курсы по Laravel", "https://laracasts.com/topics/laravel"],
       ["Laravel.su (рус.)", "https://laravel.su/docs/"]
+    ]
+  },
+  {
+    n: 8,
+    key: "s8",
+    group: "Бэкенд",
+    title: "Redis и кэширование",
+    lead: "Redis — не «ещё одна база», а инструмент для кэша, сессий, очередей и быстрых счётчиков. Здесь ты научишься выбирать структуры данных, TTL, инвалидацию и защиту от cache stampede.",
+    hours: 20,
+    tech: [
+      "Redis",
+      "Кэш",
+      "TTL",
+      "Сессии",
+      "Очереди",
+      "Инвалидация"
+    ],
+    learn: [
+      {
+        title: "Redis: структуры данных и TTL",
+        desc: "Строки, хеши, списки, множества, sorted sets, TTL, ключи и память. Какую структуру выбрать под задачу и когда данные должны исчезнуть.",
+        practice: "В redis-cli сохрани новеллу в hash, список глав в list и рейтинг в sorted set; выставь TTL и проверь память.",
+        checkpoint: "Выбираешь структуру под задачу и понимаешь, что произойдёт при истечении TTL или eviction.",
+        resources: [
+          ["Redis: Data types", "https://redis.io/docs/latest/develop/data-types/"],
+          ["Redis: EXPIRE", "https://redis.io/docs/latest/commands/expire/"]
+        ],
+        mistakes: ["Использовать KEYS в production.", "Кэшировать всё без TTL и политики вытеснения."]
+      },
+      {
+        title: "Кэш-паттерны и ключи",
+        desc: "Cache-aside, write-through, TTL jitter, версионирование ключей, hit/miss и выбор того, что вообще стоит кэшировать.",
+        practice: "Закэшируй каталог через cache-aside: стабильные ключи, TTL с джиттером и метрики hit/miss.",
+        checkpoint: "Объясняешь, что кэшируется, на сколько и как ключ инвалидируется при изменении.",
+        mistakes: ["Кэшировать без инвалидации.", "Строить ключи из нестабильных данных и плодить дубли."],
+        resources: [
+          ["Redis: Caching patterns", "https://redis.io/docs/latest/develop/use/patterns/"],
+          ["Laravel: Cache", "https://laravel.com/docs/cache"]
+        ]
+      },
+      {
+        title: "Сессии, очереди и счётчики",
+        desc: "Redis для сессий, очередей, rate limiting, счётчиков и рейтингов. Атомарность, TTL и поведение при недоступности Redis.",
+        practice: "Переведи сессии и очередь на Redis, сделай атомарный счётчик rate limit и sorted set для рейтинга.",
+        checkpoint: "Понимаешь, какие операции должны быть атомарными и что произойдёт при потере Redis.",
+        mistakes: ["Использовать Redis как основную БД без персистентности.", "Делать неатомарный read-modify-write для счётчика."],
+        resources: [
+          ["Laravel: Queues", "https://laravel.com/docs/queues"],
+          ["Laravel: Rate limiting", "https://laravel.com/docs/routing#rate-limiting"]
+        ]
+      },
+      {
+        title: "Инвалидация и cache stampede",
+        desc: "Инвалидация по событию, TTL, версии ключей, cache stampede, hot keys, single-flight и fallback при падении кэша.",
+        practice: "Смоделируй одновременные запросы после истечения TTL и добавь lock/single-flight, чтобы не убить БД.",
+        checkpoint: "Кэш не создаёт шторм запросов, устаревание ограничено, а при недоступности Redis есть fallback.",
+        mistakes: ["Сбрасывать весь кэш при каждом изменении.", "Не иметь fallback при недоступности Redis."],
+        resources: [
+          ["Laravel: Atomic locks", "https://laravel.com/docs/cache#atomic-locks"],
+          ["Redis: Caching patterns", "https://redis.io/docs/latest/develop/use/patterns/"]
+        ]
+      }
+    ],
+    practice: [
+      "Закэшируй каталог новелл через cache-aside, настрой TTL и инвалидацию при изменении.",
+      "Переведи сессии/очереди на Redis и добавь атомарный счётчик для rate limiting.",
+      "Смоделируй cache stampede и защити БД блокировкой или single-flight."
+    ],
+    checkpoint: [
+      "Кэш не отдаёт устаревшие данные дольше TTL.",
+      "Понимаешь, когда Redis — кэш, а не источник истины.",
+      "При падении Redis приложение деградирует, а не падает."
+    ],
+    resources: [
+      ["Redis: Data types", "https://redis.io/docs/latest/develop/data-types/"],
+      ["Redis: Caching patterns", "https://redis.io/docs/latest/develop/use/patterns/"],
+      ["Laravel: Cache", "https://laravel.com/docs/cache"],
+      ["Laravel: Atomic locks", "https://laravel.com/docs/cache#atomic-locks"]
     ]
   },
   {
