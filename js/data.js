@@ -1,6 +1,6 @@
 /* ==========================================================================
    RM-FLIB — roadmap content
-   13 stages, 173 topics. Each topic contains:
+   17 stages, 176 topics. Each topic contains:
    practice, checkpoint, resources and typical mistakes.
    Practice platforms and Russian alternatives are included
    in stage resources.
@@ -565,7 +565,7 @@ const STAGES = [
     group: "Фундамент",
     title: "TypeScript и инструменты качества",
     lead: "TypeScript ловит ошибки до запуска, Vite собирает фронтенд за секунды, а линтеры и тесты не дают проекту разваливаться. Здесь ты учишься не «писать типы», а проектировать предсказуемый код.",
-    hours: 50,
+    hours: 55,
     tech: [
       "TypeScript",
       "Vite",
@@ -1136,7 +1136,7 @@ const STAGES = [
       "SQLite",
       "Индексы",
       "Транзакции",
-      "Redis"
+      "FTS"
     ],
     learn: [
       {
@@ -1274,30 +1274,18 @@ const STAGES = [
           ["SQLite docs", "https://www.sqlite.org/docs.html"]
         ],
         mistakes: ["Писать SQL под MySQL и запускать на SQLite без проверки.", "Не делать бэкап перед миграцией."]
-      },
-      {
-        title: "Redis",
-        desc: "Строки, хеши, списки, множества, TTL, кэширование, сессии и очереди, инвалидация.",
-        practice: "Закэшируй список новелл с TTL и инвалидируй кэш при изменении данных.",
-        checkpoint: "Кэш не отдаёт устаревшие данные дольше TTL и не ломает приложение при падении Redis.",
-        resources: [
-          ["Redis: Data types", "https://redis.io/docs/latest/develop/data-types/"],
-          ["Redis: Caching", "https://redis.io/docs/latest/develop/use/patterns/"]
-        ],
-        mistakes: ["Кэшировать без TTL.", "Забывать инвалидацию после изменения данных."]
       }
     ],
     practice: ["Спроектируй схему FLIB: users, novels, chapters, genres, tags, comments, reviews, likes, bookmarks, follows, teams.", "Напиши 20 SQL-запросов, заполни данными и проверь планы через EXPLAIN."],
     checkpoint: [
       "Схема без дублирования и с адекватными индексами.",
       "Объяснить, где будет N+1 и как его избежать.",
-      "Понимать, какие данные логично держать в Redis."
+      "Понимать, когда нужен индекс и полнотекстовый поиск."
     ],
     resources: [
       ["SQLBolt", "https://sqlbolt.com"],
       ["Use The Index, Luke", "https://use-the-index-luke.com"],
       ["MySQL docs", "https://dev.mysql.com/doc/"],
-      ["Redis docs", "https://redis.io/docs/latest/"],
       ["SQL Academy (рус.)", "https://sql-academy.org/ru"]
     ]
   },
@@ -1305,17 +1293,95 @@ const STAGES = [
     n: 7,
     key: "s7",
     group: "Бэкенд",
-    title: "Laravel: сердце платформы",
-    lead: "Самый большой этап. Laravel даёт маршруты, ORM, авторизацию, очереди и десятки инструментов. Учись не «магии», а слоям: HTTP → контроллер → сервис → модель → БД.",
-    hours: 160,
+    title: "Redis и кэширование",
+    lead: "Redis — не «ещё одна база», а инструмент для кэша, сессий, очередей и быстрых счётчиков. Здесь ты научишься выбирать структуры данных, TTL, инвалидацию и защиту от cache stampede.",
+    hours: 20,
+    tech: [
+      "Redis",
+      "Кэш",
+      "TTL",
+      "Сессии",
+      "Очереди",
+      "Инвалидация"
+    ],
+    learn: [
+      {
+        title: "Redis: структуры данных и TTL",
+        desc: "Строки, хеши, списки, множества, sorted sets, TTL, ключи и память. Какую структуру выбрать под задачу и когда данные должны исчезнуть.",
+        practice: "В redis-cli сохрани новеллу в hash, список глав в list и рейтинг в sorted set; выставь TTL и проверь память.",
+        checkpoint: "Выбираешь структуру под задачу и понимаешь, что произойдёт при истечении TTL или eviction.",
+        resources: [
+          ["Redis: Data types", "https://redis.io/docs/latest/develop/data-types/"],
+          ["Redis: EXPIRE", "https://redis.io/docs/latest/commands/expire/"]
+        ],
+        mistakes: ["Использовать KEYS в production.", "Кэшировать всё без TTL и политики вытеснения."]
+      },
+      {
+        title: "Кэш-паттерны и ключи",
+        desc: "Cache-aside, write-through, TTL jitter, версионирование ключей, hit/miss и выбор того, что вообще стоит кэшировать.",
+        practice: "Закэшируй каталог через cache-aside: стабильные ключи, TTL с джиттером и метрики hit/miss.",
+        checkpoint: "Объясняешь, что кэшируется, на сколько и как ключ инвалидируется при изменении.",
+        mistakes: ["Кэшировать без инвалидации.", "Строить ключи из нестабильных данных и плодить дубли."],
+        resources: [
+          ["Redis: Caching patterns", "https://redis.io/docs/latest/develop/use/patterns/"],
+          ["Laravel: Cache", "https://laravel.com/docs/cache"]
+        ]
+      },
+      {
+        title: "Сессии, очереди и счётчики",
+        desc: "Redis для сессий, очередей, rate limiting, счётчиков и рейтингов. Атомарность, TTL и поведение при недоступности Redis.",
+        practice: "Переведи сессии и очередь на Redis, сделай атомарный счётчик rate limit и sorted set для рейтинга.",
+        checkpoint: "Понимаешь, какие операции должны быть атомарными и что произойдёт при потере Redis.",
+        mistakes: ["Использовать Redis как основную БД без персистентности.", "Делать неатомарный read-modify-write для счётчика."],
+        resources: [
+          ["Laravel: Queues", "https://laravel.com/docs/queues"],
+          ["Laravel: Rate limiting", "https://laravel.com/docs/routing#rate-limiting"]
+        ]
+      },
+      {
+        title: "Инвалидация и cache stampede",
+        desc: "Инвалидация по событию, TTL, версии ключей, cache stampede, hot keys, single-flight и fallback при падении кэша.",
+        practice: "Смоделируй одновременные запросы после истечения TTL и добавь lock/single-flight, чтобы не убить БД.",
+        checkpoint: "Кэш не создаёт шторм запросов, устаревание ограничено, а при недоступности Redis есть fallback.",
+        mistakes: ["Сбрасывать весь кэш при каждом изменении.", "Не иметь fallback при недоступности Redis."],
+        resources: [
+          ["Laravel: Atomic locks", "https://laravel.com/docs/cache#atomic-locks"],
+          ["Redis: Caching patterns", "https://redis.io/docs/latest/develop/use/patterns/"]
+        ]
+      }
+    ],
+    practice: [
+      "Закэшируй каталог новелл через cache-aside, настрой TTL и инвалидацию при изменении.",
+      "Переведи сессии/очереди на Redis и добавь атомарный счётчик для rate limiting.",
+      "Смоделируй cache stampede и защити БД блокировкой или single-flight."
+    ],
+    checkpoint: [
+      "Кэш не отдаёт устаревшие данные дольше TTL.",
+      "Понимаешь, когда Redis — кэш, а не источник истины.",
+      "При падении Redis приложение деградирует, а не падает."
+    ],
+    resources: [
+      ["Redis: Data types", "https://redis.io/docs/latest/develop/data-types/"],
+      ["Redis: Caching patterns", "https://redis.io/docs/latest/develop/use/patterns/"],
+      ["Laravel: Cache", "https://laravel.com/docs/cache"],
+      ["Laravel: Atomic locks", "https://laravel.com/docs/cache#atomic-locks"]
+    ]
+  },
+  {
+    n: 8,
+    key: "s8",
+    group: "Бэкенд",
+    title: "Laravel Core: основа приложения",
+    lead: "Первая половина Laravel: маршруты, валидация, Blade, Eloquent, сервисы и авторизация. Здесь появляется ядро платформы, на котором держатся все продуктовые фичи.",
+    hours: 80,
     tech: [
       "Laravel 13",
       "Eloquent",
+      "Blade",
       "Breeze",
-      "Sanctum",
       "Policies",
-      "Queues",
-      "Blade"
+      "Validation",
+      "Services"
     ],
     learn: [
       {
@@ -1409,6 +1475,49 @@ const STAGES = [
         mistakes: ["Проверять роль в Blade вместо policy.", "Забывать 403 и отдавать 404/500."]
       },
       {
+        title: "Локализация и время",
+        desc: "lang-файлы, часовые пояса, форматирование дат.",
+        practice: "Вынеси строки в lang-файлы, настрой часовой пояс и локализованные даты.",
+        checkpoint: "Переключение языка меняет интерфейс, а даты не сдвигаются.",
+        resources: [
+          ["Laravel: Localization", "https://laravel.com/docs/localization"],
+          ["Carbon", "https://carbon.nesbot.com/"]
+        ],
+        mistakes: ["Хардкодить русские строки.", "Путать UTC и локальное время."]
+      }
+    ],
+    practice: ["Собери ядро платформы: регистрация, роли, каталог, новеллы, главы, CRUD и policies.", "Бизнес-логику вынеси в сервисы, доступ — через policies, данные — через миграции и фабрики."],
+    checkpoint: [
+      "Полный CRUD с авторизацией и валидацией.",
+      "Роли и policies закрывают чужие действия.",
+      "Сервисный слой отделён от контроллеров.",
+      "Миграции и фабрики воспроизводят БД с нуля."
+    ],
+    resources: [
+      ["Laravel docs", "https://laravel.com/docs"],
+      ["Laravel Bootcamp", "https://bootcamp.laravel.com"],
+      ["Laracasts: курсы по Laravel", "https://laracasts.com/topics/laravel"],
+      ["Laravel.su (рус.)", "https://laravel.su/docs/"]
+    ]
+  },
+  {
+    n: 9,
+    key: "s9",
+    group: "Бэкенд",
+    title: "Laravel Advanced: API, очереди и real-time",
+    lead: "Вторая половина Laravel — production-возможности: API, очереди, события, WebSockets, кэш, observability и тесты. Именно здесь приложение начинает вести себя как продукт.",
+    hours: 80,
+    tech: [
+      "Sanctum",
+      "API",
+      "Queues",
+      "Reverb",
+      "Pulse",
+      "Sentry",
+      "Tests"
+    ],
+    learn: [
+      {
         after: "Авторизация",
         title: "API и внешние клиенты",
         desc: "JSON-ресурсы, версионирование, Sanctum abilities, токены, rate limits и контракт API для мобильного клиента или Telegram WebApp.",
@@ -1480,17 +1589,6 @@ const STAGES = [
         mistakes: ["Кэшировать без ключей и инвалидации.", "Хранить пользовательские файлы в public без проверки."]
       },
       {
-        title: "Локализация и время",
-        desc: "lang-файлы, часовые пояса, форматирование дат.",
-        practice: "Вынеси строки в lang-файлы, настрой часовой пояс и локализованные даты.",
-        checkpoint: "Переключение языка меняет интерфейс, а даты не сдвигаются.",
-        resources: [
-          ["Laravel: Localization", "https://laravel.com/docs/localization"],
-          ["Carbon", "https://carbon.nesbot.com/"]
-        ],
-        mistakes: ["Хардкодить русские строки.", "Путать UTC и локальное время."]
-      },
-      {
         title: "Логи и ошибки",
         desc: "Каналы логов, Pail, обработка исключений, понятные сообщения пользователю.",
         practice: "Настрой канал логов, залогируй ошибку с контекстом и проверь её в Pail.",
@@ -1526,24 +1624,27 @@ const STAGES = [
         mistakes: ["Тестировать только happy path.", "Зависеть от порядка тестов."]
       }
     ],
-    practice: ["Собери MVP платформы: регистрация/вход, роли, каталог новелл, карточка, главы, публикация, закладки, минимальная админка.", "Бизнес-логику вынеси в сервисы, доступ — через policies."],
+    practice: [
+      "Добавь API с Sanctum abilities и rate limiting.",
+      "Вынеси тяжёлые задачи в очереди, настрой retry/failed jobs и broadcast прогресса.",
+      "Подключи кэш, health checks, Sentry/Pulse и покрой сценарии тестами."
+    ],
     checkpoint: [
-      "Полный CRUD с авторизацией и валидацией.",
-      "Работающая очередь и scheduled-задача.",
-      "20+ осмысленных тестов.",
-      "Объяснить контейнер и зачем сервисный слой."
+      "API отдаёт стабильный контракт и проверяет abilities.",
+      "Очереди переживают retry и не создают дубликаты.",
+      "Приватные каналы защищены, health/ошибки видны.",
+      "Ключевые сценарии покрыты feature-тестами."
     ],
     resources: [
-      ["Laravel docs", "https://laravel.com/docs"],
-      ["Laravel Bootcamp", "https://bootcamp.laravel.com"],
-      ["Laracasts: курсы по Laravel", "https://laracasts.com/topics/laravel"],
-      ["30 Days to Learn Laravel", "https://laracasts.com/series/30-days-to-learn-laravel-11"],
-      ["Laravel.su (рус.)", "https://laravel.su/docs/"]
+      ["Laravel: Broadcasting", "https://laravel.com/docs/broadcasting"],
+      ["Laravel: Reverb", "https://laravel.com/docs/reverb"],
+      ["Laravel: Pulse", "https://laravel.com/docs/pulse"],
+      ["Laracasts: 30 Days to Learn Laravel", "https://laracasts.com/series/30-days-to-learn-laravel-11"]
     ]
   },
   {
-    n: 8,
-    key: "s8",
+    n: 10,
+    key: "s10",
     group: "Связка",
     title: "Inertia.js: Laravel + Vue без API-боли",
     lead: "FLIB — это Inertia-приложение: серверный роутинг Laravel и SPA-интерфейс Vue без ручного API. Этап учит связывать два мира так, чтобы не писать fetch на каждый чих.",
@@ -1719,20 +1820,20 @@ const STAGES = [
     ]
   },
   {
-    n: 9,
-    key: "s9",
+    n: 11,
+    key: "s11",
     group: "Качество",
-    title: "Тесты, качество кода и безопасность",
-    lead: "Код, который никто не проверяет, гниёт. Тесты, статический анализ, CI и базовая безопасность — то, что отличает учебный проект от продукта.",
-    hours: 75,
+    title: "Тестирование и качество кода",
+    lead: "Тесты, статический анализ, компонентные и E2E-тесты, CI. Здесь ты учишься доказывать, что код работает, а не надеяться на ручную проверку.",
+    hours: 55,
     tech: [
       "Pest",
       "PHPStan",
-      "Pint",
       "ESLint",
-      "GitHub Actions",
-      "OWASP",
-      "CSP"
+      "Vitest",
+      "Playwright",
+      "Mutation",
+      "CI"
     ],
     learn: [
       {
@@ -1756,18 +1857,6 @@ const STAGES = [
           ["Pest: Laravel plugin", "https://pestphp.com/docs/plugins/laravel"]
         ],
         mistakes: ["Делать тесты зависимыми от порядка.", "Мокать всё, включая простые value-объекты."]
-      },
-      {
-        after: "Pest",
-        title: "Pest mutation testing",
-        desc: "Мутационное тестирование, min score, выбор классов и интерпретация выживших мутантов.",
-        practice: "Запусти mutation testing для RatingCalculator и подними score до 80%.",
-        checkpoint: "Выжившие мутанты показывают реальные пробелы в тестах, а не шум.",
-        mistakes: ["Гнаться за 100% и тратить время на эквивалентные мутанты.", "Мутировать весь проект сразу."],
-        resources: [
-          ["Pest: Mutation testing", "https://pestphp.com/docs/mutation-testing"],
-          ["Pest docs", "https://pestphp.com/docs/installation"]
-        ]
       },
       {
         title: "Тесты сценариев",
@@ -1828,6 +1917,18 @@ const STAGES = [
         ]
       },
       {
+        after: "Pest",
+        title: "Pest mutation testing",
+        desc: "Мутационное тестирование, min score, выбор классов и интерпретация выживших мутантов.",
+        practice: "Запусти mutation testing для RatingCalculator и подними score до 80%.",
+        checkpoint: "Выжившие мутанты показывают реальные пробелы в тестах, а не шум.",
+        mistakes: ["Гнаться за 100% и тратить время на эквивалентные мутанты.", "Мутировать весь проект сразу."],
+        resources: [
+          ["Pest: Mutation testing", "https://pestphp.com/docs/mutation-testing"],
+          ["Pest docs", "https://pestphp.com/docs/installation"]
+        ]
+      },
+      {
         title: "CI",
         desc: "GitHub Actions: тесты, линтеры, сборка на каждый PR, кэш зависимостей.",
         practice: "Сделай workflow с тестами, линтерами, сборкой и кэшем зависимостей.",
@@ -1839,6 +1940,51 @@ const STAGES = [
         ],
         mistakes: ["CI без кэша и матрицы.", "Пускать красный CI в main."]
       },
+      {
+        after: "Секреты и бэкапы",
+        title: "Dependency и secret audits",
+        desc: "Composer audit, npm audit, Dependabot, secret scanning, обновление зависимостей и проверка лицензий.",
+        practice: "Настрой Dependabot и audit в CI, обнови одну зависимость и проверь, что тесты проходят.",
+        checkpoint: "Уязвимости и секреты находятся автоматически, а обновления не ломают проект.",
+        mistakes: ["Игнорировать audit до инцидента.", "Обновлять всё сразу без тестов."],
+        resources: [
+          ["GitHub Dependabot", "https://docs.github.com/en/code-security/dependabot"],
+          ["Composer audit", "https://getcomposer.org/doc/03-cli.md#audit"]
+        ]
+      }
+    ],
+    practice: ["Покрой регистрацию, публикацию главы и права доступа feature-тестами.", "Добавь Vitest для компонентов, Playwright для сквозного сценария, mutation testing и CI с coverage gate."],
+    checkpoint: [
+      "CI зелёный на каждом PR.",
+      "Ключевые сценарии покрыты feature-тестами.",
+      "Компонентные и E2E-тесты ловят регрессии.",
+      "Coverage и mutation дают осмысленный сигнал."
+    ],
+    resources: [
+      ["Pest docs", "https://pestphp.com/docs/installation"],
+      ["PHPStan docs", "https://phpstan.org/user-guide/getting-started"],
+      ["GitHub Actions docs", "https://docs.github.com/actions"],
+      ["Playwright docs", "https://playwright.dev/docs/intro"],
+      ["Vitest docs", "https://vitest.dev/guide/"]
+    ]
+  },
+  {
+    n: 12,
+    key: "s12",
+    group: "Качество",
+    title: "Безопасность веб-приложения",
+    lead: "OWASP, XSS/CSRF/IDOR, rate limiting, CSP, Purifier, секреты и бэкапы. Безопасность — не чеклист раз в год, а набор привычек в коде.",
+    hours: 20,
+    tech: [
+      "OWASP",
+      "CSRF",
+      "XSS",
+      "CSP",
+      "Purifier",
+      "Secrets",
+      "Backups"
+    ],
+    learn: [
       {
         title: "OWASP Top 10",
         desc: "XSS, CSRF, SQLi, mass assignment, IDOR, небезопасные загрузки, SSRF.",
@@ -1883,51 +2029,36 @@ const STAGES = [
           ["Laravel: Encryption", "https://laravel.com/docs/encryption"]
         ],
         mistakes: ["Хранить секреты в репозитории.", "Не проверять восстановление бэкапа."]
-      },
-      {
-        after: "Секреты и бэкапы",
-        title: "Dependency и secret audits",
-        desc: "Composer audit, npm audit, Dependabot, secret scanning, обновление зависимостей и проверка лицензий.",
-        practice: "Настрой Dependabot и audit в CI, обнови одну зависимость и проверь, что тесты проходят.",
-        checkpoint: "Уязвимости и секреты находятся автоматически, а обновления не ломают проект.",
-        mistakes: ["Игнорировать audit до инцидента.", "Обновлять всё сразу без тестов."],
-        resources: [
-          ["GitHub Dependabot", "https://docs.github.com/en/code-security/dependabot"],
-          ["Composer audit", "https://getcomposer.org/doc/03-cli.md#audit"]
-        ]
       }
     ],
-    practice: ["Покрой тестами регистрацию, публикацию главы и права доступа. Настрой GitHub Actions.", "Пройди чеклист OWASP и исправь найденное. Добавь Purifier и CSP."],
+    practice: ["Пройди OWASP-чеклист по проекту и заведи issues на найденное.", "Настрой rate limiting, CSP report-only, Purifier и secret scanning; проверь восстановление бэкапа."],
     checkpoint: [
-      "CI зелёный на каждом PR.",
-      "Ключевые сценарии покрыты feature-тестами.",
-      "Можешь объяснить каждую защиту и её ограничения."
+      "Нет критичных пунктов OWASP без плана.",
+      "Пользовательский HTML очищается, CSP не ломает приложение.",
+      "Секретов в git нет, бэкап восстанавливается."
     ],
     resources: [
-      ["Pest docs", "https://pestphp.com/docs/installation"],
-      ["PHPStan docs", "https://phpstan.org/user-guide/getting-started"],
       ["OWASP Top 10", "https://owasp.org/www-project-top-ten/"],
-      ["Laravel security docs", "https://laravel.com/docs/security"],
-      ["GitHub Actions docs", "https://docs.github.com/actions"],
-      ["Pest: Mutation testing", "https://pestphp.com/docs/mutation-testing"],
-      ["Playwright: CI", "https://playwright.dev/docs/ci"]
+      ["Laravel: Security", "https://laravel.com/docs/security"],
+      ["MDN: CSP", "https://developer.mozilla.org/ru/docs/Web/HTTP/CSP"],
+      ["HTML Purifier", "http://htmlpurifier.org/"],
+      ["GitHub: Secret scanning", "https://docs.github.com/en/code-security/secret-scanning"]
     ]
   },
   {
-    n: 10,
-    key: "s10",
+    n: 13,
+    key: "s13",
     group: "Качество",
-    title: "Docker, сервер и деплой",
-    lead: "Локально работает — не значит готово. Docker делает окружение воспроизводимым, а деплой на VPS учит видеть проект целиком: nginx, PHP-FPM, БД, Redis, очереди, HTTPS и бэкапы.",
-    hours: 60,
+    title: "Docker и контейнеризация",
+    lead: "Docker делает окружение воспроизводимым: образы, Compose, nginx, PHP-FPM, Supervisord и данные в volume. Локально и на сервере — одинаково.",
+    hours: 30,
     tech: [
       "Docker",
       "Compose",
       "nginx",
       "PHP-FPM",
-      "VPS",
-      "HTTPS",
-      "Supervisord"
+      "Supervisord",
+      "MySQL"
     ],
     learn: [
       {
@@ -1995,6 +2126,61 @@ const STAGES = [
           ["Laravel: Optimization", "https://laravel.com/docs/deployment#optimization"]
         ],
         mistakes: ["Оставлять APP_DEBUG=true.", "Кэшировать конфиг с секретами в образе."]
+      }
+    ],
+    practice: ["Собери Dockerfile и compose для Laravel, nginx, MySQL и Redis.", "Настрой Supervisord для очередей, volume для данных и production-конфиг."],
+    checkpoint: [
+      "Одна команда поднимает проект с нуля.",
+      "PHP работает через FPM, статика через nginx.",
+      "Данные переживают перезапуск, production-конфиг без debug."
+    ],
+    resources: [
+      ["Docker docs", "https://docs.docker.com"],
+      ["Docker Compose", "https://docs.docker.com/compose/"],
+      ["nginx: Beginner guide", "https://nginx.org/en/docs/beginners_guide.html"],
+      ["Supervisord", "http://supervisord.org/"],
+      ["Laravel: Deployment", "https://laravel.com/docs/deployment"]
+    ]
+  },
+  {
+    n: 14,
+    key: "s14",
+    group: "Качество",
+    title: "Деплой и эксплуатация",
+    lead: "Сервер, HTTPS, CI/CD, staging, zero-downtime, мониторинг, нагрузка и бэкапы. Здесь проект превращается в сервис, который работает без тебя.",
+    hours: 30,
+    tech: [
+      "VPS",
+      "SSH",
+      "HTTPS",
+      "CI/CD",
+      "Staging",
+      "Sentry",
+      "Pulse",
+      "Backups"
+    ],
+    learn: [
+      {
+        title: "VPS и SSH",
+        desc: "Пользователи, ключи, firewall, обновления, домен и DNS.",
+        practice: "Создай пользователя, настрой ключи и firewall, отключи вход root по паролю.",
+        checkpoint: "SSH по паролю закрыт, открыты только нужные порты, обновления ставятся.",
+        resources: [
+          ["DigitalOcean: SSH setup", "https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-22-04"],
+          ["UFW", "https://help.ubuntu.com/community/UFW"]
+        ],
+        mistakes: ["Разрешать root-логин по паролю.", "Оставлять SSH открытым для всех."]
+      },
+      {
+        title: "HTTPS",
+        desc: "Let's Encrypt, автопродление, редиректы, HSTS.",
+        practice: "Выпусти сертификат Let's Encrypt и настрой автоматическое обновление.",
+        checkpoint: "HTTP редиректит на HTTPS, сертификат валиден и обновляется без простоя.",
+        resources: [
+          ["Certbot", "https://certbot.eff.org/"],
+          ["Let's Encrypt", "https://letsencrypt.org/ru/"]
+        ],
+        mistakes: ["Использовать самоподписанный сертификат в production.", "Забывать автообновление сертификата."]
       },
       {
         after: "Конфигурация production",
@@ -2019,28 +2205,6 @@ const STAGES = [
           ["Laravel: Zero-downtime deployment", "https://laravel.com/docs/deployment#zero-downtime-deployment"],
           ["GitHub Actions environments", "https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment"]
         ]
-      },
-      {
-        title: "VPS и SSH",
-        desc: "Пользователи, ключи, firewall, обновления, домен и DNS.",
-        practice: "Создай пользователя, настрой ключи и firewall, отключи вход root по паролю.",
-        checkpoint: "SSH по паролю закрыт, открыты только нужные порты, обновления ставятся.",
-        resources: [
-          ["DigitalOcean: SSH setup", "https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-22-04"],
-          ["UFW", "https://help.ubuntu.com/community/UFW"]
-        ],
-        mistakes: ["Разрешать root-логин по паролю.", "Оставлять SSH открытым для всех."]
-      },
-      {
-        title: "HTTPS",
-        desc: "Let's Encrypt, автопродление, редиректы, HSTS.",
-        practice: "Выпусти сертификат Let's Encrypt и настрой автоматическое обновление.",
-        checkpoint: "HTTP редиректит на HTTPS, сертификат валиден и обновляется без простоя.",
-        resources: [
-          ["Certbot", "https://certbot.eff.org/"],
-          ["Let's Encrypt", "https://letsencrypt.org/ru/"]
-        ],
-        mistakes: ["Использовать самоподписанный сертификат в production.", "Забывать автообновление сертификата."]
       },
       {
         title: "Мониторинг и логи",
@@ -2089,24 +2253,24 @@ const STAGES = [
         mistakes: ["Делать бэкап без проверки восстановления.", "Хранить бэкап на том же сервере."]
       }
     ],
-    practice: ["Собери docker-compose для проекта и подними его на VPS с доменом и HTTPS.", "Настрой очередь и cron, сделай бэкап и восстанови его на чистой машине."],
+    practice: ["Разверни VPS с HTTPS, CI/CD и staging.", "Настрой rollback, Sentry/Pulse, алерты, нагрузочный baseline и восстановление бэкапа."],
     checkpoint: [
-      "Одна команда поднимает проект с нуля.",
-      "Сайт доступен по HTTPS, очередь обрабатывает задачи.",
-      "Бэкап реально восстанавливается.",
-      "Понимаешь каждый контейнер и порт."
+      "Деплой и rollback автоматизированы.",
+      "HTTPS и health checks работают.",
+      "Мониторинг замечает деградацию до пользователей.",
+      "Бэкап восстанавливается на чистой машине."
     ],
     resources: [
-      ["Docker docs", "https://docs.docker.com"],
-      ["Laravel deployment", "https://laravel.com/docs/deployment"],
-      ["nginx docs", "https://nginx.org/ru/docs/"],
-      ["Let's Encrypt", "https://letsencrypt.org/ru/"],
-      ["DigitalOcean tutorials", "https://www.digitalocean.com/community/tutorials"]
+      ["Laravel: Deployment", "https://laravel.com/docs/deployment"],
+      ["Certbot", "https://certbot.eff.org/"],
+      ["DigitalOcean tutorials", "https://www.digitalocean.com/community/tutorials"],
+      ["GitHub Actions: Deployment", "https://docs.github.com/en/actions/deployment"],
+      ["Laravel Pulse", "https://laravel.com/docs/pulse"]
     ]
   },
   {
-    n: 11,
-    key: "s11",
+    n: 15,
+    key: "s15",
     group: "Продукт",
     title: "Сборка FogrestRead: большой продукт",
     lead: "Теперь не учишь технологии, а строишь продукт. Разбей работу на спринты по 1–2 недели, после каждого — рабочая версия, тесты и деплой. Сверяйся с FLIB, но не копируй слепо: принимай решения сам.",
@@ -2277,8 +2441,8 @@ const STAGES = [
     ]
   },
   {
-    n: 12,
-    key: "s12",
+    n: 16,
+    key: "s16",
     group: "Продукт",
     title: "Финиш: портфолио и выход на рынок",
     lead: "Финальный этап — упаковать результат. Код без истории и демо никто не увидит. Сделай так, чтобы проект можно было открыть, запустить и понять за 10 минут.",
