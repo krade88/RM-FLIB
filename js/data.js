@@ -1,9 +1,9 @@
 /* ==========================================================================
    RM-FLIB — roadmap content
-   13 stages, 137 topics. Each topic contains:
-   practice, checkpoint and resources; foundation topics also
-   include typical mistakes. Practice platforms and Russian
-   alternatives are included in stage resources.
+   13 stages, 173 topics. Each topic contains:
+   practice, checkpoint, resources and typical mistakes.
+   Practice platforms and Russian alternatives are included
+   in stage resources.
    ========================================================================== */
 
 const STAGES = [
@@ -760,7 +760,7 @@ const STAGES = [
     group: "Фронтенд",
     title: "Vue 3: компонентный интерфейс",
     lead: "Vue — слой, из которого состоит весь интерфейс FLIB. Освой компонентное мышление, реактивность и управление состоянием, прежде чем лезть в Laravel.",
-    hours: 80,
+    hours: 95,
     tech: [
       "Vue 3",
       "Composition API",
@@ -778,7 +778,8 @@ const STAGES = [
         resources: [
           ["Vue: Quick start", "https://vuejs.org/guide/quick-start.html"],
           ["Vue: Template syntax", "https://vuejs.org/guide/essentials/template-syntax.html"]
-        ]
+        ],
+        mistakes: ["Смешивать Options API и Composition API без причины.", "Забывать key в v-for и получать странные перерисовки."]
       },
       {
         title: "Composition API",
@@ -788,6 +789,19 @@ const STAGES = [
         resources: [
           ["Vue: Reactivity fundamentals", "https://vuejs.org/guide/essentials/reactivity-fundamentals.html"],
           ["Vue: Lifecycle hooks", "https://vuejs.org/guide/essentials/lifecycle.html"]
+        ],
+        mistakes: ["Использовать reactive для примитива.", "Создавать computed с побочными эффектами."]
+      },
+      {
+        after: "Composition API",
+        title: "Реактивность в деталях",
+        desc: "ref и reactive, глубокая и поверхностная реактивность, computed vs watch, ловушки при деструктуризации и передаче объектов.",
+        practice: "Собери компонент с ref, reactive, computed и watch. Разбери, где теряется реактивность при деструктуризации, и исправь это через toRefs.",
+        checkpoint: "Объясняешь, почему reactive-объект теряет реактивность после деструктуризации и когда нужен computed вместо watch.",
+        mistakes: ["Делать всё reactive, включая примитивы.", "Забывать про глубокую реактивность и мутировать вложенные объекты."],
+        resources: [
+          ["Vue: Reactivity in depth", "https://vuejs.org/guide/extras/reactivity-in-depth.html"],
+          ["Vue: Computed", "https://vuejs.org/guide/essentials/computed.html"]
         ]
       },
       {
@@ -798,6 +812,19 @@ const STAGES = [
         resources: [
           ["Vue: Components", "https://vuejs.org/guide/essentials/component-basics.html"],
           ["Vue: Slots", "https://vuejs.org/guide/components/slots.html"]
+        ],
+        mistakes: ["Мутировать props внутри дочернего компонента.", "Забывать объявлять emits и терять контракт события."]
+      },
+      {
+        after: "Компоненты",
+        title: "TypeScript во Vue",
+        desc: "Типизация props и emits, defineProps/defineEmits, generic-компоненты, типизация слотов и template refs.",
+        practice: "Переведи NovelCard и форму главы на типизированные props/emits и добавь generic-компонент списка.",
+        checkpoint: "Компоненты не используют any, а ошибки props/emits ловятся vue-tsc.",
+        mistakes: ["Использовать any в props и считать это типизацией.", "Забывать объявлять emits и терять проверку событий."],
+        resources: [
+          ["Vue: TypeScript overview", "https://vuejs.org/guide/typescript/overview.html"],
+          ["Vue: TypeScript with Composition API", "https://vuejs.org/guide/typescript/composition-api.html"]
         ]
       },
       {
@@ -808,7 +835,8 @@ const STAGES = [
         resources: [
           ["Vue: Composables", "https://vuejs.org/guide/reusability/composables.html"],
           ["Vue Examples", "https://vuejs.org/examples/"]
-        ]
+        ],
+        mistakes: ["Возвращать глобальное состояние из composable.", "Создавать composable ради одной строки кода."]
       },
       {
         title: "Формы",
@@ -818,7 +846,8 @@ const STAGES = [
         resources: [
           ["Vue: Form input bindings", "https://vuejs.org/guide/essentials/forms.html"],
           ["Vue Examples", "https://vuejs.org/examples/"]
-        ]
+        ],
+        mistakes: ["Хранить пароль в открытом виде в состоянии.", "Не обрабатывать серверные ошибки и показывать только свою валидацию."]
       },
       {
         title: "Vue Router",
@@ -828,7 +857,8 @@ const STAGES = [
         resources: [
           ["Vue Router", "https://router.vuejs.org/guide/"],
           ["Vue Router: Navigation guards", "https://router.vuejs.org/guide/advanced/navigation-guards.html"]
-        ]
+        ],
+        mistakes: ["Забывать 404 и прямой переход по глубокому URL.", "Делать guards с побочными эффектами и запросами."]
       },
       {
         title: "Pinia",
@@ -838,6 +868,31 @@ const STAGES = [
         resources: [
           ["Pinia: Getting started", "https://pinia.vuejs.org/getting-started.html"],
           ["Pinia: Cookbook", "https://pinia.vuejs.org/cookbook/"]
+        ],
+        mistakes: ["Дублировать серверное состояние в store.", "Мутировать state напрямую вне actions."]
+      },
+      {
+        after: "Pinia",
+        title: "Тестирование Vue",
+        desc: "Vitest, Vue Test Utils, тестирование компонентов, composables и store без браузера.",
+        practice: "Напиши тесты для useReaderSettings и NovelCard: рендер, props, emit и изменение состояния.",
+        checkpoint: "Тесты проверяют поведение компонента, а не его внутреннюю реализацию.",
+        mistakes: ["Тестировать CSS и детали реализации.", "Мокать всё, включая собственные composables."],
+        resources: [
+          ["Vue Test Utils", "https://test-utils.vuejs.org/guide/"],
+          ["Vitest", "https://vitest.dev/guide/"]
+        ]
+      },
+      {
+        after: "Pinia",
+        title: "Архитектура Vue-проекта",
+        desc: "Feature-папки, dumb/smart-компоненты, общие UI-компоненты, алиасы, границы ответственности и масштабирование.",
+        practice: "Разложи текущий проект по feature-папкам, вынеси общие компоненты и объясни, что где лежит.",
+        checkpoint: "Новый разработчик находит нужный компонент за минуту, а фича не тянет за собой весь проект.",
+        mistakes: ["Складывать всё в одну папку components.", "Абстрагировать раньше, чем появилась повторяемость."],
+        resources: [
+          ["Vue: State management", "https://vuejs.org/guide/scaling-up/state-management.html"],
+          ["Vue: Tooling", "https://vuejs.org/guide/scaling-up/tooling.html"]
         ]
       },
       {
@@ -848,7 +903,8 @@ const STAGES = [
         resources: [
           ["Vue: Transitions", "https://vuejs.org/guide/built-ins/transition.html"],
           ["Tailwind: Transitions", "https://tailwindcss.com/docs/transition-property"]
-        ]
+        ],
+        mistakes: ["Анимации, которые ломают layout и вызывают скачки.", "Использовать scoped CSS и ждать, что он пробьёт дочерние компоненты."]
       },
       {
         title: "Производительность и a11y",
@@ -858,6 +914,19 @@ const STAGES = [
         resources: [
           ["Vue: Performance", "https://vuejs.org/guide/best-practices/performance.html"],
           ["Vue: Accessibility", "https://vuejs.org/guide/best-practices/accessibility.html"]
+        ],
+        mistakes: ["Оптимизировать без замеров и baseline.", "Убирать фокус у модалок и терять клавиатурную навигацию."]
+      },
+      {
+        after: "Производительность и a11y",
+        title: "Доступность в SPA",
+        desc: "Управление фокусом после переходов, aria-live, клавиатурная навигация, модалки, skip-links и скринридеры.",
+        practice: "Проверь ридер и модалку клавиатурой и скринридером, добавь управление фокусом и aria-live для уведомлений.",
+        checkpoint: "После перехода фокус не теряется, модалка закрывается Escape, а динамические сообщения озвучиваются.",
+        mistakes: ["Не управлять фокусом после клиентского перехода.", "Забывать aria-live для динамических сообщений."],
+        resources: [
+          ["Vue: Accessibility", "https://vuejs.org/guide/best-practices/accessibility.html"],
+          ["WAI-ARIA Authoring Practices", "https://www.w3.org/WAI/ARIA/apg/"]
         ]
       }
     ],
@@ -881,7 +950,7 @@ const STAGES = [
     group: "Бэкенд",
     title: "PHP: серверный язык",
     lead: "PHP — язык бэкенда FLIB. После JS он кажется простым, но именно здесь важно освоить ООП, пространства имён и Composer: на них стоит Laravel.",
-    hours: 60,
+    hours: 75,
     tech: [
       "PHP 8.3",
       "OOP",
@@ -899,6 +968,19 @@ const STAGES = [
         resources: [
           ["PHP: Language reference", "https://www.php.net/manual/ru/langref.php"],
           ["PHP: Getting started", "https://www.php.net/manual/ru/getting-started.php"]
+        ],
+        mistakes: ["Смешивать HTML и бизнес-логику без шаблонизатора.", "Игнорировать strict_types и получать неожиданные приведения."]
+      },
+      {
+        after: "Синтаксис PHP",
+        title: "Массивы, строки и функции PHP",
+        desc: "Ассоциативные массивы, array_map/filter/reduce, работа со строками, mb_* функции, области видимости и аргументы.",
+        practice: "Напиши набор функций для нормализации и группировки массива глав без использования фреймворка.",
+        checkpoint: "Не используешь strlen для UTF-8 и понимаешь, когда массив передаётся по значению, а когда по ссылке.",
+        mistakes: ["Использовать strlen для кириллицы.", "Игнорировать копирование массивов и неожиданно мутировать данные."],
+        resources: [
+          ["PHP: Arrays", "https://www.php.net/manual/ru/language.types.array.php"],
+          ["PHP: Strings", "https://www.php.net/manual/ru/language.types.string.php"]
         ]
       },
       {
@@ -909,6 +991,19 @@ const STAGES = [
         resources: [
           ["PHP: OOP", "https://www.php.net/manual/ru/language.oop5.php"],
           ["PHP: Interfaces", "https://www.php.net/manual/ru/language.oop5.interfaces.php"]
+        ],
+        mistakes: ["Делать все свойства public.", "Наследовать ради переиспользования вместо композиции."]
+      },
+      {
+        after: "ООП",
+        title: "Enums, readonly и PHP 8+",
+        desc: "Enum, readonly-свойства, именованные аргументы, match, nullsafe-оператор и constructor promotion.",
+        practice: "Переведи роли и статусы на enum, сделай DTO с readonly-полями и замени switch на match.",
+        checkpoint: "Состояния представлены enum, а не строками, и компилятор/анализ ловит неверные значения.",
+        mistakes: ["Использовать enum для всего, включая простые числа.", "Пытаться изменить readonly-свойство после конструктора."],
+        resources: [
+          ["PHP: Enumerations", "https://www.php.net/manual/ru/language.enumerations.php"],
+          ["PHP: Readonly properties", "https://www.php.net/manual/ru/language.oop5.properties.php#language.oop5.properties.readonly-properties"]
         ]
       },
       {
@@ -919,7 +1014,8 @@ const STAGES = [
         resources: [
           ["PHP: Namespaces", "https://www.php.net/manual/ru/language.namespaces.php"],
           ["Composer: Autoloading", "https://getcomposer.org/doc/01-basic-usage.md#autoloading"]
-        ]
+        ],
+        mistakes: ["Забывать namespace/use и путать классы.", "Дублировать классы без PSR-4."]
       },
       {
         title: "Composer",
@@ -929,7 +1025,8 @@ const STAGES = [
         resources: [
           ["Composer: Basic usage", "https://getcomposer.org/doc/01-basic-usage.md"],
           ["Packagist", "https://packagist.org"]
-        ]
+        ],
+        mistakes: ["Коммитить vendor и ломать воспроизводимость.", "Обновлять зависимости без lockfile и тестов."]
       },
       {
         title: "Ошибки и исключения",
@@ -939,7 +1036,8 @@ const STAGES = [
         resources: [
           ["PHP: Exception", "https://www.php.net/manual/ru/class.exception.php"],
           ["PSR-3 logger", "https://www.php-fig.org/psr/psr-3/"]
-        ]
+        ],
+        mistakes: ["Глушить ошибки через @.", "Показывать пользователю stack trace."]
       },
       {
         title: "Файлы, JSON и HTTP",
@@ -949,6 +1047,19 @@ const STAGES = [
         resources: [
           ["PHP: Filesystem", "https://www.php.net/manual/ru/book.filesystem.php"],
           ["PHP: JSON", "https://www.php.net/manual/ru/book.json.php"],
+          ["PHP: Sessions", "https://www.php.net/manual/ru/book.session.php"]
+        ],
+        mistakes: ["Доверять имени и типу файла от пользователя.", "Забывать про кодировку и корректные статус-коды."]
+      },
+      {
+        after: "Файлы, JSON и HTTP",
+        title: "HTTP-запрос в PHP",
+        desc: "Суперглобальные переменные, заголовки, метод, тело запроса, cookies, сессии и коды ответа. Что происходит до Laravel.",
+        practice: "Сделай endpoint на чистом PHP, который принимает JSON, проверяет метод и возвращает корректный статус и заголовки.",
+        checkpoint: "Понимаешь, откуда берутся $_GET/$_POST/$_SERVER и почему доверять заголовкам клиента нельзя.",
+        mistakes: ["Доверять заголовкам клиента без проверки.", "Забывать про коды ответа и отдавать 200 на ошибку."],
+        resources: [
+          ["PHP: $_SERVER", "https://www.php.net/manual/ru/reserved.variables.server.php"],
           ["PHP: Sessions", "https://www.php.net/manual/ru/book.session.php"]
         ]
       },
@@ -960,7 +1071,8 @@ const STAGES = [
         resources: [
           ["PHP: Security", "https://www.php.net/manual/ru/security.php"],
           ["PHP: password_hash", "https://www.php.net/manual/ru/function.password-hash.php"]
-        ]
+        ],
+        mistakes: ["Конкатенировать SQL-запросы.", "Хранить пароли через md5/sha1."]
       },
       {
         title: "Стандарты",
@@ -970,6 +1082,19 @@ const STAGES = [
         resources: [
           ["PSR-12", "https://www.php-fig.org/psr/psr-12/"],
           ["PHP-FIG", "https://www.php-fig.org"]
+        ],
+        mistakes: ["Спорить о стиле вместо линтера.", "Игнорировать PSR-4 и autoload."]
+      },
+      {
+        after: "Стандарты",
+        title: "Тестирование PHP",
+        desc: "PHPUnit/Pest, arrange-act-assert, фикстуры, моки, изоляция тестов и запуск на CI.",
+        practice: "Напиши 10 тестов на классы Library и Storage, включая негативные сценарии и мок файловой системы.",
+        checkpoint: "Тесты не зависят от порядка, не ходят в реальную БД и падают при регрессии.",
+        mistakes: ["Тестировать только геттеры и сеттеры.", "Делать тесты зависимыми от общего состояния."],
+        resources: [
+          ["PHPUnit docs", "https://docs.phpunit.de/en/12.5/"],
+          ["Pest docs", "https://pestphp.com/docs/installation"]
         ]
       },
       {
@@ -980,7 +1105,8 @@ const STAGES = [
         resources: [
           ["Xdebug docs", "https://xdebug.org/docs"],
           ["PHP: Error handling", "https://www.php.net/manual/ru/book.errorfunc.php"]
-        ]
+        ],
+        mistakes: ["Отлаживать через var_dump в production.", "Не читать stack trace и гадать."]
       }
     ],
     practice: ["Консольная библиотека: классы Book, Author, Library, интерфейс Storage, JSON-хранилище, Composer-автозагрузка.", "Добавь обработку ошибок и простые unit-тесты, если уже знаком с PHPUnit."],
@@ -1003,7 +1129,7 @@ const STAGES = [
     group: "Бэкенд",
     title: "SQL и проектирование данных",
     lead: "Данные — основа платформы. Плохая схема превращает любую фичу в боль: дубли, медленные запросы, невозможность миграций. Научись проектировать таблицы до того, как писать модели.",
-    hours: 35,
+    hours: 50,
     tech: [
       "SQL",
       "MySQL",
@@ -1021,7 +1147,8 @@ const STAGES = [
         resources: [
           ["SQLBolt", "https://sqlbolt.com"],
           ["MySQL: Data types", "https://dev.mysql.com/doc/refman/8.4/en/data-types.html"]
-        ]
+        ],
+        mistakes: ["Хранить несколько значений в одной колонке.", "Не ставить внешние ключи и ограничения."]
       },
       {
         title: "SELECT",
@@ -1031,6 +1158,19 @@ const STAGES = [
         resources: [
           ["SQLBolt: SELECT", "https://sqlbolt.com/lesson/select_queries_introduction"],
           ["MySQL: SELECT", "https://dev.mysql.com/doc/refman/8.4/en/select.html"]
+        ],
+        mistakes: ["Выбирать * без необходимости.", "Забывать WHERE и читать/менять всю таблицу."]
+      },
+      {
+        after: "SELECT",
+        title: "Агрегации, GROUP BY и HAVING",
+        desc: "COUNT/SUM/AVG, GROUP BY, HAVING, фильтрация агрегатов и типичные ошибки при группировке.",
+        practice: "Посчитай число новелл по жанрам, средний рейтинг и количество глав, отфильтруй группы через HAVING.",
+        checkpoint: "Понимаешь разницу WHERE и HAVING и не группируешь по случайным колонкам.",
+        mistakes: ["Забывать GROUP BY и получать неопределённый результат.", "Фильтровать агрегаты в PHP вместо HAVING."],
+        resources: [
+          ["SQLBolt: Aggregates", "https://sqlbolt.com/lesson/select_queries_with_aggregates"],
+          ["MySQL: GROUP BY", "https://dev.mysql.com/doc/refman/8.4/en/group-by-handling.html"]
         ]
       },
       {
@@ -1041,6 +1181,19 @@ const STAGES = [
         resources: [
           ["SQLBolt: JOINs", "https://sqlbolt.com/lesson/select_queries_with_joins"],
           ["MySQL: JOIN", "https://dev.mysql.com/doc/refman/8.4/en/join.html"]
+        ],
+        mistakes: ["Получать дубли из-за JOIN и не агрегировать.", "Путать LEFT и INNER JOIN."]
+      },
+      {
+        after: "JOIN",
+        title: "Подзапросы, CTE и window functions",
+        desc: "Подзапросы, EXISTS, CTE, window functions, ROW_NUMBER, RANK и агрегаты без потери строк.",
+        practice: "Найди последнюю главу каждой новеллы через window function и перепиши запрос через CTE.",
+        checkpoint: "Можешь объяснить план запроса и когда window function лучше отдельного подзапроса.",
+        mistakes: ["Использовать window function там, где достаточно GROUP BY.", "Не проверять EXPLAIN у сложного запроса."],
+        resources: [
+          ["MySQL: CTE", "https://dev.mysql.com/doc/refman/8.4/en/with.html"],
+          ["MySQL: Window functions", "https://dev.mysql.com/doc/refman/8.4/en/window-functions.html"]
         ]
       },
       {
@@ -1051,6 +1204,19 @@ const STAGES = [
         resources: [
           ["SQLBolt: Modifying data", "https://sqlbolt.com/lesson/inserting_rows"],
           ["MySQL: Transactions", "https://dev.mysql.com/doc/refman/8.4/en/commit.html"]
+        ],
+        mistakes: ["Делать несколько изменений без транзакции.", "Забывать WHERE в UPDATE/DELETE."]
+      },
+      {
+        after: "Изменение данных",
+        title: "Блокировки и конкурентность",
+        desc: "Транзакции, уровни изоляции, SELECT FOR UPDATE, deadlocks, идемпотентность и race conditions.",
+        practice: "Смоделируй две параллельные покупки/лайка и покажи, как транзакция и блокировка предотвращают потерю обновления.",
+        checkpoint: "Понимаешь, почему два запроса могут перезаписать друг друга, и умеешь выбрать стратегию блокировки.",
+        mistakes: ["Держать транзакцию открытой во время HTTP-запроса.", "Не понимать причину deadlock и просто повторять запрос."],
+        resources: [
+          ["MySQL: Locking reads", "https://dev.mysql.com/doc/refman/8.4/en/innodb-locking-reads.html"],
+          ["MySQL: Deadlocks", "https://dev.mysql.com/doc/refman/8.4/en/innodb-deadlocks.html"]
         ]
       },
       {
@@ -1061,7 +1227,8 @@ const STAGES = [
         resources: [
           ["Use The Index, Luke", "https://use-the-index-luke.com"],
           ["MySQL: EXPLAIN", "https://dev.mysql.com/doc/refman/8.4/en/explain.html"]
-        ]
+        ],
+        mistakes: ["Индексировать всё подряд.", "Создавать индекс, не проверив EXPLAIN."]
       },
       {
         title: "Нормализация",
@@ -1071,7 +1238,8 @@ const STAGES = [
         resources: [
           ["Database normalization (Microsoft)", "https://learn.microsoft.com/en-us/office/troubleshoot/access/database-normalization-description"],
           ["SQLBolt", "https://sqlbolt.com"]
-        ]
+        ],
+        mistakes: ["Денормализовать преждевременно.", "Хранить жанры строкой вместо связи."]
       },
       {
         title: "N+1",
@@ -1081,6 +1249,19 @@ const STAGES = [
         resources: [
           ["Laravel: Eager loading", "https://laravel.com/docs/eloquent-relationships#eager-loading"],
           ["freeCodeCamp: N+1", "https://www.freecodecamp.org/news/n-plus-one-query-problem/"]
+        ],
+        mistakes: ["Загружать связи в цикле.", "Использовать lazy loading везде без замеров."]
+      },
+      {
+        after: "N+1",
+        title: "Полнотекстовый поиск",
+        desc: "FULLTEXT в MySQL, FTS5 в SQLite, релевантность, стоп-слова, индексы и поиск без LIKE %...%.",
+        practice: "Сделай поиск по названию и описанию новелл через FULLTEXT и сравни с LIKE на 10 000 записей.",
+        checkpoint: "Поиск использует индекс, выдаёт релевантные результаты и не сканирует всю таблицу.",
+        mistakes: ["Искать через LIKE %...% на больших данных.", "Не обновлять поисковый индекс после изменения данных."],
+        resources: [
+          ["MySQL: Full-text search", "https://dev.mysql.com/doc/refman/8.4/en/fulltext-search.html"],
+          ["SQLite: FTS5", "https://www.sqlite.org/fts5.html"]
         ]
       },
       {
@@ -1091,7 +1272,8 @@ const STAGES = [
         resources: [
           ["MySQL docs", "https://dev.mysql.com/doc/"],
           ["SQLite docs", "https://www.sqlite.org/docs.html"]
-        ]
+        ],
+        mistakes: ["Писать SQL под MySQL и запускать на SQLite без проверки.", "Не делать бэкап перед миграцией."]
       },
       {
         title: "Redis",
@@ -1101,7 +1283,8 @@ const STAGES = [
         resources: [
           ["Redis: Data types", "https://redis.io/docs/latest/develop/data-types/"],
           ["Redis: Caching", "https://redis.io/docs/latest/develop/use/patterns/"]
-        ]
+        ],
+        mistakes: ["Кэшировать без TTL.", "Забывать инвалидацию после изменения данных."]
       }
     ],
     practice: ["Спроектируй схему FLIB: users, novels, chapters, genres, tags, comments, reviews, likes, bookmarks, follows, teams.", "Напиши 20 SQL-запросов, заполни данными и проверь планы через EXPLAIN."],
@@ -1124,7 +1307,7 @@ const STAGES = [
     group: "Бэкенд",
     title: "Laravel: сердце платформы",
     lead: "Самый большой этап. Laravel даёт маршруты, ORM, авторизацию, очереди и десятки инструментов. Учись не «магии», а слоям: HTTP → контроллер → сервис → модель → БД.",
-    hours: 130,
+    hours: 160,
     tech: [
       "Laravel 13",
       "Eloquent",
@@ -1143,7 +1326,8 @@ const STAGES = [
         resources: [
           ["Laravel: Installation", "https://laravel.com/docs/installation"],
           ["Laravel: Lifecycle", "https://laravel.com/docs/lifecycle"]
-        ]
+        ],
+        mistakes: ["Не читать жизненный цикл запроса и путать middleware с контроллером.", "Хардкодить конфиг в коде вместо config/env."]
       },
       {
         title: "Маршруты и контроллеры",
@@ -1153,7 +1337,8 @@ const STAGES = [
         resources: [
           ["Laravel: Routing", "https://laravel.com/docs/routing"],
           ["Laravel: Controllers", "https://laravel.com/docs/controllers"]
-        ]
+        ],
+        mistakes: ["Дублировать URL в контроллерах.", "Забывать middleware auth на закрытых маршрутах."]
       },
       {
         title: "Запросы и валидация",
@@ -1163,7 +1348,8 @@ const STAGES = [
         resources: [
           ["Laravel: Validation", "https://laravel.com/docs/validation"],
           ["Laravel: Form requests", "https://laravel.com/docs/validation#form-request-validation"]
-        ]
+        ],
+        mistakes: ["Валидировать вручную в контроллере.", "Доверять only() без правил и авторизации."]
       },
       {
         title: "Blade",
@@ -1173,7 +1359,8 @@ const STAGES = [
         resources: [
           ["Laravel: Blade", "https://laravel.com/docs/blade"],
           ["Laravel: Blade components", "https://laravel.com/docs/blade#components"]
-        ]
+        ],
+        mistakes: ["Экранировать вручную и забывать про {!! !!}.", "Писать бизнес-логику в шаблоне."]
       },
       {
         title: "Eloquent",
@@ -1183,7 +1370,8 @@ const STAGES = [
         resources: [
           ["Laravel: Eloquent", "https://laravel.com/docs/eloquent"],
           ["Laravel: Relationships", "https://laravel.com/docs/eloquent-relationships"]
-        ]
+        ],
+        mistakes: ["Использовать модели в миграциях.", "Забывать про casts и получать строки вместо дат/boolean."]
       },
       {
         title: "Сиды и фабрики",
@@ -1193,7 +1381,8 @@ const STAGES = [
         resources: [
           ["Laravel: Seeding", "https://laravel.com/docs/seeding"],
           ["Laravel: Factories", "https://laravel.com/docs/eloquent-factories"]
-        ]
+        ],
+        mistakes: ["Сидить production.", "Делать неидемпотентные сиды и дубликаты."]
       },
       {
         title: "Сервисный слой",
@@ -1204,7 +1393,8 @@ const STAGES = [
           ["Laravel: Service container", "https://laravel.com/docs/container"],
           ["Laravel: Service providers", "https://laravel.com/docs/providers"],
           ["Martin Fowler: Service Layer", "https://martinfowler.com/eaaCatalog/serviceLayer.html"]
-        ]
+        ],
+        mistakes: ["Оставлять толстые контроллеры.", "Передавать Request в сервис вместо DTO."]
       },
       {
         title: "Авторизация",
@@ -1215,6 +1405,31 @@ const STAGES = [
           ["Laravel: Authentication", "https://laravel.com/docs/authentication"],
           ["Laravel: Authorization", "https://laravel.com/docs/authorization"],
           ["Laravel: Sanctum", "https://laravel.com/docs/sanctum"]
+        ],
+        mistakes: ["Проверять роль в Blade вместо policy.", "Забывать 403 и отдавать 404/500."]
+      },
+      {
+        after: "Авторизация",
+        title: "API и внешние клиенты",
+        desc: "JSON-ресурсы, версионирование, Sanctum abilities, токены, rate limits и контракт API для мобильного клиента или Telegram WebApp.",
+        practice: "Сделай API каталога и глав: JSON Resource, токен с ability read:chapters и версия /api/v1.",
+        checkpoint: "API отдаёт стабильный контракт, не светит лишние поля и проверяет abilities.",
+        mistakes: ["Отдавать Eloquent-модель напрямую.", "Использовать session-auth для внешнего API без понимания."],
+        resources: [
+          ["Laravel: API resources", "https://laravel.com/docs/eloquent-resources"],
+          ["Laravel: Sanctum abilities", "https://laravel.com/docs/sanctum#token-abilities"]
+        ]
+      },
+      {
+        after: "Авторизация",
+        title: "Rate limiting и защита API",
+        desc: "Лимиты по IP/пользователю, throttle, 429, заголовки Retry-After, защита логина, поиска и публичных endpoint-ов.",
+        practice: "Настрой отдельные лимиты для логина, поиска и API, проверь 429 и заголовки ответа.",
+        checkpoint: "Лимиты не ломают легитимные сценарии и реально останавливают перебор.",
+        mistakes: ["Полагаться на лимиты только на фронтенде.", "Ставить один лимит на все endpoint-ы."],
+        resources: [
+          ["Laravel: Rate limiting", "https://laravel.com/docs/routing#rate-limiting"],
+          ["OWASP API Security", "https://owasp.org/API-Security/"]
         ]
       },
       {
@@ -1226,6 +1441,31 @@ const STAGES = [
           ["Laravel: Queues", "https://laravel.com/docs/queues"],
           ["Laravel: Events", "https://laravel.com/docs/events"],
           ["Laravel: Scheduling", "https://laravel.com/docs/scheduling"]
+        ],
+        mistakes: ["Делать тяжёлую работу прямо в запросе.", "Не обрабатывать failed jobs."]
+      },
+      {
+        after: "События и очереди",
+        title: "Broadcasting и WebSockets",
+        desc: "Laravel Reverb, Echo, приватные каналы, авторизация каналов, события и обновление прогресса в реальном времени.",
+        practice: "Отправь событие JobProgressUpdated в приватный канал и покажи прогресс в Vue через Echo.",
+        checkpoint: "Чужой пользователь не может подписаться на канал, а при обрыве соединение восстанавливается.",
+        mistakes: ["Открывать приватный канал без авторизации.", "Путать broadcast события и очередь jobs."],
+        resources: [
+          ["Laravel: Broadcasting", "https://laravel.com/docs/broadcasting"],
+          ["Laravel: Reverb", "https://laravel.com/docs/reverb"]
+        ]
+      },
+      {
+        after: "События и очереди",
+        title: "Очереди в production",
+        desc: "Retry, backoff, failed jobs, идемпотентность, таймауты, мониторинг воркеров и безопасный перезапуск.",
+        practice: "Настрой retry/backoff для тяжёлой задачи, сделай её идемпотентной и разбери failed job.",
+        checkpoint: "Повторная обработка не создаёт дубликаты, а failed job виден и воспроизводим.",
+        mistakes: ["Не настраивать retry/backoff.", "Не мониторить failed jobs и узнавать о них от пользователей."],
+        resources: [
+          ["Laravel: Failed jobs", "https://laravel.com/docs/queues#dealing-with-failed-jobs"],
+          ["Laravel: Job retries", "https://laravel.com/docs/queues#job-retries"]
         ]
       },
       {
@@ -1236,7 +1476,8 @@ const STAGES = [
         resources: [
           ["Laravel: File storage", "https://laravel.com/docs/filesystem"],
           ["Laravel: Cache", "https://laravel.com/docs/cache"]
-        ]
+        ],
+        mistakes: ["Кэшировать без ключей и инвалидации.", "Хранить пользовательские файлы в public без проверки."]
       },
       {
         title: "Локализация и время",
@@ -1246,7 +1487,8 @@ const STAGES = [
         resources: [
           ["Laravel: Localization", "https://laravel.com/docs/localization"],
           ["Carbon", "https://carbon.nesbot.com/"]
-        ]
+        ],
+        mistakes: ["Хардкодить русские строки.", "Путать UTC и локальное время."]
       },
       {
         title: "Логи и ошибки",
@@ -1256,6 +1498,19 @@ const STAGES = [
         resources: [
           ["Laravel: Logging", "https://laravel.com/docs/logging"],
           ["Laravel: Error handling", "https://laravel.com/docs/errors"]
+        ],
+        mistakes: ["Логировать пароли и токены.", "Писать всё в один файл без контекста."]
+      },
+      {
+        after: "Логи и ошибки",
+        title: "Health checks и observability",
+        desc: "Health endpoint, Pulse, Sentry, метрики, медленные запросы, ошибки и алерты — как видеть состояние production.",
+        practice: "Добавь health endpoint, подключи Sentry и Pulse, создай алерт на ошибки и медленные запросы.",
+        checkpoint: "Понимаешь, где смотреть ошибку, latency и очередь, и не узнаёшь о падении от пользователей.",
+        mistakes: ["Путать health check с полноценным мониторингом.", "Логировать персональные данные и токены."],
+        resources: [
+          ["Laravel Pulse", "https://laravel.com/docs/pulse"],
+          ["Sentry for Laravel", "https://docs.sentry.io/platforms/php/guides/laravel/"]
         ]
       },
       {
@@ -1267,7 +1522,8 @@ const STAGES = [
           ["Laravel: Testing", "https://laravel.com/docs/testing"],
           ["Laravel: HTTP tests", "https://laravel.com/docs/http-tests"],
           ["Laravel: Database testing", "https://laravel.com/docs/database-testing"]
-        ]
+        ],
+        mistakes: ["Тестировать только happy path.", "Зависеть от порядка тестов."]
       }
     ],
     practice: ["Собери MVP платформы: регистрация/вход, роли, каталог новелл, карточка, главы, публикация, закладки, минимальная админка.", "Бизнес-логику вынеси в сервисы, доступ — через policies."],
@@ -1291,7 +1547,7 @@ const STAGES = [
     group: "Связка",
     title: "Inertia.js: Laravel + Vue без API-боли",
     lead: "FLIB — это Inertia-приложение: серверный роутинг Laravel и SPA-интерфейс Vue без ручного API. Этап учит связывать два мира так, чтобы не писать fetch на каждый чих.",
-    hours: 60,
+    hours: 70,
     tech: [
       "Inertia 2",
       "Vue",
@@ -1309,7 +1565,8 @@ const STAGES = [
         resources: [
           ["Inertia: How it works", "https://inertiajs.com/how-it-works"],
           ["Inertia: Protocol", "https://inertiajs.com/the-protocol"]
-        ]
+        ],
+        mistakes: ["Думать, что Inertia — это отдельный API.", "Забывать про серверный роутинг и контроллеры."]
       },
       {
         title: "Настройка",
@@ -1319,6 +1576,19 @@ const STAGES = [
         resources: [
           ["Inertia: Server-side setup", "https://inertiajs.com/server-side-setup"],
           ["Inertia: Client-side setup", "https://inertiajs.com/client-side-setup"]
+        ],
+        mistakes: ["Забывать root template и получать пустую страницу.", "Ломать Vite HMR неверной настройкой."]
+      },
+      {
+        after: "Настройка",
+        title: "Inertia + TypeScript",
+        desc: "Типизация PageProps, shared data, useForm, ошибок валидации и props страниц без any.",
+        practice: "Опиши PageProps и типы форм, включи strict и убери any из Inertia-страниц.",
+        checkpoint: "Props страниц типизированы, а неожиданное изменение серверного контракта ловится vue-tsc.",
+        mistakes: ["Типизировать props как any.", "Дублировать типы страниц в каждом компоненте."],
+        resources: [
+          ["Inertia docs", "https://inertiajs.com/"],
+          ["Vue: TypeScript overview", "https://vuejs.org/guide/typescript/overview.html"]
         ]
       },
       {
@@ -1329,7 +1599,8 @@ const STAGES = [
         resources: [
           ["Inertia: Pages", "https://inertiajs.com/pages"],
           ["Inertia: Layouts", "https://inertiajs.com/pages#persistent-layouts"]
-        ]
+        ],
+        mistakes: ["Перемонтировать layout на каждом переходе.", "Дублировать shared data в каждой странице."]
       },
       {
         title: "Ссылки и навигация",
@@ -1339,7 +1610,8 @@ const STAGES = [
         resources: [
           ["Inertia: Links", "https://inertiajs.com/links"],
           ["Inertia: Manual visits", "https://inertiajs.com/manual-visits"]
-        ]
+        ],
+        mistakes: ["Использовать <a> вместо Link и терять SPA-переходы.", "Забывать preserveScroll на фильтрах."]
       },
       {
         title: "Формы",
@@ -1349,6 +1621,19 @@ const STAGES = [
         resources: [
           ["Inertia: Forms", "https://inertiajs.com/forms"],
           ["Inertia: Validation", "https://inertiajs.com/validation"]
+        ],
+        mistakes: ["Отправлять форму вручную через fetch.", "Не показывать серверные ошибки валидации."]
+      },
+      {
+        after: "Формы",
+        title: "Ошибки, пустота и загрузка",
+        desc: "Единые состояния loading/empty/error, обработка 404/403/500, flash-сообщения и восстановление после сбоя.",
+        practice: "Сделай для каталога и кабинета состояния загрузки, пустоты и ошибки с понятными действиями.",
+        checkpoint: "Пользователь не видит пустой экран и понимает, что произошло и что делать дальше.",
+        mistakes: ["Оставлять пустой экран вместо empty state.", "Показывать техническую ошибку без действия."],
+        resources: [
+          ["Inertia: Error handling", "https://inertiajs.com/error-handling"],
+          ["Inertia: Form errors", "https://inertiajs.com/forms#form-errors"]
         ]
       },
       {
@@ -1359,7 +1644,8 @@ const STAGES = [
         resources: [
           ["Inertia: Partial reloads", "https://inertiajs.com/partial-reloads"],
           ["Inertia: Deferred props", "https://inertiajs.com/deferred-props"]
-        ]
+        ],
+        mistakes: ["Делать partial reload без необходимости.", "Забывать про deferred props и тяжёлые данные."]
       },
       {
         title: "Авторизация",
@@ -1369,6 +1655,19 @@ const STAGES = [
         resources: [
           ["Inertia: Authentication", "https://inertiajs.com/authentication"],
           ["Inertia: Authorization", "https://inertiajs.com/authorization"]
+        ],
+        mistakes: ["Забывать flash-сообщения после входа.", "Отдавать 403 как 500."]
+      },
+      {
+        after: "Авторизация",
+        title: "Тестирование Inertia",
+        desc: "Feature-тесты страниц, assertInertia, проверка props, ошибок валидации, редиректов и прав.",
+        practice: "Напиши feature-тесты для каталога, кабинета автора и запрета чужого редактирования.",
+        checkpoint: "Тесты проверяют компонент, props и статус, а не только HTTP-код.",
+        mistakes: ["Тестировать только Vue-компоненты без серверной страницы.", "Не проверять props и ошибки валидации."],
+        resources: [
+          ["Inertia: Testing", "https://inertiajs.com/testing"],
+          ["Laravel: Testing", "https://laravel.com/docs/testing"]
         ]
       },
       {
@@ -1379,7 +1678,8 @@ const STAGES = [
         resources: [
           ["Ziggy docs", "https://github.com/tighten/ziggy"],
           ["Laravel: Named routes", "https://laravel.com/docs/routing#named-routes"]
-        ]
+        ],
+        mistakes: ["Хардкодить URL в компонентах.", "Забывать параметры именованного маршрута."]
       },
       {
         title: "Файлы",
@@ -1389,7 +1689,8 @@ const STAGES = [
         resources: [
           ["Inertia: File uploads", "https://inertiajs.com/file-uploads"],
           ["Laravel: File storage", "https://laravel.com/docs/filesystem"]
-        ]
+        ],
+        mistakes: ["Не валидировать файл на сервере.", "Забывать прогресс и ошибки загрузки."]
       },
       {
         title: "SEO и мета",
@@ -1399,7 +1700,8 @@ const STAGES = [
         resources: [
           ["Inertia: Title & meta", "https://inertiajs.com/title-and-meta"],
           ["Inertia: Error handling", "https://inertiajs.com/error-handling"]
-        ]
+        ],
+        mistakes: ["Одинаковый title на всех страницах.", "Забывать 404-страницу и canonical."]
       }
     ],
     practice: ["Переведи MVP на Inertia: кабинет автора с формами создания и редактирования, ридер, админ-таблицы с фильтрами.", "Все переходы — через Inertia, без ручных API-контроллеров."],
@@ -1422,7 +1724,7 @@ const STAGES = [
     group: "Качество",
     title: "Тесты, качество кода и безопасность",
     lead: "Код, который никто не проверяет, гниёт. Тесты, статический анализ, CI и базовая безопасность — то, что отличает учебный проект от продукта.",
-    hours: 60,
+    hours: 75,
     tech: [
       "Pest",
       "PHPStan",
@@ -1441,7 +1743,8 @@ const STAGES = [
         resources: [
           ["Martin Fowler: Test pyramid", "https://martinfowler.com/articles/practical-test-pyramid.html"],
           ["Laravel: Testing", "https://laravel.com/docs/testing"]
-        ]
+        ],
+        mistakes: ["Писать только unit или только E2E.", "Гнаться за 100% покрытием без смысла."]
       },
       {
         title: "Pest",
@@ -1451,6 +1754,19 @@ const STAGES = [
         resources: [
           ["Pest docs", "https://pestphp.com/docs/installation"],
           ["Pest: Laravel plugin", "https://pestphp.com/docs/plugins/laravel"]
+        ],
+        mistakes: ["Делать тесты зависимыми от порядка.", "Мокать всё, включая простые value-объекты."]
+      },
+      {
+        after: "Pest",
+        title: "Pest mutation testing",
+        desc: "Мутационное тестирование, min score, выбор классов и интерпретация выживших мутантов.",
+        practice: "Запусти mutation testing для RatingCalculator и подними score до 80%.",
+        checkpoint: "Выжившие мутанты показывают реальные пробелы в тестах, а не шум.",
+        mistakes: ["Гнаться за 100% и тратить время на эквивалентные мутанты.", "Мутировать весь проект сразу."],
+        resources: [
+          ["Pest: Mutation testing", "https://pestphp.com/docs/mutation-testing"],
+          ["Pest docs", "https://pestphp.com/docs/installation"]
         ]
       },
       {
@@ -1461,7 +1777,8 @@ const STAGES = [
         resources: [
           ["Laravel: HTTP tests", "https://laravel.com/docs/http-tests"],
           ["Laravel: Authorization tests", "https://laravel.com/docs/authorization#testing"]
-        ]
+        ],
+        mistakes: ["Тестировать реализацию, а не поведение.", "Забывать негативные и граничные кейсы."]
       },
       {
         title: "PHPStan",
@@ -1471,7 +1788,8 @@ const STAGES = [
         resources: [
           ["PHPStan: Getting started", "https://phpstan.org/user-guide/getting-started"],
           ["Larastan", "https://github.com/larastan/larastan"]
-        ]
+        ],
+        mistakes: ["Добавлять всё в baseline.", "Использовать @var вместо реальных типов."]
       },
       {
         title: "Фронтенд-качество",
@@ -1482,6 +1800,31 @@ const STAGES = [
           ["ESLint", "https://eslint.org/docs/latest/"],
           ["Vitest", "https://vitest.dev/guide/"],
           ["vue-tsc", "https://github.com/vuejs/language-tools"]
+        ],
+        mistakes: ["Игнорировать vue-tsc.", "Отключать правила ESLint пачкой."]
+      },
+      {
+        after: "Фронтенд-качество",
+        title: "Vitest и компонентные тесты",
+        desc: "Тестирование компонентов, composables и store, Vue Test Utils, моки и проверка доступности.",
+        practice: "Покрой компонент ридера и useReaderSettings тестами Vitest + Vue Test Utils.",
+        checkpoint: "Тесты ловят регрессию в поведении, а не в CSS-классах.",
+        mistakes: ["Тестировать внутренние детали компонента.", "Забывать await nextTick при проверке DOM."],
+        resources: [
+          ["Vue Test Utils", "https://test-utils.vuejs.org/guide/"],
+          ["Vitest", "https://vitest.dev/guide/"]
+        ]
+      },
+      {
+        after: "Фронтенд-качество",
+        title: "Playwright E2E",
+        desc: "Сквозные сценарии в браузере, селекторы, авторизация, тестовые данные, CI и отчёты.",
+        practice: "Напиши E2E-сценарий регистрация → чтение главы → закладка и запусти его в CI.",
+        checkpoint: "E2E проходит на чистой БД и не зависит от ручных шагов.",
+        mistakes: ["Запускать E2E на реальной БД без сидов.", "Использовать хрупкие CSS-селекторы."],
+        resources: [
+          ["Playwright", "https://playwright.dev/docs/intro"],
+          ["Playwright: CI", "https://playwright.dev/docs/ci"]
         ]
       },
       {
@@ -1493,7 +1836,8 @@ const STAGES = [
           ["GitHub Actions: Quickstart", "https://docs.github.com/en/actions/quickstart"],
           ["Laravel: CI example", "https://github.com/laravel/.github"],
           ["GitHub Actions: Workflow syntax", "https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions"]
-        ]
+        ],
+        mistakes: ["CI без кэша и матрицы.", "Пускать красный CI в main."]
       },
       {
         title: "OWASP Top 10",
@@ -1503,7 +1847,8 @@ const STAGES = [
         resources: [
           ["OWASP Top 10", "https://owasp.org/www-project-top-ten/"],
           ["OWASP Cheat Sheet Series", "https://cheatsheetseries.owasp.org/"]
-        ]
+        ],
+        mistakes: ["Считать безопасность разовым чеклистом.", "Игнорировать IDOR и mass assignment."]
       },
       {
         title: "Защита Laravel",
@@ -1514,7 +1859,8 @@ const STAGES = [
           ["Laravel: Security", "https://laravel.com/docs/security"],
           ["Laravel: CSRF", "https://laravel.com/docs/csrf"],
           ["Laravel: Rate limiting", "https://laravel.com/docs/routing#rate-limiting"]
-        ]
+        ],
+        mistakes: ["Полагаться только на фронтенд.", "Забывать rate limit на логине."]
       },
       {
         title: "Контент и CSP",
@@ -1524,7 +1870,8 @@ const STAGES = [
         resources: [
           ["HTML Purifier", "http://htmlpurifier.org/"],
           ["MDN: CSP", "https://developer.mozilla.org/ru/docs/Web/HTTP/CSP"]
-        ]
+        ],
+        mistakes: ["Разрешать unsafe-inline в CSP.", "Не чистить пользовательский HTML."]
       },
       {
         title: "Секреты и бэкапы",
@@ -1534,6 +1881,19 @@ const STAGES = [
         resources: [
           ["GitHub: Secret scanning", "https://docs.github.com/en/code-security/secret-scanning"],
           ["Laravel: Encryption", "https://laravel.com/docs/encryption"]
+        ],
+        mistakes: ["Хранить секреты в репозитории.", "Не проверять восстановление бэкапа."]
+      },
+      {
+        after: "Секреты и бэкапы",
+        title: "Dependency и secret audits",
+        desc: "Composer audit, npm audit, Dependabot, secret scanning, обновление зависимостей и проверка лицензий.",
+        practice: "Настрой Dependabot и audit в CI, обнови одну зависимость и проверь, что тесты проходят.",
+        checkpoint: "Уязвимости и секреты находятся автоматически, а обновления не ломают проект.",
+        mistakes: ["Игнорировать audit до инцидента.", "Обновлять всё сразу без тестов."],
+        resources: [
+          ["GitHub Dependabot", "https://docs.github.com/en/code-security/dependabot"],
+          ["Composer audit", "https://getcomposer.org/doc/03-cli.md#audit"]
         ]
       }
     ],
@@ -1559,7 +1919,7 @@ const STAGES = [
     group: "Качество",
     title: "Docker, сервер и деплой",
     lead: "Локально работает — не значит готово. Docker делает окружение воспроизводимым, а деплой на VPS учит видеть проект целиком: nginx, PHP-FPM, БД, Redis, очереди, HTTPS и бэкапы.",
-    hours: 45,
+    hours: 60,
     tech: [
       "Docker",
       "Compose",
@@ -1578,7 +1938,8 @@ const STAGES = [
         resources: [
           ["Docker: Get started", "https://docs.docker.com/get-started/"],
           ["Dockerfile reference", "https://docs.docker.com/reference/dockerfile/"]
-        ]
+        ],
+        mistakes: ["Запускать всё от root.", "Хранить данные внутри контейнера без volume."]
       },
       {
         title: "Compose",
@@ -1588,7 +1949,8 @@ const STAGES = [
         resources: [
           ["Docker Compose", "https://docs.docker.com/compose/"],
           ["Docker: Awesome Compose", "https://github.com/docker/awesome-compose"]
-        ]
+        ],
+        mistakes: ["Хардкодить пароли в compose.", "Забывать healthcheck и depends_on."]
       },
       {
         title: "nginx + PHP-FPM",
@@ -1598,7 +1960,8 @@ const STAGES = [
         resources: [
           ["nginx: Beginner's guide", "https://nginx.org/en/docs/beginners_guide.html"],
           ["PHP-FPM", "https://www.php.net/manual/ru/install.fpm.php"]
-        ]
+        ],
+        mistakes: ["Отдавать PHP как статику.", "Открывать лишние порты наружу."]
       },
       {
         title: "Supervisord",
@@ -1608,7 +1971,8 @@ const STAGES = [
         resources: [
           ["Supervisord", "http://supervisord.org/"],
           ["Laravel: Supervisor configuration", "https://laravel.com/docs/queues#supervisor-configuration"]
-        ]
+        ],
+        mistakes: ["Запускать воркеры без автоперезапуска.", "Дублировать scheduler в нескольких контейнерах."]
       },
       {
         title: "MySQL/Redis в контейнерах",
@@ -1618,7 +1982,8 @@ const STAGES = [
         resources: [
           ["Docker: MySQL", "https://hub.docker.com/_/mysql"],
           ["Docker: Redis", "https://hub.docker.com/_/redis"]
-        ]
+        ],
+        mistakes: ["Забывать volume и терять данные.", "Оставлять БД без пароля."]
       },
       {
         title: "Конфигурация production",
@@ -1628,6 +1993,31 @@ const STAGES = [
         resources: [
           ["Laravel: Deployment", "https://laravel.com/docs/deployment"],
           ["Laravel: Optimization", "https://laravel.com/docs/deployment#optimization"]
+        ],
+        mistakes: ["Оставлять APP_DEBUG=true.", "Кэшировать конфиг с секретами в образе."]
+      },
+      {
+        after: "Конфигурация production",
+        title: "CI/CD pipeline",
+        desc: "GitHub Actions: тесты, сборка образа, пуш в registry, миграции и деплой на сервер. Разделение CI и CD.",
+        practice: "Сделай pipeline: тесты → сборка Docker-образа → деплой на staging по тегу.",
+        checkpoint: "Деплой запускается автоматически, а при падении тестов не доходит до сервера.",
+        mistakes: ["Деплоить без тестов.", "Печатать секреты в логах CI."],
+        resources: [
+          ["GitHub Actions: Deployment", "https://docs.github.com/en/actions/deployment"],
+          ["Laravel: Deployment", "https://laravel.com/docs/deployment"]
+        ]
+      },
+      {
+        after: "CI/CD pipeline",
+        title: "Staging и zero-downtime",
+        desc: "Отдельное окружение, миграции без простоя, health checks, blue-green/rolling и rollback.",
+        practice: "Подними staging, проверь деплой без простоя и откат на предыдущий релиз.",
+        checkpoint: "Миграции совместимы со старой версией, а rollback возвращает рабочее состояние.",
+        mistakes: ["Делать несовместимые миграции в один шаг.", "Не иметь плана rollback."],
+        resources: [
+          ["Laravel: Zero-downtime deployment", "https://laravel.com/docs/deployment#zero-downtime-deployment"],
+          ["GitHub Actions environments", "https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment"]
         ]
       },
       {
@@ -1638,7 +2028,8 @@ const STAGES = [
         resources: [
           ["DigitalOcean: SSH setup", "https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-22-04"],
           ["UFW", "https://help.ubuntu.com/community/UFW"]
-        ]
+        ],
+        mistakes: ["Разрешать root-логин по паролю.", "Оставлять SSH открытым для всех."]
       },
       {
         title: "HTTPS",
@@ -1648,7 +2039,8 @@ const STAGES = [
         resources: [
           ["Certbot", "https://certbot.eff.org/"],
           ["Let's Encrypt", "https://letsencrypt.org/ru/"]
-        ]
+        ],
+        mistakes: ["Использовать самоподписанный сертификат в production.", "Забывать автообновление сертификата."]
       },
       {
         title: "Мониторинг и логи",
@@ -1658,6 +2050,31 @@ const STAGES = [
         resources: [
           ["Laravel: Logging", "https://laravel.com/docs/logging"],
           ["Laravel: Pail", "https://laravel.com/docs/logging#pail"]
+        ],
+        mistakes: ["Узнавать о падении от пользователей.", "Писать логи без контекста и request id."]
+      },
+      {
+        after: "Мониторинг и логи",
+        title: "Sentry, Pulse и health checks",
+        desc: "Ошибки, медленные запросы, очереди, health endpoint, алерты и корреляция событий по request id.",
+        practice: "Подключи Sentry и Pulse, добавь health endpoint и алерт на 500-е и рост очереди.",
+        checkpoint: "Ошибка находится по request id, а деградация видна до жалоб пользователей.",
+        mistakes: ["Смотреть только логи и не видеть метрики.", "Логировать PII и токены."],
+        resources: [
+          ["Sentry for Laravel", "https://docs.sentry.io/platforms/php/guides/laravel/"],
+          ["Laravel Pulse", "https://laravel.com/docs/pulse"]
+        ]
+      },
+      {
+        after: "Sentry, Pulse и health checks",
+        title: "Нагрузочное тестирование",
+        desc: "k6, сценарии нагрузки, baseline, p95/p99, узкие места, профилирование запросов и фронтенда.",
+        practice: "Сними baseline каталога через k6, найди узкий запрос и исправь его, затем сравни p95.",
+        checkpoint: "Есть baseline и понятный план, а оптимизация подтверждена замерами, а не ощущениями.",
+        mistakes: ["Запускать нагрузку на production без предупреждения.", "Смотреть только среднее и игнорировать p95/p99."],
+        resources: [
+          ["k6 docs", "https://k6.io/docs/"],
+          ["Laravel Telescope", "https://laravel.com/docs/telescope"]
         ]
       },
       {
@@ -1668,7 +2085,8 @@ const STAGES = [
         resources: [
           ["spatie/laravel-backup", "https://spatie.be/docs/laravel-backup"],
           ["MySQL: mysqldump", "https://dev.mysql.com/doc/refman/8.4/en/mysqldump.html"]
-        ]
+        ],
+        mistakes: ["Делать бэкап без проверки восстановления.", "Хранить бэкап на том же сервере."]
       }
     ],
     practice: ["Собери docker-compose для проекта и подними его на VPS с доменом и HTTPS.", "Настрой очередь и cron, сделай бэкап и восстанови его на чистой машине."],
@@ -1692,7 +2110,7 @@ const STAGES = [
     group: "Продукт",
     title: "Сборка FogrestRead: большой продукт",
     lead: "Теперь не учишь технологии, а строишь продукт. Разбей работу на спринты по 1–2 недели, после каждого — рабочая версия, тесты и деплой. Сверяйся с FLIB, но не копируй слепо: принимай решения сам.",
-    hours: 220,
+    hours: 240,
     tech: [
       "Laravel",
       "Vue",
@@ -1711,7 +2129,8 @@ const STAGES = [
         resources: [
           ["FLIB (ваш репозиторий)", "https://github.com/krade88/FLIB"],
           ["Laravel docs", "https://laravel.com/docs"]
-        ]
+        ],
+        mistakes: ["Пытаться построить всё сразу.", "Не иметь критериев готовности спринта."]
       },
       {
         title: "Спринт 2 — Социальные функции",
@@ -1721,7 +2140,8 @@ const STAGES = [
         resources: [
           ["Laravel: Relationships", "https://laravel.com/docs/eloquent-relationships"],
           ["Laravel: Notifications", "https://laravel.com/docs/notifications"]
-        ]
+        ],
+        mistakes: ["Добавлять соцфункции без модерации.", "Допускать расхождение счётчиков и БД."]
       },
       {
         title: "Спринт 3 — Авторы и команды",
@@ -1731,7 +2151,8 @@ const STAGES = [
         resources: [
           ["Laravel: File storage", "https://laravel.com/docs/filesystem"],
           ["Laravel: Queues", "https://laravel.com/docs/queues"]
-        ]
+        ],
+        mistakes: ["Делать версии глав без тестов.", "Импортировать главы без лимитов."]
       },
       {
         title: "Спринт 4 — Админка",
@@ -1741,7 +2162,8 @@ const STAGES = [
         resources: [
           ["Laravel: Authorization", "https://laravel.com/docs/authorization"],
           ["Laravel: Queues", "https://laravel.com/docs/queues"]
-        ]
+        ],
+        mistakes: ["Делать админку без audit log.", "Проверять права только на фронтенде."]
       },
       {
         title: "Спринт 5 — Полировка",
@@ -1751,6 +2173,55 @@ const STAGES = [
         resources: [
           ["Lighthouse", "https://developer.chrome.com/docs/lighthouse/overview/"],
           ["WCAG quick reference", "https://www.w3.org/WAI/WCAG22/quickref/"]
+        ],
+        mistakes: ["Полировать без метрик и baseline.", "Тестировать мобильный ридер только в эмуляторе."]
+      },
+      {
+        after: "Спринт 5 — Полировка",
+        title: "Спринт 6 — Real-time уведомления",
+        desc: "Reverb/Echo, приватные каналы, прогресс импорта, уведомления о главах и обсуждения команд в реальном времени.",
+        practice: "Сделай real-time прогресс импорта и уведомление о новой главе в приватном канале.",
+        checkpoint: "Событие приходит только своим пользователям, а при обрыве соединение восстанавливается.",
+        mistakes: ["Открывать приватные каналы без auth.", "Дублировать уведомления при переподключении."],
+        resources: [
+          ["Laravel Broadcasting", "https://laravel.com/docs/broadcasting"],
+          ["Laravel Reverb", "https://laravel.com/docs/reverb"]
+        ]
+      },
+      {
+        after: "Спринт 5 — Полировка",
+        title: "Спринт 7 — PWA и offline-чтение",
+        desc: "Service worker, manifest, IndexedDB, кэш глав, offline-страница, обновление приложения и лимиты хранилища.",
+        practice: "Сделай PWA: установка, кэш текущей главы, offline-страница и синхронизация прогресса.",
+        checkpoint: "Глава открывается без сети, прогресс не теряется, а обновление не ломает кэш.",
+        mistakes: ["Кэшировать вообще всё.", "Забывать обновление service worker и получать старую версию."],
+        resources: [
+          ["vite-plugin-pwa", "https://vite-pwa-org.netlify.app/guide/"],
+          ["web.dev: Learn PWA", "https://web.dev/learn/pwa"]
+        ]
+      },
+      {
+        after: "Спринт 5 — Полировка",
+        title: "Спринт 8 — Редактор и медиа",
+        desc: "Tiptap, сноски, вставка изображений, санитайзинг HTML, cropper, WebP, несколько обложек и манга-страницы.",
+        practice: "Сделай редактор главы с изображениями, сносками и превью, добавь обработку и лимиты.",
+        checkpoint: "Пользовательский HTML очищается, изображения оптимизируются, а лимиты не обходятся.",
+        mistakes: ["Вставлять HTML без санитайзинга.", "Хранить оригиналы без лимитов и ресайза."],
+        resources: [
+          ["Tiptap docs", "https://tiptap.dev/docs"],
+          ["Cropper.js", "https://github.com/fengyuanchen/cropperjs"]
+        ]
+      },
+      {
+        after: "Спринт 5 — Полировка",
+        title: "Спринт 9 — Поиск, SEO и discovery",
+        desc: "FULLTEXT/FTS5, релевантность, фильтры, sitemap, robots, canonical, Open Graph и рекомендации.",
+        practice: "Сделай поиск с фильтрами, sitemap и SEO-мета для новеллы, главы и команды.",
+        checkpoint: "Поиск не сканирует таблицу, sitemap не содержит приватных URL, а страницы индексируются корректно.",
+        mistakes: ["Искать через LIKE %...% на больших данных.", "Отправлять в sitemap приватные и удалённые страницы."],
+        resources: [
+          ["MySQL: Full-text search", "https://dev.mysql.com/doc/refman/8.4/en/fulltext-search.html"],
+          ["Sitemaps protocol", "https://www.sitemaps.org/protocol.html"]
         ]
       },
       {
@@ -1763,7 +2234,8 @@ const STAGES = [
           ["Conventional Commits", "https://www.conventionalcommits.org/ru/"],
           ["Keep a Changelog", "https://keepachangelog.com/ru/"],
           ["ADR", "https://adr.github.io/"]
-        ]
+        ],
+        mistakes: ["Не вести ADR.", "Релизить без changelog и тегов."]
       },
       {
         title: "Работа с чужим кодом",
@@ -1773,7 +2245,8 @@ const STAGES = [
         resources: [
           ["FLIB (ваш репозиторий)", "https://github.com/krade88/FLIB"],
           ["GitHub: Code navigation", "https://docs.github.com/en/repositories/working-with-files/using-files/navigating-code-on-github"]
-        ]
+        ],
+        mistakes: ["Копировать код без понимания.", "Не читать тесты и истории решений."]
       },
       {
         title: "Метрики качества",
@@ -1784,7 +2257,8 @@ const STAGES = [
           ["web.dev: Core Web Vitals", "https://web.dev/articles/vitals"],
           ["Laravel Pulse", "https://laravel.com/docs/pulse"],
           ["Lighthouse", "https://developer.chrome.com/docs/lighthouse/overview/"]
-        ]
+        ],
+        mistakes: ["Оптимизировать без baseline.", "Смотреть только Lighthouse и игнорировать бэкенд."]
       }
     ],
     practice: ["Веди проект как продукт: бэклог, спринты, демо в конце каждого, деплой.", "На финале пройди по сценариям FLIB и закрой пробелы."],
@@ -1808,7 +2282,7 @@ const STAGES = [
     group: "Продукт",
     title: "Финиш: портфолио и выход на рынок",
     lead: "Финальный этап — упаковать результат. Код без истории и демо никто не увидит. Сделай так, чтобы проект можно было открыть, запустить и понять за 10 минут.",
-    hours: 25,
+    hours: 35,
     tech: [
       "README",
       "Демо",
@@ -1825,6 +2299,19 @@ const STAGES = [
         resources: [
           ["Make a README", "https://www.makeareadme.com"],
           ["GitHub: About READMEs", "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes"]
+        ],
+        mistakes: ["README без команды запуска.", "Скриншоты без контекста."]
+      },
+      {
+        after: "README и документация",
+        title: "Архитектурная схема и ADR",
+        desc: "C4-диаграмма, границы сервисов, decisions log, компромиссы и объяснение архитектуры за 5 минут.",
+        practice: "Нарисуй C4-схему проекта и напиши три ADR: стек, Inertia и выбор БД.",
+        checkpoint: "Схема совпадает с кодом, а каждое ключевое решение имеет контекст и альтернативы.",
+        mistakes: ["Писать ADR без контекста и альтернатив.", "Оставлять схему устаревшей после изменений."],
+        resources: [
+          ["ADR", "https://adr.github.io/"],
+          ["C4 model", "https://c4model.com/"]
         ]
       },
       {
@@ -1836,7 +2323,8 @@ const STAGES = [
           ["OBS Studio", "https://obsproject.com/"],
           ["Loom", "https://www.loom.com"],
           ["YC: How to demo", "https://www.ycombinator.com/library/6q-how-to-demo"]
-        ]
+        ],
+        mistakes: ["Демо падает на тестовых данных.", "Видео про код, а не про продукт."]
       },
       {
         title: "История проекта",
@@ -1846,7 +2334,8 @@ const STAGES = [
         resources: [
           ["Conventional Commits", "https://www.conventionalcommits.org/ru/"],
           ["Keep a Changelog", "https://keepachangelog.com/ru/"]
-        ]
+        ],
+        mistakes: ["Коммиты fix/fix2 без смысла.", "Отсутствие changelog и roadmap."]
       },
       {
         title: "Самопрезентация",
@@ -1856,6 +2345,19 @@ const STAGES = [
         resources: [
           ["STAR method", "https://www.themuse.com/advice/star-interview-method"],
           ["Tech Interview Handbook: resume", "https://www.techinterviewhandbook.org/resume/"]
+        ],
+        mistakes: ["Рассказ дольше пяти минут.", "Не упоминать компромиссы."]
+      },
+      {
+        after: "Самопрезентация",
+        title: "Soft skills и командная работа",
+        desc: "Код-ревью, оценка задач, ADR/RFC, демо, обратная связь и разбор инцидентов без поиска виноватых.",
+        practice: "Проведи ревью чужого PR по чеклисту, оцени задачу с запасом и проведи ретроспективу инцидента.",
+        checkpoint: "Фидбэк конкретен и уважителен, оценка содержит риски, а ретро заканчивается действиями.",
+        mistakes: ["Код-ревью как критика личности.", "Оценка задачи без запаса и рисков."],
+        resources: [
+          ["Google code review", "https://google.github.io/eng-practices/review/"],
+          ["Conventional Commits", "https://www.conventionalcommits.org/ru/"]
         ]
       },
       {
@@ -1866,6 +2368,19 @@ const STAGES = [
         resources: [
           ["Tech Interview Handbook", "https://www.techinterviewhandbook.org"],
           ["System Design Primer", "https://github.com/donnemartin/system-design-primer"]
+        ],
+        mistakes: ["Зубрить ответы без практики.", "Молчать при решении задачи."]
+      },
+      {
+        after: "Подготовка к интервью",
+        title: "System design для одной фичи",
+        desc: "Требования, ограничения, API, схема данных, кэш, очереди, масштабирование и компромиссы на примере ленты или поиска.",
+        practice: "Спроектируй ленту обновлений и поиск по новеллам на 100 000 пользователей, защити решения.",
+        checkpoint: "Умеешь объяснить границы, узкие места и что изменится при росте нагрузки в 10 раз.",
+        mistakes: ["Рисовать микросервисы для MVP.", "Игнорировать лимиты и стоимость инфраструктуры."],
+        resources: [
+          ["System Design Primer", "https://github.com/donnemartin/system-design-primer"],
+          ["System Design 101", "https://github.com/ByteByteGoHq/system-design-101"]
         ]
       },
       {
@@ -1876,7 +2391,8 @@ const STAGES = [
         resources: [
           ["roadmap.sh", "https://roadmap.sh"],
           ["System Design Primer", "https://github.com/donnemartin/system-design-primer"]
-        ]
+        ],
+        mistakes: ["Учить всё сразу.", "Не иметь измеримой цели на полгода."]
       }
     ],
     practice: ["Оформи портфолио-кейс: README, скриншоты, схема БД, демо, видео, список технологий и решений.", "Проведи 3 mock-интервью и собери фидбэк."],

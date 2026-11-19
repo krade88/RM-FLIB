@@ -26,11 +26,15 @@ function checkIcon() {
   return '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
 }
 
+function esc(value) {
+  return String(value).replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+}
+
 function stageTemplate(s) {
   const topics = s.learn.map((item, i) => {
-    const topicRes = item.resources.map(r => `<a href="${r[1]}" target="_blank" rel="noopener noreferrer">${r[0]} <i>↗</i></a>`).join("");
+    const topicRes = item.resources.map(r => `<a href="${esc(r[1])}" target="_blank" rel="noopener noreferrer">${esc(r[0])} <i>↗</i></a>`).join("");
     const mistakes = Array.isArray(item.mistakes) && item.mistakes.length
-      ? `<div class="mini-block mistakes"><h5>Частые ошибки</h5><ul>${item.mistakes.map(m => `<li>${m}</li>`).join("")}</ul></div>`
+      ? `<div class="mini-block mistakes"><h5>Частые ошибки</h5><ul>${item.mistakes.map(m => `<li>${esc(m)}</li>`).join("")}</ul></div>`
       : "";
     return `
     <li class="topic">
@@ -38,25 +42,25 @@ function stageTemplate(s) {
         <label class="check">
           <input type="checkbox" data-key="${s.key}-${i}">
           <span class="box">${checkIcon()}</span>
-          <span class="check-text"><b>${item.title}</b><span>${item.desc}</span></span>
+          <span class="check-text"><b>${esc(item.title)}</b><span>${esc(item.desc)}</span></span>
         </label>
         <button class="topic-toggle" type="button" aria-expanded="false" aria-controls="topic-${s.key}-${i}" title="Практика, чекпоинт и ресурсы темы">
           <span class="plus" aria-hidden="true">+</span><span class="tt-label">Практика</span>
         </button>
       </div>
       <div class="topic-body${mistakes ? " has-mistakes" : ""}" id="topic-${s.key}-${i}" hidden>
-        <div class="mini-block practice"><h5>Практика</h5><p>${item.practice}</p></div>
-        <div class="mini-block checkpoint"><h5>Чекпоинт</h5><p>${item.checkpoint}</p></div>
+        <div class="mini-block practice"><h5>Практика</h5><p>${esc(item.practice)}</p></div>
+        <div class="mini-block checkpoint"><h5>Чекпоинт</h5><p>${esc(item.checkpoint)}</p></div>
         <div class="mini-block res"><h5>Ресурсы</h5>${topicRes}</div>
         ${mistakes}
       </div>
     </li>`;
   }).join("");
 
-  const practice = s.practice.map(p => `<li>${p}</li>`).join("");
-  const checkpoint = s.checkpoint.map(p => `<li>${p}</li>`).join("");
-  const resources = s.resources.map(r => `<a href="${r[1]}" target="_blank" rel="noopener noreferrer">${r[0]} <i>↗</i></a>`).join("");
-  const tech = s.tech.map(t => `<span>${t}</span>`).join("");
+  const practice = s.practice.map(p => `<li>${esc(p)}</li>`).join("");
+  const checkpoint = s.checkpoint.map(p => `<li>${esc(p)}</li>`).join("");
+  const resources = s.resources.map(r => `<a href="${esc(r[1])}" target="_blank" rel="noopener noreferrer">${esc(r[0])} <i>↗</i></a>`).join("");
+  const tech = s.tech.map(t => `<span>${esc(t)}</span>`).join("");
   const num = String(s.n).padStart(2, "0");
 
   return `
@@ -65,9 +69,9 @@ function stageTemplate(s) {
     <article class="card">
       <div class="card-head">
         <div style="min-width:0">
-          <div class="kicker">Этап ${num} · ${s.group}<span class="now">сейчас</span></div>
-          <h2 class="card-title">${s.title}</h2>
-          <p class="lead">${s.lead}</p>
+          <div class="kicker">Этап ${num} · ${esc(s.group)}<span class="now">сейчас</span></div>
+          <h2 class="card-title">${esc(s.title)}</h2>
+          <p class="lead">${esc(s.lead)}</p>
         </div>
         <div class="ring" style="--p:0" aria-hidden="true"><b>0%</b></div>
       </div>
@@ -117,13 +121,13 @@ const routeBar = document.getElementById("route-bar");
 const routeLegend = document.getElementById("route-legend");
 routeBar.innerHTML = GROUPS.map(g => {
   const hours = STAGES.filter(s => s.group === g.name).reduce((sum, s) => sum + s.hours, 0);
-  return `<span class="seg" style="flex:${hours};background:${g.color}" title="${g.name}: ${hours} ч"></span>`;
+  return `<span class="seg" style="flex:${hours};background:${g.color}" title="${esc(g.name)}: ${hours} ч"></span>`;
 }).join("");
 routeLegend.innerHTML = GROUPS.map(g => {
   const items = STAGES.filter(s => s.group === g.name);
   const hours = items.reduce((sum, s) => sum + s.hours, 0);
   const range = items.length === 1 ? `этап ${items[0].n}` : `этапы ${items[0].n}–${items[items.length - 1].n}`;
-  return `<div class="leg"><span class="dot" style="color:${g.color};background:${g.color}"></span><div><b>${g.name}</b><span>${range} · ${hours} ч</span></div></div>`;
+  return `<div class="leg"><span class="dot" style="color:${g.color};background:${g.color}"></span><div><b>${esc(g.name)}</b><span>${range} · ${hours} ч</span></div></div>`;
 }).join("");
 
 // restore checks
@@ -204,8 +208,8 @@ function updateAll() {
 // dot nav
 const dotnav = document.getElementById("dotnav");
 dotnav.innerHTML = STAGES.map(s => `
-  <button type="button" data-target="stage-${s.n}" aria-label="Этап ${s.n}: ${s.title}">
-    ${String(s.n).padStart(2, "0")}<span class="tip">${s.title}</span>
+  <button type="button" data-target="stage-${s.n}" aria-label="Этап ${s.n}: ${esc(s.title)}">
+    ${String(s.n).padStart(2, "0")}<span class="tip">${esc(s.title)}</span>
   </button>`).join("");
 
 dotnav.addEventListener("click", e => {
